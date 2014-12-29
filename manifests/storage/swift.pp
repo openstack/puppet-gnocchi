@@ -17,7 +17,7 @@
 
 # gnocchi::storage::swift
 #
-# Gnocchi driver for Swift
+# Swift driver for Gnocchi
 #
 # == Parameters
 #
