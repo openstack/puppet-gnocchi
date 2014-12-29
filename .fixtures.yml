@@ -11,4 +11,4 @@ fixtures:
       ref: '2.5.0'
     'stdlib': 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
   symlinks:
-    'trove': "#{source_dir}"
+    'gnocchi': "#{source_dir}"

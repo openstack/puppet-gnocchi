@@ -29,7 +29,7 @@ describe 'gnocchi::keystone::auth' do
     it { should contain_keystone_service('gnocchi').with(
       :ensure      => 'present',
       :type        => 'gnocchi',
-      :description => 'Gnocchi Datapoint Service'
+      :description => 'OpenStack Datapoint Service'
     ) }
 
     it { should contain_keystone_endpoint('RegionOne/gnocchi').with(
@@ -46,7 +46,8 @@ describe 'gnocchi::keystone::auth' do
         :public_protocol  => 'https',
         :public_port      => '80',
         :public_address   => '10.10.10.10',
-        :port             => '81',
+        :admin_port       => '81',
+        :internal_port    => '82',
         :internal_address => '10.10.10.11',
         :admin_address    => '10.10.10.12' }
     end
@@ -54,7 +55,7 @@ describe 'gnocchi::keystone::auth' do
     it { should contain_keystone_endpoint('RegionOne/gnocchi').with(
       :ensure       => 'present',
       :public_url   => "https://10.10.10.10:80",
-      :internal_url => "http://10.10.10.11:81",
+      :internal_url => "http://10.10.10.11:82",
       :admin_url    => "http://10.10.10.12:81"
     ) }
   end
