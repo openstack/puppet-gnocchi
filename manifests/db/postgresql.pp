@@ -1,36 +1,47 @@
 # == Class: gnocchi::db::postgresql
 #
-# Manage the gnocchi postgresql database
+# Class that configures postgresql for gnocchi
+# Requires the Puppetlabs postgresql module.
 #
-# === Parameters:
+# === Parameters
 #
 # [*password*]
-#   (required) Password that will be used for the gnocchi db user.
+#   (Required) Password to connect to the database.
 #
 # [*dbname*]
-#   (optionnal) Name of gnocchi database.
-#   Defaults to gnocchi
+#   (Optional) Name of the database.
+#   Defaults to 'gnocchi'.
 #
 # [*user*]
-#   (optionnal) Name of gnocchi user.
-#   Defaults to gnocchi
+#   (Optional) User to connect to the database.
+#   Defaults to 'gnocchi'.
+#
+#  [*encoding*]
+#    (Optional) The charset to use for the database.
+#    Default to undef.
+#
+#  [*privileges*]
+#    (Optional) Privileges given to the database user.
+#    Default to 'ALL'
 #
 class gnocchi::db::postgresql(
   $password,
-  $dbname    = 'gnocchi',
-  $user      = 'gnocchi'
+  $dbname     = 'gnocchi',
+  $user       = 'gnocchi',
+  $encoding   = undef,
+  $privileges = 'ALL',
 ) {
 
-  require postgresql::python
-
   Class['gnocchi::db::postgresql'] -> Service<| title == 'gnocchi' |>
-  Postgresql::Db[$dbname] ~> Exec<| title == 'gnocchi-dbsync' |>
-  Package['python-psycopg2'] -> Exec<| title == 'gnocchi-dbsync' |>
 
-
-  postgresql::db { $dbname:
-    user      => $user,
-    password  => $password,
+  ::openstacklib::db::postgresql { 'gnocchi':
+    password_hash => postgresql_password($user, $password),
+    dbname        => $dbname,
+    user          => $user,
+    encoding      => $encoding,
+    privileges    => $privileges,
   }
+
+  ::Openstacklib::Db::Postgresql['gnocchi']    ~> Exec<| title == 'gnocchi-dbsync' |>
 
 }
