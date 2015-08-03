@@ -43,16 +43,6 @@ describe 'gnocchi::api' do
         is_expected.to contain_gnocchi_config('keystone_authtoken/admin_password').with_value(params[:keystone_password]).with_secret(true)
       end
 
-      context 'when using MySQL' do
-        let :pre_condition do
-          "class { 'gnocchi':
-             database_connection   => 'mysql://gnocchi:pass@10.0.0.1/gnocchi'}"
-        end
-        it 'configures gnocchi-api with RabbitMQ' do
-          is_expected.to contain_gnocchi_config('database/connection').with_value('mysql://gnocchi:pass@10.0.0.1/gnocchi')
-          is_expected.to contain_gnocchi_config('database/connection').with_value('mysql://gnocchi:pass@10.0.0.1/gnocchi').with_secret(true)
-        end
-      end
     end
   end
 

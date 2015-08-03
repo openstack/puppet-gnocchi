@@ -23,15 +23,41 @@
 #
 # [*database_connection*]
 #   (optional) Connection url to connect to gnocchi database.
-#   Defaults to 'sqlite:////var/lib/gnocchi/gnocchi.sqlite'
+#   Defaults to undef
 #
 # [*database_idle_timeout*]
 #   (optional) Timeout before idle db connections are reaped.
-#   Defaults to 3600
+#   Defaults to undef
+#
+# [*database_max_retries*]
+#   (optional) Maximum number of database connection retries during startup.
+#   Setting -1 implies an infinite retry count.
+#   (Defaults to undef)
+#
+# [*database_retry_interval*]
+#   (optional) Interval between retries of opening a database connection.
+#   (Defaults to undef)
+#
+# [*database_min_pool_size*]
+#   (optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to: undef
+#
+# [*database_max_pool_size*]
+#   (optional) Maximum number of SQL connections to keep open in a pool.
+#   Defaults to: undef
+#
+# [*database_max_overflow*]
+#   (optional) If set, use this value for max_overflow with sqlalchemy.
+#   Defaults to: undef
 #
 class gnocchi(
-  $database_connection          = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
-  $database_idle_timeout        = 3600,
+  $database_connection     = undef,
+  $database_idle_timeout   = undef,
+  $database_max_retries    = undef,
+  $database_retry_interval = undef,
+  $database_min_pool_size  = undef,
+  $database_max_pool_size  = undef,
+  $database_max_overflow   = undef,
 ) {
   include ::gnocchi::params
 

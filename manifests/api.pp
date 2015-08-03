@@ -113,27 +113,11 @@ class gnocchi::api(
 
   require ::keystone::python
   include ::gnocchi::logging
+  include ::gnocchi::db
   include ::gnocchi::params
 
   Gnocchi_config<||> ~> Exec['post-gnocchi_config']
   Gnocchi_config<||> ~> Service['gnocchi-api']
-
-  if $::gnocchi::database_connection {
-    if($::gnocchi::database_connection =~ /mysql:\/\/\S+:\S+@\S+\/\S+/) {
-      require 'mysql::bindings'
-      require 'mysql::bindings::python'
-    } elsif($::gnocchi::database_connection =~ /postgresql:\/\/\S+:\S+@\S+\/\S+/) {
-
-    } elsif($::gnocchi::database_connection =~ /sqlite:\/\//) {
-
-    } else {
-      fail("Invalid db connection ${::gnocchi::database_connection}")
-    }
-    gnocchi_config {
-      'database/connection':   value => $::gnocchi::database_connection, secret => true;
-      'database/idle_timeout': value => $::gnocchi::database_idle_timeoutl;
-    }
-  }
 
   # basic service config
   gnocchi_config {
