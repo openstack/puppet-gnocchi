@@ -39,4 +39,9 @@ Puppet::Type.newtype(:gnocchi_config) do
 
     defaultto false
   end
+
+  autorequire(:package) do
+    'gnocchi-api'
+  end
+
 end
