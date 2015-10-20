@@ -37,6 +37,17 @@ describe 'gnocchi::db' do
 
     end
 
+    context 'with postgresql backend' do
+      let :params do
+        { :database_connection     => 'postgresql://gnocchi:gnocchi@localhost/gnocchi', }
+      end
+
+      it 'install the proper backend package' do
+        is_expected.to contain_package('python-psycopg2').with(:ensure => 'present')
+      end
+
+    end
+
     context 'with incorrect database_connection string' do
       let :params do
         { :database_connection     => 'redis://gnocchi:gnocchi@localhost/gnocchi', }
@@ -49,7 +60,10 @@ describe 'gnocchi::db' do
 
   context 'on Debian platforms' do
     let :facts do
-      { :osfamily => 'Debian' }
+      { :osfamily => 'Debian',
+        :operatingsystem => 'Debian',
+        :operatingsystemrelease => 'jessie',
+      }
     end
 
     it_configures 'gnocchi::db'
@@ -57,7 +71,9 @@ describe 'gnocchi::db' do
 
   context 'on Redhat platforms' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      { :osfamily => 'RedHat',
+        :operatingsystemrelease => '7.1',
+      }
     end
 
     it_configures 'gnocchi::db'
