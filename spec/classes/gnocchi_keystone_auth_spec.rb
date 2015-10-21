@@ -18,7 +18,6 @@ describe 'gnocchi::keystone::auth' do
     it { is_expected.to contain_keystone_user('gnocchi').with(
       :ensure   => 'present',
       :password => 'gnocchi_password',
-      :tenant   => 'foobar'
     ) }
 
     it { is_expected.to contain_keystone_user_role('gnocchi@foobar').with(
