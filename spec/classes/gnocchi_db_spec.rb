@@ -5,35 +5,23 @@ describe 'gnocchi::db' do
   shared_examples 'gnocchi::db' do
 
     context 'with default parameters' do
+      it { is_expected.to contain_gnocchi_config('indexer/url').with_value('sqlite:////var/lib/gnocchi/gnocchi.sqlite').with_secret(true) }
 
-      it { is_expected.to contain_gnocchi_config('database/connection').with_value('sqlite:////var/lib/gnocchi/gnocchi.sqlite').with_secret(true) }
-      it { is_expected.to contain_gnocchi_config('database/idle_timeout').with_value('3600') }
-      it { is_expected.to contain_gnocchi_config('database/min_pool_size').with_value('1') }
-      it { is_expected.to contain_gnocchi_config('database/max_pool_size').with_value('10') }
-      it { is_expected.to contain_gnocchi_config('database/max_overflow').with_value('20') }
-      it { is_expected.to contain_gnocchi_config('database/max_retries').with_value('10') }
-      it { is_expected.to contain_gnocchi_config('database/retry_interval').with_value('10') }
-
+      it 'installs packages' do
+        is_expected.to contain_package('gnocchi-indexer-sqlalchemy').with(
+          :name   => platform_params[:gnocchi_indexer_package],
+          :ensure => 'present',
+          :tag    => ['openstack', 'gnocchi-package']
+        )
+      end
     end
 
     context 'with specific parameters' do
       let :params do
-        { :database_connection     => 'mysql://gnocchi:gnocchi@localhost/gnocchi',
-          :database_idle_timeout   => '3601',
-          :database_min_pool_size  => '2',
-          :database_max_pool_size  => '21',
-          :database_max_retries    => '11',
-          :database_max_overflow   => '21',
-          :database_retry_interval => '11', }
+        { :database_connection => 'mysql://gnocchi:gnocchi@localhost/gnocchi' }
       end
 
-      it { is_expected.to contain_gnocchi_config('database/connection').with_value('mysql://gnocchi:gnocchi@localhost/gnocchi').with_secret(true) }
-      it { is_expected.to contain_gnocchi_config('database/idle_timeout').with_value('3601') }
-      it { is_expected.to contain_gnocchi_config('database/min_pool_size').with_value('2') }
-      it { is_expected.to contain_gnocchi_config('database/max_retries').with_value('11') }
-      it { is_expected.to contain_gnocchi_config('database/max_pool_size').with_value('21') }
-      it { is_expected.to contain_gnocchi_config('database/max_overflow').with_value('21') }
-      it { is_expected.to contain_gnocchi_config('database/retry_interval').with_value('11') }
+      it { is_expected.to contain_gnocchi_config('indexer/url').with_value('mysql://gnocchi:gnocchi@localhost/gnocchi').with_secret(true) }
 
     end
 
@@ -66,6 +54,10 @@ describe 'gnocchi::db' do
       }
     end
 
+    let :platform_params do
+      { :gnocchi_indexer_package => 'gnocchi-indexer-sqlalchemy' }
+    end
+
     it_configures 'gnocchi::db'
   end
 
@@ -74,6 +66,10 @@ describe 'gnocchi::db' do
       { :osfamily => 'RedHat',
         :operatingsystemrelease => '7.1',
       }
+    end
+
+    let :platform_params do
+      { :gnocchi_indexer_package => 'openstack-gnocchi-indexer-sqlalchemy' }
     end
 
     it_configures 'gnocchi::db'

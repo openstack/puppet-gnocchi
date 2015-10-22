@@ -8,50 +8,18 @@
 #   Url used to connect to database.
 #   (Optional) Defaults to 'sqlite:////var/lib/gnocchi/gnocchi.sqlite'.
 #
-# [*database_idle_timeout*]
-#   Timeout when db connections should be reaped.
-#   (Optional) Defaults to 3600.
-#
-# [*database_max_retries*]
-#   Maximum number of database connection retries during startup.
-#   Setting -1 implies an infinite retry count.
-#   (Optional) Defaults to 10.
-#
-# [*database_retry_interval*]
-#   Interval between retries of opening a database connection.
-#   (Optional) Defaults to 10.
-#
-# [*database_min_pool_size*]
-#   Minimum number of SQL connections to keep open in a pool.
-#   (Optional) Defaults to 1.
-#
-# [*database_max_pool_size*]
-#   Maximum number of SQL connections to keep open in a pool.
-#   (Optional) Defaults to 10.
-#
-# [*database_max_overflow*]
-#   If set, use this value for max_overflow with sqlalchemy.
-#   (Optional) Defaults to 20.
+# [*ensure_package*]
+#   (optional) The state of gnocchi packages
+#   Defaults to 'present'
 #
 class gnocchi::db (
-  $database_connection     = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
-  $database_idle_timeout   = 3600,
-  $database_min_pool_size  = 1,
-  $database_max_pool_size  = 10,
-  $database_max_retries    = 10,
-  $database_retry_interval = 10,
-  $database_max_overflow   = 20,
-) {
+  $database_connection = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
+  $ensure_package      = 'present',
+) inherits gnocchi::params {
 
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> if gnocchi::db::<myparam> isn't specified.
   $database_connection_real = pick($::gnocchi::database_connection, $database_connection)
-  $database_idle_timeout_real = pick($::gnocchi::database_idle_timeout, $database_idle_timeout)
-  $database_min_pool_size_real = pick($::gnocchi::database_min_pool_size, $database_min_pool_size)
-  $database_max_pool_size_real = pick($::gnocchi::database_max_pool_size, $database_max_pool_size)
-  $database_max_retries_real = pick($::gnocchi::database_max_retries, $database_max_retries)
-  $database_retry_interval_real = pick($::gnocchi::database_retry_interval, $database_retry_interval)
-  $database_max_overflow_real = pick($::gnocchi::database_max_overflow, $database_max_overflow)
 
   validate_re($database_connection_real,
     '(sqlite|mysql|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
@@ -84,13 +52,13 @@ class gnocchi::db (
     }
 
     gnocchi_config {
-      'database/connection':     value => $database_connection_real, secret => true;
-      'database/idle_timeout':   value => $database_idle_timeout_real;
-      'database/min_pool_size':  value => $database_min_pool_size_real;
-      'database/max_retries':    value => $database_max_retries_real;
-      'database/retry_interval': value => $database_retry_interval_real;
-      'database/max_pool_size':  value => $database_max_pool_size_real;
-      'database/max_overflow':   value => $database_max_overflow_real;
+      'indexer/url': value => $database_connection_real, secret => true;
+    }
+
+    package { 'gnocchi-indexer-sqlalchemy':
+      ensure => $ensure_package,
+      name   => $::gnocchi::params::indexer_package_name,
+      tag    => ['openstack', 'gnocchi-package'],
     }
   }
 
