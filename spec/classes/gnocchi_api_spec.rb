@@ -69,6 +69,14 @@ describe 'gnocchi::api' do
       end
     end
 
+    context 'with sync_db set to true' do
+      before do
+        params.merge!({
+          :sync_db => true})
+      end
+      it { is_expected.to contain_class('gnocchi::db::sync') }
+    end
+
     context 'with disabled service managing' do
       before do
         params.merge!({
