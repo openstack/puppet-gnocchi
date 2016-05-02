@@ -40,13 +40,18 @@
 #   (optional) Ceph configuration file.
 #   Defaults to '/etc/ceph/ceph.conf'.
 #
+# [*manage_cradox*]
+#   (optional) Ensure state of the cradox package.
+#   Defaults to True.
+#
 class gnocchi::storage::ceph(
   $ceph_username,
-  $ceph_keyring  = $::os_service_default,
-  $ceph_secret   = $::os_service_default,
-  $ceph_pool     = 'gnocchi',
-  $ceph_conffile = '/etc/ceph/ceph.conf',
-) {
+  $ceph_keyring   = $::os_service_default,
+  $ceph_secret    = $::os_service_default,
+  $ceph_pool      = 'gnocchi',
+  $ceph_conffile  = '/etc/ceph/ceph.conf',
+  $manage_cradox  = true,
+) inherits gnocchi::params {
 
   if (is_service_default($ceph_keyring) and is_service_default($ceph_secret)) or (! $ceph_keyring and ! $ceph_secret) {
     fail('You need to specify either gnocchi::storage::ceph::ceph_keyring or gnocchi::storage::ceph::ceph_secret.')
@@ -61,4 +66,13 @@ class gnocchi::storage::ceph(
     'storage/ceph_conffile': value => $ceph_conffile;
   }
 
+  if $manage_cradox {
+    if $::gnocchi::params::common_package_name {
+      ensure_packages('python-cradox', {
+        'ensure' => 'present',
+        'name'   => $::gnocchi::params::cradox_package_name,
+        'tag'    => ['openstack','gnocchi-package'],
+      })
+    }
+  }
 }
