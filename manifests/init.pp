@@ -14,15 +14,6 @@
 #   any directory.
 #   Defaults to undef
 #
-# [*state_path*]
-#   (optional) Directory for storing state.
-#   Defaults to '/var/lib/gnocchi'
-#
-# [*lock_path*]
-#   (optional) Directory for lock files.
-#   On RHEL will be '/var/lib/gnocchi/tmp' and on Debian '/var/lock/gnocchi'
-#   Defaults to $::gnocchi::params::lock_path
-#
 # [*verbose*]
 #   (optional) Set log output to verbose output.
 #   Defaults to undef
