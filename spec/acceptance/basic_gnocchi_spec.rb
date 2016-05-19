@@ -23,7 +23,6 @@ describe 'basic gnocchi' do
         }
         'RedHat': {
           class { '::gnocchi':
-            verbose             => true,
             debug               => true,
             database_connection => 'mysql+pymysql://gnocchi:a_big_secret@127.0.0.1/gnocchi?charset=utf8',
           }

@@ -47,12 +47,12 @@ gnocchi is a combination of Puppet manifest and ruby code to delivery configurat
 The `gnocchi_config` provider is a children of the ini_setting provider. It allows one to write an entry in the `/etc/gnocchi/gnocchi.conf` file.
 
 ```puppet
-gnocchi_config { 'DEFAULT/verbose' :
+gnocchi_config { 'DEFAULT/debug' :
   value => true,
 }
 ```
 
-This will write `verbose=true` in the `[DEFAULT]` section.
+This will write `debug=true` in the `[DEFAULT]` section.
 
 ##### name
 

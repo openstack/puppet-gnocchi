@@ -14,10 +14,6 @@
 #   any directory.
 #   Defaults to undef
 #
-# [*verbose*]
-#   (optional) Set log output to verbose output.
-#   Defaults to undef
-#
 # [*debug*]
 #   (optional) Set log output to debug output.
 #   Defaults to undef
@@ -38,16 +34,28 @@
 #   (optional) Connection url for the gnocchi database.
 #   Defaults to undef.
 #
+# DEPRECATED PARAMETERS
+#
+# [*verbose*]
+#   (optional) Deprecated. Set log output to verbose output.
+#   Defaults to undef
+#
 class gnocchi (
-  $ensure_package                     = 'present',
-  $verbose                            = undef,
-  $debug                              = undef,
-  $use_syslog                         = undef,
-  $use_stderr                         = undef,
-  $log_dir                            = undef,
-  $log_facility                       = undef,
-  $database_connection                = undef,
+  $ensure_package      = 'present',
+  $debug               = undef,
+  $use_syslog          = undef,
+  $use_stderr          = undef,
+  $log_dir             = undef,
+  $log_facility        = undef,
+  $database_connection = undef,
+  # Deprecated
+  $verbose             = undef,
 ) inherits gnocchi::params {
+
+
+  if $verbose {
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
+  }
 
   include ::gnocchi::db
   include ::gnocchi::logging
