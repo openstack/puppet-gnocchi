@@ -41,7 +41,7 @@ describe 'gnocchi::wsgi::apache' do
         'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
         'require'                     => 'File[gnocchi_wsgi]'
       )}
-      it { is_expected.to contain_file("#{platform_params[:httpd_ports_file]}") }
+      it { is_expected.to contain_concat("#{platform_params[:httpd_ports_file]}") }
     end
 
     describe 'when overriding parameters using different ports' do
@@ -69,7 +69,7 @@ describe 'gnocchi::wsgi::apache' do
         'require'                     => 'File[gnocchi_wsgi]'
       )}
 
-      it { is_expected.to contain_file("#{platform_params[:httpd_ports_file]}") }
+      it { is_expected.to contain_concat("#{platform_params[:httpd_ports_file]}") }
     end
   end
 
