@@ -34,6 +34,11 @@
 #   (optional) Connection url for the gnocchi database.
 #   Defaults to undef.
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the gnocchi config.
+#   Defaults to false.
+#
 # DEPRECATED PARAMETERS
 #
 # [*verbose*]
@@ -48,6 +53,7 @@ class gnocchi (
   $log_dir             = undef,
   $log_facility        = undef,
   $database_connection = undef,
+  $purge_config        = false,
   # Deprecated
   $verbose             = undef,
 ) inherits gnocchi::params {
@@ -64,6 +70,10 @@ class gnocchi (
     ensure => $ensure_package,
     name   => $::gnocchi::params::common_package_name,
     tag    => ['openstack', 'gnocchi-package'],
+  }
+
+  resources { 'gnocchi_config':
+    purge => $purge_config,
   }
 
 }

@@ -5,9 +5,13 @@ describe 'gnocchi' do
   shared_examples 'gnocchi' do
 
     context 'with default parameters' do
-     it 'contains the logging class' do
-       is_expected.to contain_class('gnocchi::logging')
-     end
+      let :params do
+        { :purge_config => false  }
+      end
+
+      it 'contains the logging class' do
+        is_expected.to contain_class('gnocchi::logging')
+      end
 
       it 'installs packages' do
         is_expected.to contain_package('gnocchi').with(
@@ -16,6 +20,13 @@ describe 'gnocchi' do
           :tag    => ['openstack', 'gnocchi-package']
         )
       end
+
+      it 'passes purge to resource' do
+        is_expected.to contain_resources('gnocchi_config').with({
+          :purge => false
+        })
+      end
+
     end
   end
 
