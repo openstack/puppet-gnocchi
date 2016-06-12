@@ -60,8 +60,8 @@ describe 'gnocchi::keystone::auth' do
 
       it { is_expected.to contain_keystone_user('gnocchiany') }
       it { is_expected.to contain_keystone_user_role('gnocchiany@services') }
-      it { is_expected.to contain_keystone_service('gnocchiany::metric') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/gnocchiany::metric') }
+      it { is_expected.to contain_keystone_service('gnocchi::metric') }
+      it { is_expected.to contain_keystone_endpoint('RegionOne/gnocchi::metric') }
     end
 
     context 'when overriding service name' do
