@@ -27,8 +27,8 @@ class gnocchi::db (
   if $database_connection_real {
     case $database_connection_real {
       /^mysql(\+pymysql)?:\/\//: {
-        require 'mysql::bindings'
-        require 'mysql::bindings::python'
+        require '::mysql::bindings'
+        require '::mysql::bindings::python'
         if $database_connection_real =~ /^mysql\+pymysql/ {
           $backend_package = $::gnocchi::params::pymysql_package_name
         } else {
@@ -37,7 +37,7 @@ class gnocchi::db (
       }
       /^postgresql:\/\//: {
         $backend_package = false
-        require 'postgresql::lib::python'
+        require '::postgresql::lib::python'
       }
       /^sqlite:\/\//: {
         $backend_package = $::gnocchi::params::sqlite_package_name
