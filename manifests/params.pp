@@ -1,6 +1,7 @@
 # Parameters for puppet-gnocchi
 #
 class gnocchi::params {
+  include ::openstacklib::defaults
 
   case $::osfamily {
     'RedHat': {
