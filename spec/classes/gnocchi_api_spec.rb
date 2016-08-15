@@ -11,8 +11,6 @@ describe 'gnocchi::api' do
     { :enabled           => true,
       :manage_service    => true,
       :keystone_password => 'gnocchi-passw0rd',
-      :keystone_tenant   => 'services',
-      :keystone_user     => 'gnocchi',
       :package_ensure    => 'latest',
       :port              => '8041',
       :max_limit         => '1000',
@@ -21,11 +19,6 @@ describe 'gnocchi::api' do
   end
 
   shared_examples_for 'gnocchi-api' do
-
-    context 'without required parameter keystone_password' do
-      before { params.delete(:keystone_password) }
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
-    end
 
     it { is_expected.to contain_class('gnocchi::params') }
     it { is_expected.to contain_class('gnocchi::policy') }
@@ -39,10 +32,6 @@ describe 'gnocchi::api' do
     end
 
     it 'configures keystone authentication middleware' do
-      is_expected.to contain_gnocchi_config('keystone_authtoken/admin_tenant_name').with_value( params[:keystone_tenant] )
-      is_expected.to contain_gnocchi_config('keystone_authtoken/admin_user').with_value( params[:keystone_user] )
-      is_expected.to contain_gnocchi_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] )
-      is_expected.to contain_gnocchi_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] ).with_secret(true)
       is_expected.to contain_gnocchi_config('api/host').with_value( params[:host] )
       is_expected.to contain_gnocchi_config('api/port').with_value( params[:port] )
       is_expected.to contain_gnocchi_config('api/max_limit').with_value( params[:max_limit] )
@@ -131,55 +120,27 @@ describe 'gnocchi::api' do
       it_raises 'a Puppet::Error', /Invalid service_name/
     end
 
-    context 'with custom auth_uri' do
+    context "with noauth" do
       before do
         params.merge!({
-          :keystone_auth_uri => 'https://foo.bar:1234/',
+          :auth_strategy => 'noauth',
         })
       end
-      it 'should configure custom auth_uri correctly' do
-        is_expected.to contain_gnocchi_config('keystone_authtoken/auth_uri').with_value( 'https://foo.bar:1234/' )
-      end
-    end
-
-    context "with no keystone identity_uri" do
-      before do
-        params.merge!({
-          :keystone_identity_uri => false,
-        })
-      end
-      it 'configures identity_uri' do
-        is_expected.to contain_gnocchi_config('keystone_authtoken/identity_uri').with_value(nil);
+      it 'configures pipeline' do
         is_expected.to contain_gnocchi_api_paste_ini('pipeline:main/pipeline').with_value('gnocchi+noauth');
       end
     end
 
-    context "with custom keystone identity_uri" do
+    context "with keystone" do
       before do
         params.merge!({
-          :keystone_identity_uri => 'https://foo.bar:1234/',
+          :auth_strategy => 'keystone',
         })
       end
-      it 'configures identity_uri' do
-        is_expected.to contain_gnocchi_config('keystone_authtoken/identity_uri').with_value("https://foo.bar:1234/");
+      it 'configures pipeline' do
         is_expected.to contain_gnocchi_api_paste_ini('pipeline:main/pipeline').with_value('gnocchi+auth');
       end
     end
-
-    context "with custom keystone identity_uri and auth_uri" do
-      before do
-        params.merge!({
-          :keystone_identity_uri => 'https://foo.bar:35357/',
-          :keystone_auth_uri => 'https://foo.bar:5000/v2.0/',
-        })
-      end
-      it 'configures identity_uri and auth_uri but deprecates old auth settings' do
-        is_expected.to contain_gnocchi_config('keystone_authtoken/identity_uri').with_value("https://foo.bar:35357/");
-        is_expected.to contain_gnocchi_config('keystone_authtoken/auth_uri').with_value("https://foo.bar:5000/v2.0/");
-        is_expected.to contain_gnocchi_api_paste_ini('pipeline:main/pipeline').with_value('gnocchi+auth');
-      end
-    end
-
   end
 
   on_supported_os({

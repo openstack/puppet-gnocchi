@@ -10,26 +10,6 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*keystone_user*]
-#   (optional) The name of the auth user
-#   Defaults to gnocchi
-#
-# [*keystone_tenant*]
-#   (optional) Tenant to authenticate with.
-#   Defaults to 'services'.
-#
-# [*keystone_password*]
-#   Password to authenticate with.
-#   Mandatory.
-#
-# [*keystone_auth_uri*]
-#   (optional) Public Identity API endpoint.
-#   Defaults to 'false'.
-#
-# [*keystone_identity_uri*]
-#   (optional) Complete admin Identity API endpoint.
-#   Defaults to: false
-#
 # [*host*]
 #   (optional) The gnocchi api bind address.
 #   Defaults to 0.0.0.0
@@ -63,27 +43,75 @@
 # [*sync_db*]
 #   (optional) Run gnocchi-upgrade db sync on api nodes after installing the package.
 #   Defaults to false
-
+#
+# [*auth_strategy*]
+#   (optional) Configure gnocchi authentication. 
+#   Can be set to noauth and keystone.
+#   Defaults to 'keystone'.
+#
+# = DEPRECATED PARAMETERS
+#
+# [*keystone_user*]
+#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::username instead.
+#   Defaults to undef
+#
+# [*keystone_tenant*]
+#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::project_name
+#   instead.
+#   Defaults to undef
+#
+# [*keystone_password*]
+#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::password instead.
+#   Defaults to undef
+#
+# [*keystone_auth_uri*]
+#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::auth_uri instead.
+#   Defaults to undef
+#
+# [*keystone_identity_uri*]
+#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::auth_url instead.
+#   Defaults to undef
+#
 class gnocchi::api (
   $manage_service        = true,
   $enabled               = true,
   $package_ensure        = 'present',
-  $keystone_user         = 'gnocchi',
-  $keystone_tenant       = 'services',
-  $keystone_password     = false,
-  $keystone_auth_uri     = false,
-  $keystone_identity_uri = false,
   $host                  = '0.0.0.0',
   $port                  = '8041',
   $workers               = $::processorcount,
   $max_limit             = 1000,
   $service_name          = $::gnocchi::params::api_service_name,
   $sync_db               = false,
+  $auth_strategy         = 'keystone',
+  # DEPRECATED PARAMETERS
+  $keystone_user         = undef,
+  $keystone_tenant       = undef,
+  $keystone_password     = undef,
+  $keystone_auth_uri     = undef,
+  $keystone_identity_uri = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::policy
 
-  validate_string($keystone_password)
+  if $keystone_identity_uri {
+    warning('gnocchi:api::keystone_identity_uri is deprecated, use gnocchi::keystone::authtoken::auth_url instead')
+  }
+
+  if $keystone_auth_uri {
+    warning('gnocchi::api::keystone_auth_uri is deprecated, use gnocchi::keystone::authtoken::auth_uri instead')
+  }
+
+  if $keystone_user {
+    warning('gnocchi::api::keystone_user is deprecated, use gnocchi::keystone::authtoken::username instead')
+  }
+
+  if $keystone_tenant {
+    warning('gnocchi::api::keystone_tenant is deprecated, use gnocchi::keystone::authtoken::project_name instead')
+  }
+
+  if $keystone_password {
+    warning('gnocchi::api::keystone_password is deprecated, use gnocchi::keystone::authtoken::password instead')
+  }
 
   Gnocchi_config<||> ~> Service[$service_name]
   Gnocchi_api_paste_ini<||> ~> Service[$service_name]
@@ -138,27 +166,18 @@ class gnocchi::api (
   }
 
   gnocchi_config {
-    'keystone_authtoken/auth_uri'          : value => $keystone_auth_uri;
-    'keystone_authtoken/admin_tenant_name' : value => $keystone_tenant;
-    'keystone_authtoken/admin_user'        : value => $keystone_user;
-    'keystone_authtoken/admin_password'    : value => $keystone_password, secret => true;
-    'api/host'                             : value => $host;
-    'api/port'                             : value => $port;
-    'api/workers'                          : value => $workers;
-    'api/max_limit'                        : value => $max_limit;
+    'api/host':      value => $host;
+    'api/port':      value => $port;
+    'api/workers':   value => $workers;
+    'api/max_limit': value => $max_limit;
   }
 
-  if $keystone_identity_uri {
-    gnocchi_config {
-      'keystone_authtoken/identity_uri': value => $keystone_identity_uri;
-    }
+  if $auth_strategy == 'keystone' {
+    include ::gnocchi::keystone::authtoken
     gnocchi_api_paste_ini {
       'pipeline:main/pipeline':  value => 'gnocchi+auth',
     }
   } else {
-    gnocchi_config {
-      'keystone_authtoken/identity_uri': ensure => absent;
-    }
     gnocchi_api_paste_ini {
       'pipeline:main/pipeline':  value => 'gnocchi+noauth',
     }
