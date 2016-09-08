@@ -9,6 +9,8 @@ describe 'gnocchi::storage::ceph' do
     {
       :ceph_username => 'joe',
       :ceph_keyring  => 'client.admin',
+      :manage_cradox => false,
+      :manage_rados  => true,
     }
   end
 
@@ -46,6 +48,60 @@ describe 'gnocchi::storage::ceph' do
       end
       it { expect { is_expected.to raise_error(Puppet::Error) } }
     end
+
+    context 'with manage_rados to true' do
+      before do
+        params.merge!({
+          :manage_cradox => false,
+          :manage_rados  => true,
+        })
+      end
+
+      it { is_expected.not_to contain_package('python-cradox') }
+      it { is_expected.to contain_package('python-rados').with(:ensure => 'present') }
+
+    end
+
+    context 'with manage_cradox and manage_rados to true' do
+      before do
+        params.merge!({
+          :manage_cradox => true,
+          :manage_rados  => true,
+        })
+      end
+
+      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_rados and gnocchi::storage::ceph::manage_cradox both cannot be set to true./) }
+
+    end
+  end
+
+  shared_examples 'gnocchi storage ceph cradox redhat' do
+    context 'with manage_cradox to true' do
+      before do
+        params.merge!({
+          :manage_cradox => true,
+          :manage_rados  => false,
+        })
+      end
+
+      it { is_expected.to contain_package('python-cradox').with(:ensure => 'present') }
+      it { is_expected.not_to contain_package('python-rados') }
+
+    end
+  end
+
+  shared_examples 'gnocchi storage ceph cradox debian' do
+    context 'with manage_cradox to true' do
+      before do
+        params.merge!({
+          :manage_cradox => true,
+          :manage_rados  => false,
+        })
+      end
+
+      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_cradox set to true on debian family will fail due to no package being available./) }
+
+    end
   end
 
   on_supported_os({
@@ -54,6 +110,13 @@ describe 'gnocchi::storage::ceph' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
+      end
+
+      case facts[:osfamily]
+      when 'Debian'
+          it_behaves_like 'gnocchi storage ceph cradox debian'
+      when 'RedHat'
+          it_behaves_like 'gnocchi storage ceph cradox redhat'
       end
 
       it_behaves_like 'gnocchi storage ceph'

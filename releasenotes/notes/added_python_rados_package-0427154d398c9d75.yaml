@@ -1,0 +1,6 @@
+---
+features:
+  - The python-rados package is part of ceph jewel release and should replace the cradox package.
+  - Ubuntu Xenial comes with ceph jewel release and the python-rados package resolves a missing dependency for ceph backends.
+deprecations:
+  - The cradox package setting in gnocchi::storage::ceph has been deprecated.
