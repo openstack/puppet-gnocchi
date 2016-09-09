@@ -36,6 +36,12 @@ describe 'gnocchi::wsgi::apache' do
         'docroot_owner'               => 'gnocchi',
         'docroot_group'               => 'gnocchi',
         'ssl'                         => 'true',
+        'wsgi_daemon_process_options' => {
+          'user'      => 'gnocchi',
+          'group'     => 'gnocchi',
+          'processes' => '4',
+          'threads'   => '1',
+        },
         'wsgi_daemon_process'         => 'gnocchi',
         'wsgi_process_group'          => 'gnocchi',
         'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
@@ -52,6 +58,7 @@ describe 'gnocchi::wsgi::apache' do
           :port        => 12345,
           :ssl         => false,
           :workers     => 37,
+          :threads     => 2,
         }
       end
 
@@ -63,6 +70,12 @@ describe 'gnocchi::wsgi::apache' do
         'docroot_owner'               => 'gnocchi',
         'docroot_group'               => 'gnocchi',
         'ssl'                         => 'false',
+        'wsgi_daemon_process_options' => {
+          'user'      => 'gnocchi',
+          'group'     => 'gnocchi',
+          'processes' => '37',
+          'threads'   => '2',
+        },
         'wsgi_daemon_process'         => 'gnocchi',
         'wsgi_process_group'          => 'gnocchi',
         'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
@@ -79,7 +92,7 @@ describe 'gnocchi::wsgi::apache' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts({
-          :processorcount => 42,
+          :processorcount => 16,
           :concat_basedir => '/var/lib/puppet/concat',
           :fqdn           => 'some.host.tld',
         }))
