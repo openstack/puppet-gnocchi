@@ -71,6 +71,20 @@ If value is equal to ensure_absent_val then the resource will behave as if `ensu
 Limitations
 -----------
 
+### Load balancing Gnocchi MySQL with HAProxy
+
+#### Issue
+
+MySQL client/server interaction causes an issue where the HAProxy server will keep a connection in TIME_WAIT. When Gnocchi is processing data it will generate a lot of connections to MySQL and [exhaust all available tcp ports](http://blog.haproxy.com/2012/12/12/haproxy-high-mysql-request-rate-and-tcp-source-port-exhaustion/) for a given IP address. If the HAProxy VIP is shared with other components, this can cause them to be unavailable too. Tuning of HAProxy instance is essential when using Gnocchi with a MySQL behind an HAProxy.
+
+The sysctl parameters need tuning.
+
+* net.ipv4.tcp_tw_reuse = 1
+* net.core.somaxconn = 4096
+* net.ipv4.tcp_max_syn_backlog = 60000
+
+Additionally, HAProxy can be configured to use different source IP addresses on each backend to help further mitigate the issue.
+
 Development
 -----------
 
