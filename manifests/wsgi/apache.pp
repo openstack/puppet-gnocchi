@@ -46,7 +46,7 @@
 #
 #   [*workers*]
 #     Number of WSGI workers to spawn.
-#     Optional. Defaults to 1
+#     Optional. Defaults to max(($::processorcount + 0)/4, 2)
 #
 #   [*priority*]
 #     (optional) The priority for the vhost.
@@ -54,7 +54,7 @@
 #
 #   [*threads*]
 #     (optional) The number of threads for the vhost.
-#     Defaults to $::processorcount
+#     Defaults to 1
 #
 #   [*ssl_cert*]
 #   [*ssl_key*]
@@ -82,7 +82,7 @@ class gnocchi::wsgi::apache (
   $bind_host     = undef,
   $path          = '/',
   $ssl           = true,
-  $workers       = 1,
+  $workers       = max(($::processorcount + 0)/4, 2),
   $ssl_cert      = undef,
   $ssl_key       = undef,
   $ssl_chain     = undef,
@@ -90,7 +90,7 @@ class gnocchi::wsgi::apache (
   $ssl_crl_path  = undef,
   $ssl_crl       = undef,
   $ssl_certs_dir = undef,
-  $threads       = $::processorcount,
+  $threads       = 1,
   $priority      = '10',
 ) {
 

@@ -1,0 +1,5 @@
+---
+fixes:
+  - gnocchi has been underperforming under apache wsgi.
+    This fix tunes the workers and threads appropriately
+    so we get better performance from apache.
