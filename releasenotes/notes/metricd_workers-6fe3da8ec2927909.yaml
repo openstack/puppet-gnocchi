@@ -1,0 +1,3 @@
+---
+features:
+  - Add parameter to configure metricd workers configruation.

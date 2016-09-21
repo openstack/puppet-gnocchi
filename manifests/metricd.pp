@@ -10,6 +10,10 @@
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
+# [*workers*]
+#   (optional) the number of workers.
+#   Defaults to $::os_service_default
+#
 # [*manage_service*]
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
@@ -17,11 +21,16 @@
 class gnocchi::metricd (
   $manage_service      = true,
   $enabled             = true,
+  $workers             = $::os_service_default,
   $package_ensure      = 'present',
 ) inherits gnocchi::params {
 
   Gnocchi_config<||> ~> Service['gnocchi-metricd']
   Package['gnocchi-metricd'] -> Service['gnocchi-metricd']
+
+  gnocchi_config {
+    'metricd/workers': value => $workers;
+  }
 
   package { 'gnocchi-metricd':
     ensure => $package_ensure,
