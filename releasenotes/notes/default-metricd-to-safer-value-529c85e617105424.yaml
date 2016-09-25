@@ -1,0 +1,6 @@
+---
+upgrade:
+  - Default the metricd workers parameter to a safer
+    value. Now defaulted to os_workers will configure
+    this parameter to the maximum value between
+    '(<# processors> / 4)' and '2' without exeeding '8'
