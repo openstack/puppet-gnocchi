@@ -86,12 +86,6 @@
 #    Defaults to $::os_service_default
 #    example: 'y-%m-%d %h:%m:%s'
 #
-#  DEPRECATED PARAMETERS
-#
-#  [*verbose*]
-#    (Optional) Deprecated. Should the daemons log verbose messages
-#    Defaults to undef
-#
 class gnocchi::logging(
   $use_syslog                    = $::os_service_default,
   $use_stderr                    = $::os_service_default,
@@ -109,13 +103,7 @@ class gnocchi::logging(
   $instance_format               = $::os_service_default,
   $instance_uuid_format          = $::os_service_default,
   $log_date_format               = $::os_service_default,
-  # Deprecated
-  $verbose                       = undef,
 ) {
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
 
   # note(spredzy): in order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> first then gnocchi::logging::<myparam>.
