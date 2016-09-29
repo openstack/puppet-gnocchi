@@ -32,7 +32,6 @@ describe 'gnocchi::metricd' do
             :hasrestart => true,
             :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
           )
-          is_expected.to contain_gnocchi_config('metricd/workers').with_value('<SERVICE DEFAULT>')
         end
       end
     end
@@ -59,7 +58,7 @@ describe 'gnocchi::metricd' do
     context 'with workers set' do
       before do
         params.merge!({
-          :workers        => 2 })
+          :workers => 2 })
       end
       it 'configures gnocchi metricd worker value' do
         is_expected.to contain_gnocchi_config('metricd/workers').with_value('2')
