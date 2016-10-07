@@ -20,7 +20,7 @@
 #
 # [*workers*]
 #   (optional) Number of workers for Gnocchi API server.
-#   Defaults to $::processorcount
+#   Defaults to $::os_workers
 #
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
@@ -83,7 +83,7 @@ class gnocchi::api (
   $package_ensure               = 'present',
   $host                         = '0.0.0.0',
   $port                         = '8041',
-  $workers                      = $::processorcount,
+  $workers                      = $::os_workers,
   $max_limit                    = 1000,
   $service_name                 = $::gnocchi::params::api_service_name,
   $sync_db                      = false,

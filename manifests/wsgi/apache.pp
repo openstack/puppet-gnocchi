@@ -46,7 +46,7 @@
 #
 #   [*workers*]
 #     Number of WSGI workers to spawn.
-#     Optional. Defaults to max(($::processorcount + 0)/4, 2)
+#     Optional. Defaults to $::os_workers
 #
 #   [*priority*]
 #     (optional) The priority for the vhost.
@@ -82,7 +82,7 @@ class gnocchi::wsgi::apache (
   $bind_host     = undef,
   $path          = '/',
   $ssl           = true,
-  $workers       = max(($::processorcount + 0)/4, 2),
+  $workers       = $::os_workers,
   $ssl_cert      = undef,
   $ssl_key       = undef,
   $ssl_chain     = undef,

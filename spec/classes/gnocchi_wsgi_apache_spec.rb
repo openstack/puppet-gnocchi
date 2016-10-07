@@ -57,7 +57,7 @@ describe 'gnocchi::wsgi::apache' do
           :bind_host   => '10.42.51.1',
           :port        => 12345,
           :ssl         => false,
-          :workers     => 37,
+          :workers     => 8,
           :threads     => 2,
         }
       end
@@ -73,7 +73,7 @@ describe 'gnocchi::wsgi::apache' do
         'wsgi_daemon_process_options' => {
           'user'      => 'gnocchi',
           'group'     => 'gnocchi',
-          'processes' => '37',
+          'processes' => '8',
           'threads'   => '2',
         },
         'wsgi_daemon_process'         => 'gnocchi',
@@ -92,7 +92,7 @@ describe 'gnocchi::wsgi::apache' do
     context "on #{os}" do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts({
-          :processorcount => 16,
+          :os_workers     => 4,
           :concat_basedir => '/var/lib/puppet/concat',
           :fqdn           => 'some.host.tld',
         }))
