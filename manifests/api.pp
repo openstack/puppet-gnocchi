@@ -49,6 +49,11 @@
 #   Can be set to noauth and keystone.
 #   Defaults to 'keystone'.
 #
+# [*enable_proxy_headers_parsing*]
+#   (Optional) Enable paste middleware to handle SSL requests through
+#   HTTPProxyToWSGI middleware.
+#   Defaults to $::os_service_default.
+#
 # = DEPRECATED PARAMETERS
 #
 # [*keystone_user*]
@@ -73,22 +78,23 @@
 #   Defaults to undef
 #
 class gnocchi::api (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $host                  = '0.0.0.0',
-  $port                  = '8041',
-  $workers               = $::processorcount,
-  $max_limit             = 1000,
-  $service_name          = $::gnocchi::params::api_service_name,
-  $sync_db               = false,
-  $auth_strategy         = 'keystone',
+  $manage_service               = true,
+  $enabled                      = true,
+  $package_ensure               = 'present',
+  $host                         = '0.0.0.0',
+  $port                         = '8041',
+  $workers                      = $::processorcount,
+  $max_limit                    = 1000,
+  $service_name                 = $::gnocchi::params::api_service_name,
+  $sync_db                      = false,
+  $auth_strategy                = 'keystone',
+  $enable_proxy_headers_parsing = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $keystone_user         = undef,
-  $keystone_tenant       = undef,
-  $keystone_password     = undef,
-  $keystone_auth_uri     = undef,
-  $keystone_identity_uri = undef,
+  $keystone_user                = undef,
+  $keystone_tenant              = undef,
+  $keystone_password            = undef,
+  $keystone_auth_uri            = undef,
+  $keystone_identity_uri        = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::policy
@@ -171,6 +177,10 @@ class gnocchi::api (
     'api/port':      value => $port;
     'api/workers':   value => $workers;
     'api/max_limit': value => $max_limit;
+  }
+
+  oslo::middleware { 'gnocchi_config':
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
   }
 
   if $auth_strategy == 'keystone' {
