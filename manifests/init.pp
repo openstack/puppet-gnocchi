@@ -39,12 +39,6 @@
 #   in the gnocchi config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*verbose*]
-#   (optional) Deprecated. Set log output to verbose output.
-#   Defaults to undef
-#
 class gnocchi (
   $ensure_package      = 'present',
   $debug               = undef,
@@ -54,14 +48,7 @@ class gnocchi (
   $log_facility        = undef,
   $database_connection = undef,
   $purge_config        = false,
-  # Deprecated
-  $verbose             = undef,
 ) inherits gnocchi::params {
-
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
 
   include ::gnocchi::db
   include ::gnocchi::logging
