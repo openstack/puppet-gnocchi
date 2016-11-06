@@ -4,13 +4,15 @@ describe 'gnocchi::api' do
 
   let :pre_condition do
     "class { 'gnocchi': }
-     include ::gnocchi::db"
+     include ::gnocchi::db
+     class { '::gnocchi::keystone::authtoken':
+       password => 'gnocchi-passw0rd',
+     }"
   end
 
   let :params do
     { :enabled           => true,
       :manage_service    => true,
-      :keystone_password => 'gnocchi-passw0rd',
       :package_ensure    => 'latest',
       :port              => '8041',
       :max_limit         => '1000',
@@ -94,7 +96,10 @@ describe 'gnocchi::api' do
       let :pre_condition do
         "include ::apache
          include ::gnocchi::db
-         class { 'gnocchi': }"
+         class { 'gnocchi': }
+         class { '::gnocchi::keystone::authtoken':
+           password => 'gnocchi-passw0rd',
+         }"
       end
 
       it 'configures gnocchi-api service with Apache' do
@@ -115,7 +120,10 @@ describe 'gnocchi::api' do
       let :pre_condition do
         "include ::apache
          include ::gnocchi::db
-         class { 'gnocchi': }"
+         class { 'gnocchi': }
+         class { '::gnocchi::keystone::authtoken':
+           password => 'gnocchi-passw0rd',
+         }"
       end
 
       it_raises 'a Puppet::Error', /Invalid service_name/

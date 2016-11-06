@@ -1,0 +1,7 @@
+---
+other:
+  - removed deprecated gnocchi::api::keystone_user
+  - removed deprecated gnocchi::api::keystone_password
+  - removed deprecated gnocchi::api::keystone_tenant
+  - removed deprecated gnocchi::api::keystone_auth_uri
+  - removed deprecated gnocchi::api::keystone_identity_uri

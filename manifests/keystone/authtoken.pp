@@ -223,22 +223,16 @@ class gnocchi::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
-  if is_service_default($password) and ! $::gnocchi::api::keystone_password {
+  if is_service_default($password) {
     fail('Please set password for Gnocchi service user')
   }
 
-  $username_real = pick($::gnocchi::api::keystone_user,$username)
-  $password_real = pick($::gnocchi::api::keystone_password,$password)
-  $project_name_real = pick($::gnocchi::api::keystone_tenant,$project_name)
-  $auth_uri_real = pick($::gnocchi::api::keystone_auth_uri, $auth_uri)
-  $auth_url_real = pick($::gnocchi::api::keystone_identity_uri, $auth_url)
-
   keystone::resource::authtoken { 'gnocchi_config':
-    username                       => $username_real,
-    password                       => $password_real,
-    project_name                   => $project_name_real,
-    auth_url                       => $auth_url_real,
-    auth_uri                       => $auth_uri_real,
+    username                       => $username,
+    password                       => $password,
+    project_name                   => $project_name,
+    auth_url                       => $auth_url,
+    auth_uri                       => $auth_uri,
     auth_version                   => $auth_version,
     auth_type                      => $auth_type,
     auth_section                   => $auth_section,

@@ -45,7 +45,7 @@
 #   Defaults to false
 #
 # [*auth_strategy*]
-#   (optional) Configure gnocchi authentication. 
+#   (optional) Configure gnocchi authentication.
 #   Can be set to noauth and keystone.
 #   Defaults to 'keystone'.
 #
@@ -53,29 +53,6 @@
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
-#
-# = DEPRECATED PARAMETERS
-#
-# [*keystone_user*]
-#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::username instead.
-#   Defaults to undef
-#
-# [*keystone_tenant*]
-#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::project_name
-#   instead.
-#   Defaults to undef
-#
-# [*keystone_password*]
-#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::password instead.
-#   Defaults to undef
-#
-# [*keystone_auth_uri*]
-#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::auth_uri instead.
-#   Defaults to undef
-#
-# [*keystone_identity_uri*]
-#   (optional) DEPRECATED. Use gnocchi::keystone::authtoken::auth_url instead.
-#   Defaults to undef
 #
 class gnocchi::api (
   $manage_service               = true,
@@ -89,35 +66,9 @@ class gnocchi::api (
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $keystone_user                = undef,
-  $keystone_tenant              = undef,
-  $keystone_password            = undef,
-  $keystone_auth_uri            = undef,
-  $keystone_identity_uri        = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::policy
-
-  if $keystone_identity_uri {
-    warning('gnocchi:api::keystone_identity_uri is deprecated, use gnocchi::keystone::authtoken::auth_url instead')
-  }
-
-  if $keystone_auth_uri {
-    warning('gnocchi::api::keystone_auth_uri is deprecated, use gnocchi::keystone::authtoken::auth_uri instead')
-  }
-
-  if $keystone_user {
-    warning('gnocchi::api::keystone_user is deprecated, use gnocchi::keystone::authtoken::username instead')
-  }
-
-  if $keystone_tenant {
-    warning('gnocchi::api::keystone_tenant is deprecated, use gnocchi::keystone::authtoken::project_name instead')
-  }
-
-  if $keystone_password {
-    warning('gnocchi::api::keystone_password is deprecated, use gnocchi::keystone::authtoken::password instead')
-  }
 
   Gnocchi_config<||> ~> Service[$service_name]
   Gnocchi_api_paste_ini<||> ~> Service[$service_name]
