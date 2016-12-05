@@ -30,6 +30,8 @@ class gnocchi::storage(
   $coordination_url = $::os_service_default,
 ) inherits gnocchi::params {
 
+  include ::gnocchi::deps
+
   package { 'gnocchi-carbonara':
     ensure => $package_ensure,
     name   => $::gnocchi::params::carbonara_package_name,

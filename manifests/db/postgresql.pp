@@ -32,7 +32,7 @@ class gnocchi::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['gnocchi::db::postgresql'] -> Service<| title == 'gnocchi' |>
+  include ::gnocchi::deps
 
   ::openstacklib::db::postgresql { 'gnocchi':
     password_hash => postgresql_password($user, $password),
@@ -42,5 +42,8 @@ class gnocchi::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['gnocchi']    ~> Exec<| title == 'gnocchi-db-sync' |>
+  Anchor['gnocchi::db::begin']
+  ~> Class['gnocchi::db::postgresql']
+  ~> Anchor['gnocchi::db::end']
+
 }

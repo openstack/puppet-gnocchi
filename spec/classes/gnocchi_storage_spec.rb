@@ -8,6 +8,7 @@ describe 'gnocchi::storage' do
 
   shared_examples_for 'gnocchi-storage' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
 
     it 'installs gnocchi-carbonara package' do

@@ -10,6 +10,7 @@ describe 'gnocchi' do
       end
 
       it 'contains the logging class' do
+        is_expected.to contain_class('gnocchi::deps')
         is_expected.to contain_class('gnocchi::logging')
       end
 

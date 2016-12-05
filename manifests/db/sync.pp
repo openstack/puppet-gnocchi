@@ -14,6 +14,9 @@ class gnocchi::db::sync (
   $user       = 'gnocchi',
   $extra_opts = undef,
 ){
+
+  include ::gnocchi::deps
+
   exec { 'gnocchi-db-sync':
     command     => "gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf ${extra_opts}",
     path        => '/usr/bin',
@@ -22,10 +25,12 @@ class gnocchi::db::sync (
     try_sleep   => 5,
     tries       => 10,
     logoutput   => on_failure,
+    subscribe   => [
+      Anchor['gnocchi::install::end'],
+      Anchor['gnocchi::config::end'],
+      Anchor['gnocchi::dbsync::begin']
+    ],
+    notify      => Anchor['gnocchi::dbsync::end'],
   }
 
-  Package<| tag == 'gnocchi-package' |> ~> Exec['gnocchi-db-sync']
-  Exec['gnocchi-db-sync'] ~> Service<| tag == 'gnocchi-db-sync-service' |>
-  Gnocchi_config<||> ~> Exec['gnocchi-db-sync']
-  Gnocchi_config<| title == 'indexer/url' |> ~> Exec['gnocchi-db-sync']
 }

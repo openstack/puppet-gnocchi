@@ -68,15 +68,9 @@ class gnocchi::api (
   $enable_proxy_headers_parsing = $::os_service_default,
 ) inherits gnocchi::params {
 
+  include ::gnocchi::deps
   include ::gnocchi::policy
 
-  Gnocchi_config<||> ~> Service[$service_name]
-  Gnocchi_api_paste_ini<||> ~> Service[$service_name]
-  Class['gnocchi::policy'] ~> Service[$service_name]
-
-  Package['gnocchi-api'] -> Service[$service_name]
-  Package['gnocchi-api'] -> Service['gnocchi-api']
-  Package['gnocchi-api'] -> Class['gnocchi::policy']
   package { 'gnocchi-api':
     ensure => $package_ensure,
     name   => $::gnocchi::params::api_package_name,
@@ -102,7 +96,6 @@ class gnocchi::api (
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
-      require    => Class['gnocchi::db'],
       tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
     }
   } elsif $service_name == 'httpd' {
@@ -113,7 +106,6 @@ class gnocchi::api (
       enable => false,
       tag    => ['gnocchi-service', 'gnocchi-db-sync-service'],
     }
-    Class['gnocchi::db'] -> Service[$service_name]
     Service <<| title == 'httpd' |>> { tag +> 'gnocchi-db-sync-service' }
 
     # we need to make sure gnocchi-api/eventlet is stopped before trying to start apache

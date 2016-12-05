@@ -22,6 +22,7 @@ describe 'gnocchi::api' do
 
   shared_examples_for 'gnocchi-api' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
     it { is_expected.to contain_class('gnocchi::policy') }
 
@@ -54,10 +55,11 @@ describe 'gnocchi::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :require    => 'Class[Gnocchi::Db]',
             :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
           )
         end
+        it { is_expected.to contain_service('gnocchi-api').that_subscribes_to('Anchor[gnocchi::service::begin]')}
+        it { is_expected.to contain_service('gnocchi-api').that_notifies('Anchor[gnocchi::service::end]')}
       end
     end
 

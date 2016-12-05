@@ -9,6 +9,7 @@ class gnocchi::client (
   $ensure = 'present'
 ) {
 
+  include ::gnocchi::deps
   include ::gnocchi::params
 
   package { 'python-gnocchiclient':

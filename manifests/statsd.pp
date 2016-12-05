@@ -41,8 +41,7 @@ class gnocchi::statsd (
   $package_ensure      = 'present',
 ) inherits gnocchi::params {
 
-  Gnocchi_config<||> ~> Service['gnocchi-statsd']
-  Package['gnocchi-statsd'] -> Service['gnocchi-statsd']
+  include ::gnocchi::deps
 
   package { 'gnocchi-statsd':
     ensure => $package_ensure,

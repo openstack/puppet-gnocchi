@@ -7,6 +7,7 @@ describe 'gnocchi::metricd' do
 
   shared_examples_for 'gnocchi-metricd' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
 
     it 'installs gnocchi-metricd package' do

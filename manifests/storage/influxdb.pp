@@ -54,6 +54,8 @@ class gnocchi::storage::influxdb(
   $influxdb_block_until_data_ingested = false,
 ) {
 
+  include ::gnocchi::deps
+
   gnocchi_config {
     'storage/driver':                             value => 'influxdb';
     'storage/influxdb_host':                      value => $influxdb_host;

@@ -12,7 +12,11 @@ describe 'gnocchi::db::sync' do
         :refreshonly => 'true',
         :try_sleep   => 5,
         :tries       => 10,
-        :logoutput   => 'on_failure'
+        :logoutput   => 'on_failure',
+        :subscribe   => ['Anchor[gnocchi::install::end]',
+                         'Anchor[gnocchi::config::end]',
+                         'Anchor[gnocchi::dbsync::begin]'],
+        :notify      => 'Anchor[gnocchi::dbsync::end]',
       )
     end
     describe "overriding extra_opts" do
@@ -28,7 +32,11 @@ describe 'gnocchi::db::sync' do
             :refreshonly => 'true',
             :try_sleep   => 5,
             :tries       => 10,
-            :logoutput   => 'on_failure'
+            :logoutput   => 'on_failure',
+            :subscribe   => ['Anchor[gnocchi::install::end]',
+                             'Anchor[gnocchi::config::end]',
+                             'Anchor[gnocchi::dbsync::begin]'],
+            :notify      => 'Anchor[gnocchi::dbsync::end]',
         )
        }
     end

@@ -94,6 +94,7 @@ class gnocchi::wsgi::apache (
   $priority      = '10',
 ) {
 
+  include ::gnocchi::deps
   include ::gnocchi::params
   include ::apache
   include ::apache::mod::wsgi

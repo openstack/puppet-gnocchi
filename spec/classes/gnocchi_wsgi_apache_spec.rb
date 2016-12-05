@@ -4,6 +4,7 @@ describe 'gnocchi::wsgi::apache' do
 
   shared_examples_for 'apache serving gnocchi with mod_wsgi' do
     it { is_expected.to contain_service('httpd').with_name(platform_params[:httpd_service_name]) }
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
     it { is_expected.to contain_class('apache') }
     it { is_expected.to contain_class('apache::mod::wsgi') }

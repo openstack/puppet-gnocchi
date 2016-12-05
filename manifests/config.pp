@@ -28,6 +28,8 @@ class gnocchi::config (
   $gnocchi_api_paste_ini = {},
 ) {
 
+  include ::gnocchi::deps
+
   validate_hash($gnocchi_config)
   validate_hash($gnocchi_api_paste_ini)
 

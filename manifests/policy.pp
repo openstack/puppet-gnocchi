@@ -28,6 +28,8 @@ class gnocchi::policy (
   $policy_path = '/etc/gnocchi/policy.json',
 ) {
 
+  include ::gnocchi::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {

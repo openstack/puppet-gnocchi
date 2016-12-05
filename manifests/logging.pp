@@ -105,6 +105,8 @@ class gnocchi::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+  include ::gnocchi::deps
+
   # note(spredzy): in order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> first then gnocchi::logging::<myparam>.
   $use_syslog_real   = pick($::gnocchi::use_syslog,$use_syslog)

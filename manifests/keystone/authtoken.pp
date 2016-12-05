@@ -223,6 +223,8 @@ class gnocchi::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
+  include ::gnocchi::deps
+
   if is_service_default($password) {
     fail('Please set password for Gnocchi service user')
   }

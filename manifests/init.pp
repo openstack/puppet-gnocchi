@@ -50,6 +50,7 @@ class gnocchi (
   $purge_config        = false,
 ) inherits gnocchi::params {
 
+  include ::gnocchi::deps
   include ::gnocchi::db
   include ::gnocchi::logging
 

@@ -53,6 +53,8 @@ class gnocchi::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::gnocchi::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'gnocchi':
@@ -65,5 +67,8 @@ class gnocchi::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['gnocchi'] ~> Exec<| title == 'gnocchi-db-sync' |>
+  Anchor['gnocchi::db::begin']
+  ~> Class['gnocchi::db::mysql']
+  ~> Anchor['gnocchi::db::end']
+
 }

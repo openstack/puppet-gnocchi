@@ -4,6 +4,7 @@ describe 'gnocchi::client' do
 
   shared_examples_for 'gnocchi client' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
 
     it 'installs gnocchi client package' do

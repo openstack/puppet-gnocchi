@@ -25,8 +25,7 @@ class gnocchi::metricd (
   $package_ensure = 'present',
 ) inherits gnocchi::params {
 
-  Gnocchi_config<||> ~> Service['gnocchi-metricd']
-  Package['gnocchi-metricd'] -> Service['gnocchi-metricd']
+  include ::gnocchi::deps
 
   gnocchi_config {
     'metricd/workers': value => $workers;

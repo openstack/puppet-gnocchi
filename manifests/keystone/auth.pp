@@ -70,6 +70,8 @@ class gnocchi::keystone::auth (
   $service_description = 'OpenStack Metric Service',
 ) {
 
+  include ::gnocchi::deps
+
   keystone::resource::service_identity { 'gnocchi':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,

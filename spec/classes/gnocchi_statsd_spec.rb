@@ -15,6 +15,7 @@ describe 'gnocchi::statsd' do
 
   shared_examples_for 'gnocchi-statsd' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
     it { is_expected.to contain_class('gnocchi::params') }
 
     it 'installs gnocchi-statsd package' do

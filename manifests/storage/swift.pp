@@ -49,6 +49,8 @@ class gnocchi::storage::swift(
   $swift_tenant_name  = undef,
 ) {
 
+  include ::gnocchi::deps
+
   gnocchi_config {
     'storage/driver':             value => 'swift';
     'storage/swift_user':         value => $swift_user;
