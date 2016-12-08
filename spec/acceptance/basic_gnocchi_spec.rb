@@ -50,6 +50,9 @@ describe 'basic gnocchi' do
           }
           class { '::gnocchi::client': }
         }
+        default: {
+          fail("Unsupported osfamily (${::osfamily})")
+        }
       }
       EOS
 
