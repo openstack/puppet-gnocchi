@@ -32,9 +32,9 @@ describe 'basic gnocchi' do
           class { '::gnocchi::api':
             enabled      => true,
             service_name => 'httpd',
+            sync_db      => true,
           }
           class { '::gnocchi::metricd': }
-          class { '::gnocchi::db::sync': }
           class { '::gnocchi::storage': }
           class { '::gnocchi::storage::file': }
           include ::apache
