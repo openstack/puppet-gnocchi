@@ -42,6 +42,7 @@ describe 'gnocchi::wsgi::apache' do
           'group'     => 'gnocchi',
           'processes' => '4',
           'threads'   => '1',
+          'display-name' => 'gnocchi_wsgi',
         },
         'wsgi_daemon_process'         => 'gnocchi',
         'wsgi_process_group'          => 'gnocchi',
@@ -54,12 +55,13 @@ describe 'gnocchi::wsgi::apache' do
     describe 'when overriding parameters using different ports' do
       let :params do
         {
-          :servername  => 'dummy.host',
-          :bind_host   => '10.42.51.1',
-          :port        => 12345,
-          :ssl         => false,
-          :workers     => 8,
-          :threads     => 2,
+          :servername                => 'dummy.host',
+          :bind_host                 => '10.42.51.1',
+          :port                      => 12345,
+          :ssl                       => false,
+          :workers                   => 8,
+          :wsgi_process_display_name => 'gnocchi',
+          :threads                   => 2,
         }
       end
 
@@ -76,6 +78,7 @@ describe 'gnocchi::wsgi::apache' do
           'group'     => 'gnocchi',
           'processes' => '8',
           'threads'   => '2',
+          'display-name' => 'gnocchi',
         },
         'wsgi_daemon_process'         => 'gnocchi',
         'wsgi_process_group'          => 'gnocchi',
