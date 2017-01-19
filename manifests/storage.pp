@@ -32,12 +32,6 @@ class gnocchi::storage(
 
   include ::gnocchi::deps
 
-  package { 'gnocchi-carbonara':
-    ensure => $package_ensure,
-    name   => $::gnocchi::params::carbonara_package_name,
-    tag    => ['openstack', 'gnocchi-package'],
-  }
-
   gnocchi_config {
     'storage/coordination_url' : value => $coordination_url;
   }
