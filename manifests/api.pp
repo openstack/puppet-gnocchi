@@ -120,6 +120,7 @@ standalone service, or httpd for being run by a httpd server")
     'api/port':      value => $port;
     'api/workers':   value => $workers;
     'api/max_limit': value => $max_limit;
+    'api/auth_mode': value => $auth_strategy;
   }
 
   oslo::middleware { 'gnocchi_config':

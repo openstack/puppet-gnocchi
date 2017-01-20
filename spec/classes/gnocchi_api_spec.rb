@@ -39,6 +39,7 @@ describe 'gnocchi::api' do
       is_expected.to contain_gnocchi_config('api/port').with_value( params[:port] )
       is_expected.to contain_gnocchi_config('api/max_limit').with_value( params[:max_limit] )
       is_expected.to contain_gnocchi_config('api/workers').with_value('2')
+      is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
       is_expected.to contain_gnocchi_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
 
