@@ -132,28 +132,6 @@ describe 'gnocchi::api' do
       it_raises 'a Puppet::Error', /Invalid service_name/
     end
 
-    context "with noauth" do
-      before do
-        params.merge!({
-          :auth_strategy => 'noauth',
-        })
-      end
-      it 'configures pipeline' do
-        is_expected.to contain_gnocchi_api_paste_ini('pipeline:main/pipeline').with_value('gnocchi+noauth');
-      end
-    end
-
-    context "with keystone" do
-      before do
-        params.merge!({
-          :auth_strategy => 'keystone',
-        })
-      end
-      it 'configures pipeline' do
-        is_expected.to contain_gnocchi_api_paste_ini('pipeline:main/pipeline').with_value('gnocchi+auth');
-      end
-    end
-
     context 'with enable_proxy_headers_parsing' do
       before do
         params.merge!({:enable_proxy_headers_parsing => true })

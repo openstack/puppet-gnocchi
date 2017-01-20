@@ -129,13 +129,5 @@ standalone service, or httpd for being run by a httpd server")
 
   if $auth_strategy == 'keystone' {
     include ::gnocchi::keystone::authtoken
-    gnocchi_api_paste_ini {
-      'pipeline:main/pipeline':  value => 'gnocchi+auth',
-    }
-  } else {
-    gnocchi_api_paste_ini {
-      'pipeline:main/pipeline':  value => 'gnocchi+noauth',
-    }
   }
-
 }

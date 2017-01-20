@@ -1,0 +1,4 @@
+---
+deprecations:
+  - Remove api-paste configuration as its now moved into the
+    python code. There is no need to explicitly configure it.
