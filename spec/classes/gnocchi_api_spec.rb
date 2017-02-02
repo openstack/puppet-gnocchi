@@ -14,9 +14,7 @@ describe 'gnocchi::api' do
     { :enabled           => true,
       :manage_service    => true,
       :package_ensure    => 'latest',
-      :port              => '8041',
       :max_limit         => '1000',
-      :host              => '0.0.0.0',
     }
   end
 
@@ -35,10 +33,7 @@ describe 'gnocchi::api' do
     end
 
     it 'configures gnocchi-api' do
-      is_expected.to contain_gnocchi_config('api/host').with_value( params[:host] )
-      is_expected.to contain_gnocchi_config('api/port').with_value( params[:port] )
       is_expected.to contain_gnocchi_config('api/max_limit').with_value( params[:max_limit] )
-      is_expected.to contain_gnocchi_config('api/workers').with_value('2')
       is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
       is_expected.to contain_gnocchi_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end

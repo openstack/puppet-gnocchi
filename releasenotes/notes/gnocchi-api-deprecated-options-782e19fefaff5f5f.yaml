@@ -1,0 +1,5 @@
+---
+deprecations:
+  - The Gnocchi API options host, port and workers are deprecated. These
+    options have been removed in the Gnocchi project so they have no effect
+    whatsoever.

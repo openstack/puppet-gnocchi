@@ -10,18 +10,6 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*host*]
-#   (optional) The gnocchi api bind address.
-#   Defaults to 0.0.0.0
-#
-# [*port*]
-#   (optional) The gnocchi api port.
-#   Defaults to 8041
-#
-# [*workers*]
-#   (optional) Number of workers for Gnocchi API server.
-#   Defaults to $::os_workers
-#
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
 #   single response from a collection resource.
@@ -54,22 +42,49 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
+# [*host*]
+#   (optional) The gnocchi api bind address.
+#   Defaults to $::os_service_default
+#
+# [*port*]
+#   (optional) The gnocchi api port.
+#   Defaults to $::os_service_default
+#
+# [*workers*]
+#   (optional) Number of workers for Gnocchi API server.
+#   Defaults to $::os_service_default
+#
 class gnocchi::api (
   $manage_service               = true,
   $enabled                      = true,
   $package_ensure               = 'present',
-  $host                         = '0.0.0.0',
-  $port                         = '8041',
-  $workers                      = $::os_workers,
   $max_limit                    = 1000,
   $service_name                 = $::gnocchi::params::api_service_name,
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
+  # DEPRECATED
+  $host                         = $::os_service_default,
+  $port                         = $::os_service_default,
+  $workers                      = $::os_service_default,
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
   include ::gnocchi::policy
+
+  if !is_service_default($host) {
+    warning('host is deprecated')
+  }
+
+  if !is_service_default($port) {
+    warning('port is deprecated')
+  }
+
+  if !is_service_default($workers) {
+    warning('workers is deprecated')
+  }
 
   package { 'gnocchi-api':
     ensure => $package_ensure,
@@ -116,9 +131,6 @@ standalone service, or httpd for being run by a httpd server")
   }
 
   gnocchi_config {
-    'api/host':      value => $host;
-    'api/port':      value => $port;
-    'api/workers':   value => $workers;
     'api/max_limit': value => $max_limit;
     'api/auth_mode': value => $auth_strategy;
   }
