@@ -1,0 +1,3 @@
+---
+deprecations:
+  - add middlewares configuration to gnocchi.conf.
