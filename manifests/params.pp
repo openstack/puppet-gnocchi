@@ -23,6 +23,7 @@ class gnocchi::params {
       $gnocchi_wsgi_script_source = '/usr/lib/python2.7/site-packages/gnocchi/rest/app.wsgi'
       $pymysql_package_name       = undef
       $cradox_package_name        = 'python2-cradox'
+      $redis_package_name         = 'python-redis'
     }
     'Debian': {
       $sqlite_package_name        = 'python-pysqlite2'
@@ -37,6 +38,7 @@ class gnocchi::params {
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
       $gnocchi_wsgi_script_source = '/usr/share/gnocchi-common/app.wsgi'
       $pymysql_package_name       = 'python-pymysql'
+      $redis_package_name         = 'python-redis'
       $cradox_package_name        = undef
     }
     default: {

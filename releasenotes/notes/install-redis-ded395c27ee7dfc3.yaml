@@ -1,0 +1,4 @@
+---
+fixes:
+  - Install redis when coordination is set in gnocchi storage.
+    Otherwise metricd will go creazy and throw exceptions.
