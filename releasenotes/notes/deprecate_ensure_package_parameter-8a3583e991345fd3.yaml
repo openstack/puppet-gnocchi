@@ -1,0 +1,6 @@
+---
+deprecations:
+  - gnocchi::ensure_package is now deprecated and will be removed in the
+    future release. Please use gnocchi::package_ensure instead.
+  - gnocchi::db::ensure_package is now deprecated and will be removed in the
+    future release. Please use gnocchi::db::package_ensure instead.
