@@ -64,7 +64,7 @@ describe 'gnocchi::logging' do
   end
 
   shared_examples 'basic non-default logging settings' do
-    it 'configures gnocchi logging settins with non-default values' do
+    it 'configures gnocchi logging settings with non-default values' do
       is_expected.to contain_gnocchi_config('DEFAULT/use_syslog').with(:value => 'true')
       is_expected.to contain_gnocchi_config('DEFAULT/use_stderr').with(:value => 'false')
       is_expected.to contain_gnocchi_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')
