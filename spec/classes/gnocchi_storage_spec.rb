@@ -13,11 +13,15 @@ describe 'gnocchi::storage' do
 
     context 'with coordination' do
       before do
-        params.merge!({ :coordination_url => 'redis://localhost:6379' })
+        params.merge!({
+          :coordination_url        => 'redis://localhost:6379',
+          :metric_processing_delay => 30,
+        })
       end
 
       it 'configures backend_url' do
         is_expected.to contain_gnocchi_config('storage/coordination_url').with_value('redis://localhost:6379')
+        is_expected.to contain_gnocchi_config('storage/metric_processing_delay').with_value(30)
       end
 
       it 'installs python-redis package' do
