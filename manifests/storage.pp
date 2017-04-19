@@ -24,10 +24,15 @@
 #   (optional) The url to use for distributed group membership coordination.
 #   Defaults to $::os_service_default.
 #
+# [*metric_processing_delay*]
+#   (optional) Delay between processng metrics
+#   Defaults to $::os_service_default.
+#
 
 class gnocchi::storage(
-  $package_ensure   = 'present',
-  $coordination_url = $::os_service_default,
+  $package_ensure          = 'present',
+  $coordination_url        = $::os_service_default,
+  $metric_processing_delay = $::os_service_default,
 ) inherits gnocchi::params {
 
   package { 'gnocchi-carbonara':
@@ -37,7 +42,8 @@ class gnocchi::storage(
   }
 
   gnocchi_config {
-    'storage/coordination_url' : value => $coordination_url;
+    'storage/coordination_url'        : value => $coordination_url;
+    'storage/metric_processing_delay' : value => $metric_processing_delay;
   }
 
 }
