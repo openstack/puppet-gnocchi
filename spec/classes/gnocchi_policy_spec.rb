@@ -20,7 +20,9 @@ describe 'gnocchi::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
-      is_expected.to contain_gnocchi_config('oslo_policy/policy_file').with_value('/etc/gnocchi/policy.json')
+      is_expected.to contain_oslo__policy('gnocchi_config').with(
+        :policy_file => '/etc/gnocchi/policy.json',
+      )
     end
   end
 
