@@ -26,6 +26,8 @@
 #    any directory.
 #    Defaults to '/var/log/gnocchi'
 #
+#  DEPRECATED PARAMETERS
+#
 #  [*logging_context_format_string*]
 #    (optional) format string to use for log messages with context.
 #    Defaults to $::os_service_default
@@ -92,6 +94,7 @@ class gnocchi::logging(
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/gnocchi',
   $debug                         = $::os_service_default,
+  # DEPRECATED
   $logging_context_format_string = $::os_service_default,
   $logging_default_format_string = $::os_service_default,
   $logging_debug_format_suffix   = $::os_service_default,
@@ -107,6 +110,50 @@ class gnocchi::logging(
 
   include ::gnocchi::deps
 
+  if $logging_context_format_string {
+    warning('gnocchi::logging::logging_context_format_string is deprecated and will be removed in future')
+  }
+
+  if $logging_default_format_string {
+    warning('gnocchi::logging::logging_default_format_string is deprecated and will be removed in future')
+  }
+
+  if $logging_debug_format_suffix {
+    warning('gnocchi::logging::logging_debug_format_suffix is deprecated and will be removed in future')
+  }
+
+  if $logging_exception_prefix {
+    warning('gnocchi::logging::logging_exception_prefix is deprecated and will be removed in future')
+  }
+
+  if $log_config_append {
+    warning('gnocchi::logging::log_config_append is deprecated and will be removed in future')
+  }
+
+  if $default_log_levels {
+    warning('gnocchi::logging::default_log_levels is deprecated and will be removed in future')
+  }
+
+  if $publish_errors {
+    warning('gnocchi::logging::publish_errors is deprecated and will be removed in future')
+  }
+
+  if $fatal_deprecations {
+    warning('gnocchi::logging::fatal_deprecations is deprecated and will be removed in future')
+  }
+
+  if $instance_format {
+    warning('gnocchi::logging::instance_format is deprecated and will be removed in future')
+  }
+
+  if $instance_uuid_format {
+    warning('gnocchi::logging::instance_uuid_format is deprecated and will be removed in future')
+  }
+
+  if $log_date_format {
+    warning('gnocchi::logging::log_date_format is deprecated and will be removed in future')
+  }
+
   # note(spredzy): in order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> first then gnocchi::logging::<myparam>.
   $use_syslog_real   = pick($::gnocchi::use_syslog,$use_syslog)
@@ -116,22 +163,11 @@ class gnocchi::logging(
   $debug_real        = pick($::gnocchi::debug,$debug)
 
   oslo::log { 'gnocchi_config':
-    debug                         => $debug_real,
-    use_syslog                    => $use_syslog_real,
-    use_stderr                    => $use_stderr_real,
-    log_dir                       => $log_dir_real,
-    syslog_log_facility           => $log_facility_real,
-    logging_context_format_string => $logging_context_format_string,
-    logging_default_format_string => $logging_default_format_string,
-    logging_debug_format_suffix   => $logging_debug_format_suffix,
-    logging_exception_prefix      => $logging_exception_prefix,
-    log_config_append             => $log_config_append,
-    default_log_levels            => $default_log_levels,
-    publish_errors                => $publish_errors,
-    fatal_deprecations            => $fatal_deprecations,
-    instance_format               => $instance_format,
-    instance_uuid_format          => $instance_uuid_format,
-    log_date_format               => $log_date_format,
+    debug               => $debug_real,
+    use_syslog          => $use_syslog_real,
+    use_stderr          => $use_stderr_real,
+    log_dir             => $log_dir_real,
+    syslog_log_facility => $log_facility_real,
   }
 
 }

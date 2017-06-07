@@ -1,0 +1,4 @@
+---
+deprecations:
+  - Deprecating some oslo.log options from logging class. Gnocchi is moving
+    away from oslo.log to daiquri.
