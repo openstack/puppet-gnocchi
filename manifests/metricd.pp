@@ -14,6 +14,11 @@
 #   (optional) the number of workers.
 #   Defaults to $::os_workers
 #
+# [*cleanup_delay*]
+#   (optional) How many seconds to wait between
+#   cleaning of expired data.
+#   Defaults to $::os_service_default
+#
 # [*manage_service*]
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
@@ -22,13 +27,15 @@ class gnocchi::metricd (
   $manage_service = true,
   $enabled        = true,
   $workers        = $::os_workers,
+  $cleanup_delay  = $::os_service_default,
   $package_ensure = 'present',
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
 
   gnocchi_config {
-    'metricd/workers': value => $workers;
+    'metricd/workers':              value => $workers;
+    'metricd/metric_cleanup_delay': value => $cleanup_delay;
   }
 
   package { 'gnocchi-metricd':

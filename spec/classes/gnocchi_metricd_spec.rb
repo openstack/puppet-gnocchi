@@ -65,6 +65,16 @@ describe 'gnocchi::metricd' do
         is_expected.to contain_gnocchi_config('metricd/workers').with_value('2')
       end
     end
+
+    context 'with cleanup_delay set' do
+      before do
+        params.merge!({
+          :cleanup_delay => 30 })
+      end
+      it 'configures gnocchi metricd cleanup_delay value' do
+        is_expected.to contain_gnocchi_config('metricd/metric_cleanup_delay').with_value('30')
+      end
+    end
   end
 
   on_supported_os({
