@@ -3,56 +3,29 @@ require 'spec_helper'
 describe 'gnocchi::wsgi::apache' do
 
   shared_examples_for 'apache serving gnocchi with mod_wsgi' do
-    it { is_expected.to contain_service('httpd').with_name(platform_params[:httpd_service_name]) }
-    it { is_expected.to contain_class('gnocchi::deps') }
-    it { is_expected.to contain_class('gnocchi::params') }
-    it { is_expected.to contain_class('apache') }
-    it { is_expected.to contain_class('apache::mod::wsgi') }
-
-    describe 'with default parameters' do
-
-      it { is_expected.to contain_file("#{platform_params[:wsgi_script_path]}").with(
-        'ensure'  => 'directory',
-        'owner'   => 'gnocchi',
-        'group'   => 'gnocchi',
-        'require' => 'Package[httpd]'
+    context 'with default parameters' do
+      it { is_expected.to contain_class('gnocchi::params') }
+      it { is_expected.to contain_class('apache') }
+      it { is_expected.to contain_class('apache::mod::wsgi') }
+      it { is_expected.to contain_class('apache::mod::ssl') }
+      it { is_expected.to contain_openstacklib__wsgi__apache('gnocchi_wsgi').with(
+        :bind_port           => 8041,
+        :group               => 'gnocchi',
+        :path                => '/',
+        :servername          => facts[:fqdn],
+        :ssl                 => true,
+        :threads             => 1,
+        :user                => 'gnocchi',
+        :workers             => facts[:os_workers],
+        :wsgi_daemon_process => 'gnocchi',
+        :wsgi_process_group  => 'gnocchi',
+        :wsgi_script_dir     => platform_params[:wsgi_script_path],
+        :wsgi_script_file    => 'app',
+        :wsgi_script_source  => platform_params[:wsgi_script_source],
       )}
-
-
-      it { is_expected.to contain_file('gnocchi_wsgi').with(
-        'ensure'  => 'file',
-        'path'    => "#{platform_params[:wsgi_script_path]}/app",
-        'source'  => platform_params[:wsgi_script_source],
-        'owner'   => 'gnocchi',
-        'group'   => 'gnocchi',
-        'mode'    => '0644'
-      )}
-      it { is_expected.to contain_file('gnocchi_wsgi').that_requires("File[#{platform_params[:wsgi_script_path]}]") }
-
-      it { is_expected.to contain_apache__vhost('gnocchi_wsgi').with(
-        'servername'                  => 'some.host.tld',
-        'ip'                          => nil,
-        'port'                        => '8041',
-        'docroot'                     => "#{platform_params[:wsgi_script_path]}",
-        'docroot_owner'               => 'gnocchi',
-        'docroot_group'               => 'gnocchi',
-        'ssl'                         => 'true',
-        'wsgi_daemon_process_options' => {
-          'user'      => 'gnocchi',
-          'group'     => 'gnocchi',
-          'processes' => '4',
-          'threads'   => '1',
-          'display-name' => 'gnocchi_wsgi',
-        },
-        'wsgi_daemon_process'         => 'gnocchi',
-        'wsgi_process_group'          => 'gnocchi',
-        'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
-        'require'                     => 'File[gnocchi_wsgi]'
-      )}
-      it { is_expected.to contain_concat("#{platform_params[:httpd_ports_file]}") }
     end
 
-    describe 'when overriding parameters using different ports' do
+    context 'when overriding paramters using different ports' do
       let :params do
         {
           :servername                => 'dummy.host',
@@ -65,28 +38,27 @@ describe 'gnocchi::wsgi::apache' do
         }
       end
 
-      it { is_expected.to contain_apache__vhost('gnocchi_wsgi').with(
-        'servername'                  => 'dummy.host',
-        'ip'                          => '10.42.51.1',
-        'port'                        => '12345',
-        'docroot'                     => "#{platform_params[:wsgi_script_path]}",
-        'docroot_owner'               => 'gnocchi',
-        'docroot_group'               => 'gnocchi',
-        'ssl'                         => 'false',
-        'wsgi_daemon_process_options' => {
-          'user'      => 'gnocchi',
-          'group'     => 'gnocchi',
-          'processes' => '8',
-          'threads'   => '2',
-          'display-name' => 'gnocchi',
-        },
-        'wsgi_daemon_process'         => 'gnocchi',
-        'wsgi_process_group'          => 'gnocchi',
-        'wsgi_script_aliases'         => { '/' => "#{platform_params[:wsgi_script_path]}/app" },
-        'require'                     => 'File[gnocchi_wsgi]'
+      it { is_expected.to contain_class('gnocchi::params') }
+      it { is_expected.to contain_class('apache') }
+      it { is_expected.to contain_class('apache::mod::wsgi') }
+      it { is_expected.to_not contain_class('apache::mod::ssl') }
+      it { is_expected.to contain_openstacklib__wsgi__apache('gnocchi_wsgi').with(
+        :bind_host                 => '10.42.51.1',
+        :bind_port                 => 12345,
+        :group                     => 'gnocchi',
+        :path                      => '/',
+        :servername                => 'dummy.host',
+        :ssl                       => false,
+        :threads                   => 2,
+        :user                      => 'gnocchi',
+        :workers                   => 8,
+        :wsgi_daemon_process       => 'gnocchi',
+        :wsgi_process_display_name => 'gnocchi',
+        :wsgi_process_group        => 'gnocchi',
+        :wsgi_script_dir           => platform_params[:wsgi_script_path],
+        :wsgi_script_file          => 'app',
+        :wsgi_script_source        => platform_params[:wsgi_script_source],
       )}
-
-      it { is_expected.to contain_concat("#{platform_params[:httpd_ports_file]}") }
     end
   end
 
