@@ -18,6 +18,18 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/swift_key').with_value('admin')
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('http://localhost:8080/auth/v1.0')
         is_expected.to contain_gnocchi_config('storage/swift_auth_version').with_value('1')
+        is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('<SERVICE DEFAULT>')
+      end
+    end
+
+    context 'with swift_endpoint_type set' do
+      before do
+        params.merge!({
+          :swift_endpoint_type => 'internalURL'
+        })
+      end
+      it 'configures gnocchi-api with given endpoint type' do
+        is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('internalURL')
       end
     end
   end

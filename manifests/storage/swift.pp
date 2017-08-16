@@ -41,23 +41,30 @@
 #   (optional) Swift tenant name, only used if swift_auth_version is '2'.
 #   Defaults to undef
 #
+# [*swift_endpoint_type*]
+#   (optional) Swift endpoint type. Defines the kesytone endpoint type
+#   (publicURL, internalURL or adminURL).
+#   Defaults to undef
+#
 class gnocchi::storage::swift(
-  $swift_auth_version = '1',
-  $swift_authurl      = 'http://localhost:8080/auth/v1.0',
-  $swift_user         = 'admin:admin',
-  $swift_key          = 'admin',
-  $swift_tenant_name  = undef,
+  $swift_auth_version  = '1',
+  $swift_authurl       = 'http://localhost:8080/auth/v1.0',
+  $swift_user          = 'admin:admin',
+  $swift_key           = 'admin',
+  $swift_tenant_name   = undef,
+  $swift_endpoint_type = $::os_service_default,
 ) {
 
   include ::gnocchi::deps
 
   gnocchi_config {
-    'storage/driver':             value => 'swift';
-    'storage/swift_user':         value => $swift_user;
-    'storage/swift_key':          value => $swift_key;
-    'storage/swift_tenant_name':  value => $swift_tenant_name;
-    'storage/swift_auth_version': value => $swift_auth_version;
-    'storage/swift_authurl':      value => $swift_authurl;
+    'storage/driver':              value => 'swift';
+    'storage/swift_user':          value => $swift_user;
+    'storage/swift_key':           value => $swift_key;
+    'storage/swift_tenant_name':   value => $swift_tenant_name;
+    'storage/swift_auth_version':  value => $swift_auth_version;
+    'storage/swift_authurl':       value => $swift_authurl;
+    'storage/swift_endpoint_type': value => $swift_endpoint_type;
   }
 
 }
