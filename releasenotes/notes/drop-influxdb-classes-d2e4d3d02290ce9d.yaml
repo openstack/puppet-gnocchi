@@ -1,0 +1,4 @@
+---
+deprecations:
+  - The classes to manage InfluxDB have been removed due to the fact that the
+    InfluxDB support was dropped over a year ago.
