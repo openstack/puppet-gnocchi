@@ -9,19 +9,20 @@ describe 'gnocchi::wsgi::apache' do
       it { is_expected.to contain_class('apache::mod::wsgi') }
       it { is_expected.to contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('gnocchi_wsgi').with(
-        :bind_port           => 8041,
-        :group               => 'gnocchi',
-        :path                => '/',
-        :servername          => facts[:fqdn],
-        :ssl                 => true,
-        :threads             => 1,
-        :user                => 'gnocchi',
-        :workers             => facts[:os_workers],
-        :wsgi_daemon_process => 'gnocchi',
-        :wsgi_process_group  => 'gnocchi',
-        :wsgi_script_dir     => platform_params[:wsgi_script_path],
-        :wsgi_script_file    => 'app',
-        :wsgi_script_source  => platform_params[:wsgi_script_source],
+        :bind_port                   => 8041,
+        :group                       => 'gnocchi',
+        :path                        => '/',
+        :servername                  => facts[:fqdn],
+        :ssl                         => true,
+        :threads                     => 1,
+        :user                        => 'gnocchi',
+        :workers                     => facts[:os_workers],
+        :wsgi_daemon_process         => 'gnocchi',
+        :wsgi_process_group          => 'gnocchi',
+        :wsgi_script_dir             => platform_params[:wsgi_script_path],
+        :wsgi_script_file            => 'app',
+        :wsgi_script_source          => platform_params[:wsgi_script_source],
+        :custom_wsgi_process_options => {},
       )}
     end
 
@@ -35,6 +36,9 @@ describe 'gnocchi::wsgi::apache' do
           :workers                   => 8,
           :wsgi_process_display_name => 'gnocchi',
           :threads                   => 2,
+          :custom_wsgi_process_options => {
+            'python_path' => '/my/python/path',
+          },
         }
       end
 
@@ -58,6 +62,9 @@ describe 'gnocchi::wsgi::apache' do
         :wsgi_script_dir           => platform_params[:wsgi_script_path],
         :wsgi_script_file          => 'app',
         :wsgi_script_source        => platform_params[:wsgi_script_source],
+        :custom_wsgi_process_options => {
+          'python_path' => '/my/python/path',
+        },
       )}
     end
   end
