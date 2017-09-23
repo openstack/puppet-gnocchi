@@ -1,0 +1,3 @@
+---
+deprecations:
+  - user_id and project_id options are now deprecated for removal.
