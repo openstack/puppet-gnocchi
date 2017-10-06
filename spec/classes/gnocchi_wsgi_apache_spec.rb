@@ -23,6 +23,8 @@ describe 'gnocchi::wsgi::apache' do
         :wsgi_script_file            => 'app',
         :wsgi_script_source          => platform_params[:wsgi_script_source],
         :custom_wsgi_process_options => {},
+        :access_log_file             => false,
+        :access_log_format           => false,
       )}
     end
 
@@ -39,6 +41,9 @@ describe 'gnocchi::wsgi::apache' do
           :custom_wsgi_process_options => {
             'python_path' => '/my/python/path',
           },
+          :access_log_file           => '/var/log/httpd/access_log',
+          :access_log_format         => 'some format',
+          :error_log_file            => '/var/log/httpd/error_log'
         }
       end
 
@@ -65,6 +70,9 @@ describe 'gnocchi::wsgi::apache' do
         :custom_wsgi_process_options => {
           'python_path' => '/my/python/path',
         },
+        :access_log_file           => '/var/log/httpd/access_log',
+        :access_log_format         => 'some format',
+        :error_log_file            => '/var/log/httpd/error_log'
       )}
     end
   end
