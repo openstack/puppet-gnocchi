@@ -66,6 +66,16 @@ describe 'gnocchi::metricd' do
       end
     end
 
+    context 'with metric delay set' do
+      before do
+        params.merge!({
+          :metric_processing_delay => 15 })
+      end
+      it 'configures gnocchi metricd processing delay value' do
+        is_expected.to contain_gnocchi_config('metricd/metric_processing_delay').with_value('15')
+      end
+    end
+
     context 'with cleanup_delay set' do
       before do
         params.merge!({

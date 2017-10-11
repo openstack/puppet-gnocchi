@@ -19,16 +19,21 @@
 #   cleaning of expired data.
 #   Defaults to $::os_service_default
 #
+# [*metric_processing_delay*]
+#   (optional) Delay between processng metrics
+#   Defaults to $::os_service_default.
+#
 # [*manage_service*]
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
 class gnocchi::metricd (
-  $manage_service = true,
-  $enabled        = true,
-  $workers        = $::os_workers,
-  $cleanup_delay  = $::os_service_default,
-  $package_ensure = 'present',
+  $manage_service          = true,
+  $enabled                 = true,
+  $workers                 = $::os_workers,
+  $metric_processing_delay = $::os_service_default,
+  $cleanup_delay           = $::os_service_default,
+  $package_ensure          = 'present',
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
@@ -36,6 +41,7 @@ class gnocchi::metricd (
   gnocchi_config {
     'metricd/workers':              value => $workers;
     'metricd/metric_cleanup_delay': value => $cleanup_delay;
+    'metricd/metric_processing_delay': value => $metric_processing_delay;
   }
 
   package { 'gnocchi-metricd':
