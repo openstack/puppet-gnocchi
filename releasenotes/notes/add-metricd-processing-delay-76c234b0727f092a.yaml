@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Expose metricd processing delay to be set in gnocchi config metricd section.
