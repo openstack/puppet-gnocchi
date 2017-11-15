@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Add gnocchi S3 storage driver
