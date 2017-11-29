@@ -20,7 +20,7 @@ class gnocchi::params {
       $statsd_package_name        = 'openstack-gnocchi-statsd'
       $statsd_service_name        = 'openstack-gnocchi-statsd'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
-      $gnocchi_wsgi_script_source = '/usr/lib/python2.7/site-packages/gnocchi/rest/app.wsgi'
+      $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
       $pymysql_package_name       = undef
       $cradox_package_name        = 'python2-cradox'
       $redis_package_name         = 'python-redis'

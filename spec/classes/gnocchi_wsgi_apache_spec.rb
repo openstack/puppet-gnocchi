@@ -103,7 +103,7 @@ describe 'gnocchi::wsgi::apache' do
             :httpd_service_name => 'httpd',
             :httpd_ports_file   => '/etc/httpd/conf/ports.conf',
             :wsgi_script_path   => '/var/www/cgi-bin/gnocchi',
-            :wsgi_script_source => '/usr/lib/python2.7/site-packages/gnocchi/rest/app.wsgi'
+            :wsgi_script_source => '/usr/bin/gnocchi-api'
           }
         end
       end
