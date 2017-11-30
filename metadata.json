@@ -65,5 +65,5 @@
     ],
     "source": "git://github.com/openstack/puppet-gnocchi.git",
     "summary": "Puppet module for OpenStack Gnocchi",
-    "version": "11.3.0"
+    "version": "11.4.0"
 }
