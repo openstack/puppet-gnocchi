@@ -42,7 +42,7 @@
 #   Defaults to undef
 #
 # [*swift_endpoint_type*]
-#   (optional) Swift endpoint type. Defines the kesytone endpoint type
+#   (optional) Swift endpoint type. Defines the keystone endpoint type
 #   (publicURL, internalURL or adminURL).
 #   Defaults to undef
 #
