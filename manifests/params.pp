@@ -30,7 +30,6 @@ class gnocchi::params {
       $common_package_name        = 'gnocchi-common'
       $api_package_name           = 'gnocchi-api'
       $api_service_name           = 'gnocchi-api'
-      $indexer_package_name       = 'gnocchi-indexer-sqlalchemy'
       $metricd_package_name       = 'gnocchi-metricd'
       $metricd_service_name       = 'gnocchi-metricd'
       $statsd_package_name        = 'gnocchi-statsd'

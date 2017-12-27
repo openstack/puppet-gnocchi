@@ -6,14 +6,6 @@ describe 'gnocchi::db' do
 
     context 'with default parameters' do
       it { is_expected.to contain_gnocchi_config('indexer/url').with_value('sqlite:////var/lib/gnocchi/gnocchi.sqlite').with_secret(true) }
-
-      it 'installs packages' do
-        is_expected.to contain_package('gnocchi-indexer-sqlalchemy').with(
-          :name   => platform_params[:gnocchi_indexer_package],
-          :ensure => 'present',
-          :tag    => ['openstack', 'gnocchi-package']
-        )
-      end
     end
 
     context 'with specific parameters' do
@@ -69,10 +61,6 @@ describe 'gnocchi::db' do
       })
     end
 
-    let :platform_params do
-      { :gnocchi_indexer_package => 'gnocchi-indexer-sqlalchemy' }
-    end
-
     it_configures 'gnocchi::db'
 
     context 'using pymysql driver' do
@@ -98,8 +86,12 @@ describe 'gnocchi::db' do
       })
     end
 
-    let :platform_params do
-      { :gnocchi_indexer_package => 'openstack-gnocchi-indexer-sqlalchemy' }
+    it 'installs packages' do
+      is_expected.to contain_package('gnocchi-indexer-sqlalchemy').with(
+        :name   => 'openstack-gnocchi-indexer-sqlalchemy',
+        :ensure => 'present',
+        :tag    => ['openstack', 'gnocchi-package']
+      )
     end
 
     it_configures 'gnocchi::db'
