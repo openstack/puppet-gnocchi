@@ -5,20 +5,20 @@
 class gnocchi::params {
   include ::openstacklib::defaults
 
-  $client_package_name = 'python-gnocchiclient'
-  $rados_package_name  = 'python-rados'
+  $client_package_name  = 'python-gnocchiclient'
+  $rados_package_name   = 'python-rados'
+  $common_package_name  = 'gnocchi-common'
+  $api_package_name     = 'gnocchi-api'
+  $api_service_name     = 'gnocchi-api'
+  $metricd_package_name = 'gnocchi-metricd'
+  $metricd_service_name = 'gnocchi-metricd'
+  $statsd_package_name  = 'gnocchi-statsd'
+  $statsd_service_name  = 'gnocchi-statsd'
 
   case $::osfamily {
     'RedHat': {
       $sqlite_package_name        = undef
-      $common_package_name        = 'openstack-gnocchi-common'
-      $api_package_name           = 'openstack-gnocchi-api'
-      $api_service_name           = 'openstack-gnocchi-api'
       $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
-      $metricd_package_name       = 'openstack-gnocchi-metricd'
-      $metricd_service_name       = 'openstack-gnocchi-metricd'
-      $statsd_package_name        = 'openstack-gnocchi-statsd'
-      $statsd_service_name        = 'openstack-gnocchi-statsd'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
       $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
       $pymysql_package_name       = undef
@@ -27,13 +27,6 @@ class gnocchi::params {
     }
     'Debian': {
       $sqlite_package_name        = 'python-pysqlite2'
-      $common_package_name        = 'gnocchi-common'
-      $api_package_name           = 'gnocchi-api'
-      $api_service_name           = 'gnocchi-api'
-      $metricd_package_name       = 'gnocchi-metricd'
-      $metricd_service_name       = 'gnocchi-metricd'
-      $statsd_package_name        = 'gnocchi-statsd'
-      $statsd_service_name        = 'gnocchi-statsd'
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
       $gnocchi_wsgi_script_source = '/usr/share/gnocchi-common/app.wsgi'
       $pymysql_package_name       = 'python-pymysql'

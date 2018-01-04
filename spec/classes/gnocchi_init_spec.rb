@@ -44,7 +44,7 @@ describe 'gnocchi' do
         when 'Debian'
           { :gnocchi_common_package => 'gnocchi-common' }
         when 'RedHat'
-          { :gnocchi_common_package => 'openstack-gnocchi-common' }
+          { :gnocchi_common_package => 'gnocchi-common' }
         end
       end
       it_behaves_like 'gnocchi'

@@ -78,14 +78,8 @@ describe 'gnocchi::statsd' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
-        when 'Debian'
-          { :statsd_package_name => 'gnocchi-statsd',
-            :statsd_service_name => 'gnocchi-statsd' }
-        when 'RedHat'
-          { :statsd_package_name => 'openstack-gnocchi-statsd',
-            :statsd_service_name => 'openstack-gnocchi-statsd' }
-        end
+        { :statsd_package_name => 'gnocchi-statsd',
+          :statsd_service_name => 'gnocchi-statsd' }
       end
       it_behaves_like 'gnocchi-statsd'
     end

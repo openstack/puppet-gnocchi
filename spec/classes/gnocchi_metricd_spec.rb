@@ -96,14 +96,8 @@ describe 'gnocchi::metricd' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
-        when 'Debian'
-          { :metricd_package_name => 'gnocchi-metricd',
-            :metricd_service_name => 'gnocchi-metricd' }
-        when 'RedHat'
-          { :metricd_package_name => 'openstack-gnocchi-metricd',
-            :metricd_service_name => 'openstack-gnocchi-metricd' }
-        end
+        { :metricd_package_name => 'gnocchi-metricd',
+          :metricd_service_name => 'gnocchi-metricd' }
       end
       it_behaves_like 'gnocchi-metricd'
     end

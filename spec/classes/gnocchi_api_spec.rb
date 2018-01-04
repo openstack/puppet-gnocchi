@@ -149,14 +149,8 @@ describe 'gnocchi::api' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
-        when 'Debian'
-          { :api_package_name => 'gnocchi-api',
-            :api_service_name => 'gnocchi-api' }
-        when 'RedHat'
-          { :api_package_name => 'openstack-gnocchi-api',
-            :api_service_name => 'openstack-gnocchi-api' }
-        end
+        { :api_package_name => 'gnocchi-api',
+          :api_service_name => 'gnocchi-api' }
       end
       it_behaves_like 'gnocchi-api'
     end
