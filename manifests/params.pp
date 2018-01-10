@@ -14,6 +14,7 @@ class gnocchi::params {
   $metricd_service_name = 'gnocchi-metricd'
   $statsd_package_name  = 'gnocchi-statsd'
   $statsd_service_name  = 'gnocchi-statsd'
+  $group                = 'gnocchi'
 
   case $::osfamily {
     'RedHat': {

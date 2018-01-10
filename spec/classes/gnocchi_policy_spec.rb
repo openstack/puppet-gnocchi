@@ -17,8 +17,10 @@ describe 'gnocchi::policy' do
 
     it 'set up the policies' do
       is_expected.to contain_openstacklib__policy__base('context_is_admin').with({
-        :key   => 'context_is_admin',
-        :value => 'foo:bar'
+        :key        => 'context_is_admin',
+        :value      => 'foo:bar',
+        :file_user  => 'root',
+        :file_group => 'gnocchi',
       })
       is_expected.to contain_oslo__policy('gnocchi_config').with(
         :policy_file => '/etc/gnocchi/policy.json',
@@ -34,8 +36,7 @@ describe 'gnocchi::policy' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'gnocchi policies'
+      it_configures 'gnocchi policies'
     end
   end
-
 end
