@@ -92,11 +92,16 @@ describe 'gnocchi::wsgi::apache' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
+          if facts[:operatingsystem] == 'Ubuntu' then
+            script_source = '/usr/bin/python2-gnocchi-api'
+          else
+            script_source = '/usr/share/gnocchi-common/app.wsgi'
+          end
           {
             :httpd_service_name => 'apache2',
             :httpd_ports_file   => '/etc/apache2/ports.conf',
             :wsgi_script_path   => '/usr/lib/cgi-bin/gnocchi',
-            :wsgi_script_source => '/usr/share/gnocchi-common/app.wsgi'
+            :wsgi_script_source => script_source
           }
         when 'RedHat'
           {

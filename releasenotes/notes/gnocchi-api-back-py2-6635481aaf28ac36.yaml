@@ -1,0 +1,13 @@
+---
+upgrade:
+  - |
+    If you are running gnocchi-api from Queens release on Ubuntu you must perform
+    the following changes to move gnocchi api to python2.
+    * Remove gnocchi-api package
+    * Replace libapache2-mod-wsgi-py3 with libapache2-mod-wsgi
+    You can then run the updated module code which will install python-gnocchi
+    and make sure all your configuration is correct.
+other:
+  - |
+    On Ubuntu the gnocchi api is running under python2 to provide compatibility
+    between running WSGI applications in Apache on the same server.

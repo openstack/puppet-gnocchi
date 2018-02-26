@@ -105,6 +105,16 @@ class gnocchi::storage::ceph(
         'name'   => $::gnocchi::params::rados_package_name,
         'tag'    => ['openstack','gnocchi-package'],
       })
+
+      # NOTE(tobias.urdin): Gnocchi components are packaged with py3 in Ubuntu
+      # from Queens.
+      if $::operatingsystem == 'Ubuntu' {
+        ensure_packages('python3-rados', {
+          'ensure' => 'present',
+          'name'   => 'python3-rados',
+          'tag'    => ['openstack','gnocchi-package'],
+        })
+      }
     }
   }
 }
