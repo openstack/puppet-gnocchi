@@ -120,6 +120,7 @@ class gnocchi::api (
     }
   } elsif $service_name == 'httpd' {
     include ::apache::params
+
     service { 'gnocchi-api':
       ensure => 'stopped',
       name   => $::gnocchi::params::api_service_name,
