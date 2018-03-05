@@ -9,7 +9,7 @@ class { '::gnocchi::keystone::auth':
 }
 
 class { '::gnocchi':
-  database_connection => 'mysql://gnocchi:secrete@10.0.0.1/gnocchi?charset=utf8',
+  database_connection => 'mysql+pymysql://gnocchi:secrete@10.0.0.1/gnocchi?charset=utf8',
 }
 
 class { '::gnocchi::api':
