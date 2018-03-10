@@ -33,6 +33,24 @@ describe 'gnocchi::storage' do
     end
   end
 
+  shared_examples_for 'gnocchi-storage ubuntu' do
+    context 'with coordination set on ubuntu' do
+      before do
+        params.merge!({
+          :coordination_url        => 'redis://localhost:6379',
+          :metric_processing_delay => 30,
+        })
+      end
+
+      it 'installs python3-redis package' do
+        is_expected.to contain_package('python3-redis').with(
+          :name => 'python3-redis',
+          :tag  => 'openstack'
+        )
+      end
+    end
+  end
+
   on_supported_os({
     :supported_os   => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -48,7 +66,11 @@ describe 'gnocchi::storage' do
          when 'RedHat'
            { :redis_package_name     => 'python-redis' }
          end
-       end
+      end
+
+      if facts[:operatingsystem] == 'Ubuntu' then
+        it_behaves_like 'gnocchi-storage ubuntu'
+      end
 
       it_behaves_like 'gnocchi-storage'
     end

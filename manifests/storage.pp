@@ -49,6 +49,15 @@ class gnocchi::storage(
         name   => $::gnocchi::params::redis_package_name,
         tag    => 'openstack',
       })
+
+      # NOTE(tobias.urdin): Gnocchi components are packaged with py3 in Ubuntu
+      # from Queens.
+      if $::operatingsystem == 'Ubuntu' {
+        ensure_resource('package', 'python3-redis', {
+          name   => 'python3-redis',
+          tag    => 'openstack',
+        })
+      }
     }
   }
 }

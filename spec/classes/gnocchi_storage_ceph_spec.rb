@@ -86,6 +86,7 @@ describe 'gnocchi::storage::ceph' do
 
       it { is_expected.to contain_package('python-cradox').with(:ensure => 'present') }
       it { is_expected.not_to contain_package('python-rados') }
+      it { is_expected.not_to contain_package('python3-rados') }
 
     end
   end
@@ -104,6 +105,20 @@ describe 'gnocchi::storage::ceph' do
     end
   end
 
+  shared_examples 'gnocchi storage ceph ubuntu' do
+    context 'with manage_rados set to true installs python3-rados on Ubuntu' do
+      before do
+        params.merge!({
+          :manage_cradox => false,
+          :manage_rados  => true,
+        })
+      end
+
+      it { is_expected.to contain_package('python3-rados').with(:ensure => 'present') }
+
+    end
+  end
+
   on_supported_os({
     :supported_os   => OSDefaults.get_supported_os
   }).each do |os,facts|
@@ -117,6 +132,10 @@ describe 'gnocchi::storage::ceph' do
           it_behaves_like 'gnocchi storage ceph cradox debian'
       when 'RedHat'
           it_behaves_like 'gnocchi storage ceph cradox redhat'
+      end
+
+      if facts[:operatingsystem] == 'Ubuntu' then
+        it_behaves_like 'gnocchi storage ceph ubuntu'
       end
 
       it_behaves_like 'gnocchi storage ceph'

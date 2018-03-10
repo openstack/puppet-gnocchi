@@ -8,7 +8,6 @@ class gnocchi::params {
   $client_package_name  = 'python-gnocchiclient'
   $rados_package_name   = 'python-rados'
   $common_package_name  = 'gnocchi-common'
-  $api_package_name     = 'gnocchi-api'
   $api_service_name     = 'gnocchi-api'
   $metricd_package_name = 'gnocchi-metricd'
   $metricd_service_name = 'gnocchi-metricd'
@@ -18,6 +17,7 @@ class gnocchi::params {
 
   case $::osfamily {
     'RedHat': {
+      $api_package_name           = 'gnocchi-api'
       $sqlite_package_name        = undef
       $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
@@ -27,9 +27,16 @@ class gnocchi::params {
       $redis_package_name         = 'python-redis'
     }
     'Debian': {
+      if $::operatingsystem == 'Ubuntu' {
+        $api_package_name           = 'python-gnocchi'
+        $gnocchi_wsgi_script_source = '/usr/bin/python2-gnocchi-api'
+      } else {
+        $api_package_name           = 'gnocchi-api'
+        $gnocchi_wsgi_script_source = '/usr/share/gnocchi-common/app.wsgi'
+      }
+
       $sqlite_package_name        = 'python-pysqlite2'
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
-      $gnocchi_wsgi_script_source = '/usr/share/gnocchi-common/app.wsgi'
       $pymysql_package_name       = 'python-pymysql'
       $redis_package_name         = 'python-redis'
       $cradox_package_name        = undef
