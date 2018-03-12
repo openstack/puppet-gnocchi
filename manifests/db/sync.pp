@@ -31,6 +31,7 @@ class gnocchi::db::sync (
       Anchor['gnocchi::dbsync::begin']
     ],
     notify      => Anchor['gnocchi::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }

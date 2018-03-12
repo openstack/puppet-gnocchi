@@ -17,6 +17,7 @@ describe 'gnocchi::db::sync' do
                          'Anchor[gnocchi::config::end]',
                          'Anchor[gnocchi::dbsync::begin]'],
         :notify      => 'Anchor[gnocchi::dbsync::end]',
+        :tag         => 'openstack-db',
       )
     end
     describe "overriding extra_opts" do
@@ -37,6 +38,7 @@ describe 'gnocchi::db::sync' do
                              'Anchor[gnocchi::config::end]',
                              'Anchor[gnocchi::dbsync::begin]'],
             :notify      => 'Anchor[gnocchi::dbsync::end]',
+            :tag         => 'openstack-db',
         )
        }
     end
