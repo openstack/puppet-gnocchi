@@ -1,0 +1,3 @@
+---
+other:
+ - Remove deprecated logging options for ::gnocchi::logging class.
