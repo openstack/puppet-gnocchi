@@ -10,40 +10,9 @@ describe 'basic gnocchi' do
       include ::openstack_integration::repos
       include ::openstack_integration::mysql
       include ::openstack_integration::keystone
-
-      class { '::gnocchi::db::mysql':
-        password => 'a_big_secret',
+      class { '::openstack_integration::gnocchi':
+        integration_enable => false,
       }
-      class { '::gnocchi::keystone::auth':
-        password => 'a_big_secret',
-      }
-      class { '::gnocchi':
-        debug               => true,
-        database_connection => 'mysql+pymysql://gnocchi:a_big_secret@127.0.0.1/gnocchi?charset=utf8',
-      }
-      class { '::gnocchi::keystone::authtoken':
-        password => 'a_big_secret',
-      }
-      class { '::gnocchi::api':
-        enabled      => true,
-        service_name => 'httpd',
-        sync_db      => true,
-      }
-      class { '::gnocchi::metricd': }
-      class { '::gnocchi::storage': }
-      class { '::gnocchi::storage::file': }
-      include ::apache
-      class { '::gnocchi::wsgi::apache':
-        ssl => false,
-      }
-      class { '::gnocchi::statsd':
-        archive_policy_name => 'high',
-        flush_delay         => '100',
-        resource_id         => '07f26121-5777-48ba-8a0b-d70468133dd9',
-        user_id             => 'f81e9b1f-9505-4298-bc33-43dfbd9a973b',
-        project_id          => '203ef419-e73f-4b8a-a73f-3d599a72b18d',
-      }
-      class { '::gnocchi::client': }
       EOS
 
       # Run it twice and test for idempotency
