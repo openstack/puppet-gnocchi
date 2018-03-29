@@ -39,12 +39,6 @@
 #   in the gnocchi config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*ensure_package*]
-#   (optional) The state of gnocchi packages
-#   Defaults to undef
-#
 class gnocchi (
   $package_ensure      = 'present',
   $debug               = undef,
@@ -54,24 +48,14 @@ class gnocchi (
   $log_facility        = undef,
   $database_connection = undef,
   $purge_config        = false,
-  # DEPRECATED PARAMETERS
-  $ensure_package      = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
   include ::gnocchi::db
   include ::gnocchi::logging
 
-  if $ensure_package {
-    warning("gnocchi::ensure_package is deprecated and will be removed in \
-the future release. Please use gnocchi::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
-  }
-
   package { 'gnocchi':
-    ensure => $package_ensure_real,
+    ensure => $package_ensure,
     name   => $::gnocchi::params::common_package_name,
     tag    => ['openstack', 'gnocchi-package'],
   }

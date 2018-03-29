@@ -12,28 +12,12 @@
 #   (optional) The state of gnocchi packages
 #   Defaults to 'present'
 #
-# DEPRECATED PARAMETERS
-#
-# [*ensure_package*]
-#   (optional) The state of gnocchi packages
-#   Defaults to undef
-#
 class gnocchi::db (
   $database_connection = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
   $package_ensure      = 'present',
-  # DEPRECATED PARAMETERS
-  $ensure_package      = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
-
-  if $ensure_package {
-    warning("gnocchi::db::ensure_package is deprecated and will be removed in \
-the future release. Please use gnocchi::db::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
-  }
 
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> if gnocchi::db::<myparam> isn't specified.
@@ -80,7 +64,7 @@ the future release. Please use gnocchi::db::package_ensure instead.")
     # NOTE(tobasco): gnocchi-indexer-sqlalchemy not packaged in Ubuntu for Queens release.
     if $::osfamily != 'Debian' {
       package { 'gnocchi-indexer-sqlalchemy':
-        ensure => $package_ensure_real,
+        ensure => $package_ensure,
         name   => $::gnocchi::params::indexer_package_name,
         tag    => ['openstack', 'gnocchi-package'],
       }
