@@ -5,7 +5,13 @@
 class gnocchi::params {
   include ::openstacklib::defaults
 
-  $client_package_name  = 'python-gnocchiclient'
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
+
+  $client_package_name  = "python${pyvers}-gnocchiclient"
   $rados_package_name   = 'python-rados'
   $common_package_name  = 'gnocchi-common'
   $api_service_name     = 'gnocchi-api'
