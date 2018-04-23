@@ -12,6 +12,8 @@ describe 'gnocchi::config' do
   end
 
   shared_examples_for 'gnocchi-config' do
+    it { is_expected.to contain_class('gnocchi::deps') }
+
     it 'configures arbitrary gnocchi configurations' do
       is_expected.to contain_gnocchi_config('DEFAULT/foo').with_value('fooValue')
       is_expected.to contain_gnocchi_config('DEFAULT/bar').with_value('barValue')
