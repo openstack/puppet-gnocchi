@@ -12,7 +12,7 @@ class gnocchi::params {
   }
 
   $client_package_name  = "python${pyvers}-gnocchiclient"
-  $rados_package_name   = 'python-rados'
+  $rados_package_name   = "python${pyvers}-rados"
   $common_package_name  = 'gnocchi-common'
   $api_service_name     = 'gnocchi-api'
   $metricd_package_name = 'gnocchi-metricd'
@@ -33,18 +33,18 @@ class gnocchi::params {
       $redis_package_name         = 'python-redis'
     }
     'Debian': {
-      if $::operatingsystem == 'Ubuntu' {
+      if $::os_package_type == 'debian' {
+        $api_package_name           = 'gnocchi-api'
+        $gnocchi_wsgi_script_source = '/usr/share/gnocchi-api'
+      } else {
         $api_package_name           = 'python-gnocchi'
         $gnocchi_wsgi_script_source = '/usr/bin/python2-gnocchi-api'
-      } else {
-        $api_package_name           = 'gnocchi-api'
-        $gnocchi_wsgi_script_source = '/usr/share/gnocchi-common/app.wsgi'
       }
 
       $sqlite_package_name        = 'python-pysqlite2'
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
-      $pymysql_package_name       = 'python-pymysql'
-      $redis_package_name         = 'python-redis'
+      $pymysql_package_name       = "python${pyvers}-pymysql"
+      $redis_package_name         = "python${pyvers}-redis"
       $cradox_package_name        = undef
     }
     default: {
