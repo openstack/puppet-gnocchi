@@ -14,7 +14,7 @@ class { '::gnocchi':
 
 class { '::gnocchi::api':
   bind_host         => '10.0.0.1',
-  identity_uri      => 'https://identity.openstack.org:35357',
+  identity_uri      => 'https://identity.openstack.org:5000',
   keystone_password => 'verysecrete'
 }
 
