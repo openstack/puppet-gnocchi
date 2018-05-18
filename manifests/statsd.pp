@@ -24,16 +24,6 @@
 #   (optional) Archive policy name to use when creating metrics.
 #   Defaults to undef.
 #
-# DEPRECATED PARAMETERS
-#
-# [*user_id*]
-#   (required) User UUID to use to identify statsd in Gnocchi.
-#   Defaults to undef.
-#
-# [*project_id*]
-#   (required) Project UUID to use to identify statsd in Gnocchi.
-#   Defaults to undef.
-#
 class gnocchi::statsd (
   $resource_id,
   $flush_delay,
@@ -41,20 +31,9 @@ class gnocchi::statsd (
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
-  # DEPRECATED PARAMETERS
-  $user_id             = undef,
-  $project_id          = undef,
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
-
-  if $user_id {
-    warning('user_id parameter is deprecated and will be removed in the future release.')
-  }
-
-  if $project_id {
-    warning('project_id parameter is deprecated and will be removed in the future release.')
-  }
 
   package { 'gnocchi-statsd':
     ensure => $package_ensure,

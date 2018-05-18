@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The deprecated parameters glance::api::host, glance::api::port
+    and glance::api::workers has been removed.
+  - |
+    The deprecated parameters glance::statsd::user_id and
+    gnocchi::statsd::project_id has been removed.
