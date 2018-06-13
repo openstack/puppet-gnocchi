@@ -46,20 +46,6 @@
 #   (optional) Middlewares to use.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*host*]
-#   (optional) The gnocchi api bind address.
-#   Defaults to $::os_service_default
-#
-# [*port*]
-#   (optional) The gnocchi api port.
-#   Defaults to $::os_service_default
-#
-# [*workers*]
-#   (optional) Number of workers for Gnocchi API server.
-#   Defaults to $::os_service_default
-#
 class gnocchi::api (
   $manage_service               = true,
   $enabled                      = true,
@@ -70,26 +56,10 @@ class gnocchi::api (
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
   $middlewares                  = $::os_service_default,
-  # DEPRECATED
-  $host                         = $::os_service_default,
-  $port                         = $::os_service_default,
-  $workers                      = $::os_service_default,
 ) inherits gnocchi::params {
 
   include ::gnocchi::deps
   include ::gnocchi::policy
-
-  if !is_service_default($host) {
-    warning('host is deprecated')
-  }
-
-  if !is_service_default($port) {
-    warning('port is deprecated')
-  }
-
-  if !is_service_default($workers) {
-    warning('workers is deprecated')
-  }
 
   package { 'gnocchi-api':
     ensure => $package_ensure,
