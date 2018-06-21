@@ -103,3 +103,8 @@ Contributors
 ------------
 
 The github [contributor graph](https://github.com/openstack/puppet-gnocchi/graphs/contributors).
+
+Release Notes
+-------------
+
+* https://docs.openstack.org/releasenotes/puppet-gnocchi
