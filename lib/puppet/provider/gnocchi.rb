@@ -26,7 +26,7 @@ class Puppet::Provider::Gnocchi < Puppet::Provider
   end
 
   def self.get_gnocchi_credentials
-    auth_keys = ['auth_uri', 'project_name', 'username', 'password']
+    auth_keys = ['auth_url', 'project_name', 'username', 'password']
     conf = gnocchi_conf
     if conf and conf['keystone_authtoken'] and
         auth_keys.all?{|k| !conf['keystone_authtoken'][k].nil?}
@@ -64,7 +64,7 @@ correctly configured.")
   def self.auth_gnocchi(*args)
     q = gnocchi_credentials
     authenv = {
-      :OS_AUTH_URL            => q['auth_uri'],
+      :OS_AUTH_URL            => q['auth_url'],
       :OS_USERNAME            => q['username'],
       :OS_TENANT_NAME         => q['project_name'],
       :OS_PASSWORD            => q['password'],
