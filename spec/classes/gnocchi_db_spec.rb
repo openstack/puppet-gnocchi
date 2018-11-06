@@ -52,17 +52,7 @@ describe 'gnocchi::db' do
     end
   end
 
-  context 'on Debian platforms' do
-    let :facts do
-      @default_facts.merge({
-        :osfamily               => 'Debian',
-        :operatingsystem        => 'Debian',
-        :operatingsystemrelease => 'jessie',
-      })
-    end
-
-    it_configures 'gnocchi::db'
-
+  shared_examples_for 'gnocchi::db on Debian' do
     context 'using pymysql driver' do
       let :params do
         { :database_connection     => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi', }
@@ -78,14 +68,7 @@ describe 'gnocchi::db' do
     end
   end
 
-  context 'on Redhat platforms' do
-    let :facts do
-      @default_facts.merge({
-        :osfamily               => 'RedHat',
-        :operatingsystemrelease => '7.1',
-      })
-    end
-
+  shared_examples_for 'gnocchi::db on RedHat' do
     it 'installs packages' do
       is_expected.to contain_package('gnocchi-indexer-sqlalchemy').with(
         :name   => 'openstack-gnocchi-indexer-sqlalchemy',
@@ -93,8 +76,6 @@ describe 'gnocchi::db' do
         :tag    => ['openstack', 'gnocchi-package']
       )
     end
-
-    it_configures 'gnocchi::db'
 
     context 'using pymysql driver' do
       let :params do
@@ -105,4 +86,16 @@ describe 'gnocchi::db' do
     end
   end
 
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+      it_configures 'gnocchi::db'
+      it_configures "gnocchi::db on #{facts[:osfamily]}"
+    end
+  end
 end
