@@ -1,20 +1,25 @@
 require 'spec_helper'
 
 describe 'gnocchi::db' do
-
   shared_examples 'gnocchi::db' do
-
     context 'with default parameters' do
-      it { is_expected.to contain_gnocchi_config('indexer/url').with_value('sqlite:////var/lib/gnocchi/gnocchi.sqlite').with_secret(true) }
+      it { should contain_gnocchi_config('indexer/url').with(
+        :value  => 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
+        :secret => true,
+      )}
     end
 
     context 'with specific parameters' do
       let :params do
-        { :database_connection => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi' }
+        {
+          :database_connection => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi'
+        }
       end
 
-      it { is_expected.to contain_gnocchi_config('indexer/url').with_value('mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi').with_secret(true) }
-
+      it { should contain_gnocchi_config('indexer/url').with(
+        :value  => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi',
+        :secret => true,
+      )}
     end
 
     context 'with postgresql backend' do
@@ -22,67 +27,73 @@ describe 'gnocchi::db' do
         { :database_connection     => 'postgresql://gnocchi:gnocchi@localhost/gnocchi', }
       end
 
-      it 'install the proper backend package' do
-        is_expected.to contain_package('python-psycopg2').with(:ensure => 'present')
-      end
+      it { should contain_package('python-psycopg2').with_ensure('present') }
     end
 
     context 'with MySQL-python library as backend package' do
       let :params do
-        { :database_connection     => 'mysql://gnocchi:gnocchi@localhost/gnocchi', }
+        {
+          :database_connection => 'mysql://gnocchi:gnocchi@localhost/gnocchi',
+        }
       end
 
-      it { is_expected.to contain_package('python-mysqldb').with(:ensure => 'present') }
+      it { should contain_package('python-mysqldb').with_ensure('present') }
     end
 
     context 'with incorrect database_connection string' do
       let :params do
-        { :database_connection     => 'redis://gnocchi:gnocchi@localhost/gnocchi', }
+        {
+          :database_connection => 'redis://gnocchi:gnocchi@localhost/gnocchi',
+        }
       end
 
-      it_raises 'a Puppet::Error', /validate_re/
+      it { should raise_error(Puppet::Error, /validate_re/) }
     end
 
     context 'with incorrect pymysql database_connection string' do
       let :params do
-        { :database_connection     => 'foo+pymysql://gnocchi:gnocchi@localhost/gnocchi', }
+        {
+          :database_connection => 'foo+pymysql://gnocchi:gnocchi@localhost/gnocchi',
+        }
       end
 
-      it_raises 'a Puppet::Error', /validate_re/
+      it { should raise_error(Puppet::Error, /validate_re/) }
     end
   end
 
-  shared_examples_for 'gnocchi::db on Debian' do
+  shared_examples 'gnocchi::db on Debian' do
     context 'using pymysql driver' do
       let :params do
-        { :database_connection     => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi', }
+        {
+          :database_connection => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi',
+        }
       end
 
-      it 'install the proper backend package' do
-        is_expected.to contain_package('gnocchi-backend-package').with(
-          :ensure => 'present',
-          :name   => 'python-pymysql',
-          :tag    => 'openstack'
-        )
-      end
+      it { should contain_package('gnocchi-backend-package').with(
+        :ensure => 'present',
+        :name   => platform_params[:pymysql_package_name],
+        :tag    => 'openstack'
+      )}
     end
   end
 
-  shared_examples_for 'gnocchi::db on RedHat' do
-    it 'installs packages' do
-      is_expected.to contain_package('gnocchi-indexer-sqlalchemy').with(
+  shared_examples 'gnocchi::db on RedHat' do
+    context 'using sqlite' do
+      it { should contain_package('gnocchi-indexer-sqlalchemy').with(
         :name   => 'openstack-gnocchi-indexer-sqlalchemy',
         :ensure => 'present',
         :tag    => ['openstack', 'gnocchi-package']
-      )
+      )}
     end
 
     context 'using pymysql driver' do
       let :params do
-        { :database_connection     => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi', }
+        {
+          :database_connection => 'mysql+pymysql://gnocchi:gnocchi@localhost/gnocchi',
+        }
       end
 
-      it { is_expected.not_to contain_package('gnocchi-backend-package') }
+      it { should_not contain_package('gnocchi-backend-package') }
     end
   end
 
@@ -94,8 +105,22 @@ describe 'gnocchi::db' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_configures 'gnocchi::db'
-      it_configures "gnocchi::db on #{facts[:osfamily]}"
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian' then
+            pymysql_pkg = 'python3-pymysql'
+          else
+            pymysql_pkg = 'python-pymysql'
+          end
+          {
+            :pymysql_package_name => pymysql_pkg,
+          }
+        end
+      end
+
+      it_behaves_like 'gnocchi::db'
+      it_behaves_like "gnocchi::db on #{facts[:osfamily]}"
     end
   end
 end
