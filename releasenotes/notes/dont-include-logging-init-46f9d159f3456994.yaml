@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    gnocchi::logging is now not included in init class by default.

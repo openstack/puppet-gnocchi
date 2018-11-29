@@ -9,9 +9,8 @@ describe 'gnocchi' do
         { :purge_config => false  }
       end
 
-      it 'contains the logging class' do
+      it 'contains the deps class' do
         is_expected.to contain_class('gnocchi::deps')
-        is_expected.to contain_class('gnocchi::logging')
       end
 
       it 'installs packages' do

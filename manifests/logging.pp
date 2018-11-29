@@ -46,26 +46,14 @@ class gnocchi::logging(
 
   include ::gnocchi::deps
 
-  # note(spredzy): in order to keep backward compatibility we rely on the pick function
-  # to use gnocchi::<myparam> first then gnocchi::logging::<myparam>.
-  $use_syslog_real   = pick($::gnocchi::use_syslog,$use_syslog)
-  $use_stderr_real   = pick($::gnocchi::use_stderr,$use_stderr)
-  $log_facility_real = pick($::gnocchi::log_facility,$log_facility)
-  if $log_dir != '' {
-    $log_dir_real = pick($::gnocchi::log_dir,$log_dir)
-  } else {
-    $log_dir_real = $log_dir
-  }
-  $debug_real        = pick($::gnocchi::debug,$debug)
-
   oslo::log { 'gnocchi_config':
-    debug               => $debug_real,
-    use_syslog          => $use_syslog_real,
+    debug               => $debug,
+    use_syslog          => $use_syslog,
     use_json            => $use_json,
     use_journal         => $use_journal,
-    use_stderr          => $use_stderr_real,
-    log_dir             => $log_dir_real,
-    syslog_log_facility => $log_facility_real,
+    use_stderr          => $use_stderr,
+    log_dir             => $log_dir,
+    syslog_log_facility => $log_facility,
   }
 
 }
