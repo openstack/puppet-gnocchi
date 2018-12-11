@@ -30,8 +30,8 @@ class gnocchi::params {
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
       $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
       $pymysql_package_name       = undef
-      $cradox_package_name        = 'python2-cradox'
-      $redis_package_name         = 'python-redis'
+      $cradox_package_name        = "python${pyvers}-cradox"
+      $redis_package_name         = "python${pyvers}-redis"
     }
     'Debian': {
       if $::os_package_type == 'debian' {
