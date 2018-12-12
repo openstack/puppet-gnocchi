@@ -180,11 +180,7 @@ describe 'gnocchi::api' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian' then
-            package_name = 'gnocchi-api'
-          else
-            package_name = 'python-gnocchi'
-          end
+          package_name = 'gnocchi-api'
         when 'RedHat'
           package_name = 'gnocchi-api'
         end

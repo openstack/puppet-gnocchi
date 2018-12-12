@@ -108,13 +108,8 @@ describe 'gnocchi::db' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian' then
-            pymysql_pkg = 'python3-pymysql'
-          else
-            pymysql_pkg = 'python-pymysql'
-          end
           {
-            :pymysql_package_name => pymysql_pkg,
+            :pymysql_package_name => 'python3-pymysql',
           }
         end
       end
