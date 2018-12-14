@@ -3,7 +3,7 @@
 # This class can be used to create tables, users and grant
 # privileges for a mysql gnocchi database.
 #
-# == parameters
+# == Parameters
 #
 # [*password*]
 #   (Required) Password to connect to the database.
@@ -32,15 +32,6 @@
 #   (Optional) The database collate.
 #   Only used with mysql modules >= 2.2.
 #   Defaults to 'utf8_general_ci'
-#
-# == Dependencies
-#   Class['mysql::server']
-#
-# == Examples
-#
-# == Authors
-#
-# == Copyright
 #
 class gnocchi::db::mysql(
   $password,

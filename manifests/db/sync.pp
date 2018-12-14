@@ -2,14 +2,14 @@
 # Class to execute "gnocchi-dbsync"
 #
 # [*user*]
-#   (optional) User to run dbsync command.
+#   (Optional) User to run dbsync command.
 #   Defaults to 'gnocchi'
 #
 # [*extra_opts*]
-#   (optional) String of extra command line parameters to append
+#   (Optional) String of extra command line parameters to append
 #   to the gnocchi-db-sync command.
 #   Defaults to undef
-
+#
 class gnocchi::db::sync (
   $user       = 'gnocchi',
   $extra_opts = undef,
