@@ -9,13 +9,13 @@ describe 'gnocchi::logging' do
 
   let :log_params do
     {
-     :use_syslog => true,
-     :use_json => true,
-     :use_journal => true,
-     :use_stderr => false,
+     :use_syslog   => true,
+     :use_json     => true,
+     :use_journal  => true,
+     :use_stderr   => false,
      :log_facility => 'LOG_FOO',
-     :log_dir => '/var/log',
-     :debug => true,
+     :log_dir      => '/var/log',
+     :debug        => true,
     }
   end
 
