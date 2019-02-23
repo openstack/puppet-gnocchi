@@ -45,7 +45,7 @@ class gnocchi::db::mysql(
 
   include ::gnocchi::deps
 
-  validate_string($password)
+  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'gnocchi':
     user          => $user,

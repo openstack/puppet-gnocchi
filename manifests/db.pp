@@ -23,8 +23,8 @@ class gnocchi::db (
   # to use gnocchi::<myparam> if gnocchi::db::<myparam> isn't specified.
   $database_connection_real = pick($::gnocchi::database_connection, $database_connection)
 
-  validate_re($database_connection_real,
-    '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
+  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection_real,
+    ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
 
   if $database_connection_real {
     case $database_connection_real {
