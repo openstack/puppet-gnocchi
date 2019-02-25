@@ -26,7 +26,7 @@ class gnocchi::config (
 
   include ::gnocchi::deps
 
-  validate_hash($gnocchi_config)
+  validate_legacy(Hash, 'validate_hash', $gnocchi_config)
 
   create_resources('gnocchi_config', $gnocchi_config)
 }
