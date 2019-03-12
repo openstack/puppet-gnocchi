@@ -34,6 +34,10 @@
 #   any directory.
 #   Defaults to '/var/log/gnocchi'
 #
+# [*log_file*]
+#   (Optional) File where logs should be stored.
+#   Defaults to $::os_service_default
+#
 class gnocchi::logging(
   $use_syslog                    = $::os_service_default,
   $use_json                      = $::os_service_default,
@@ -41,6 +45,7 @@ class gnocchi::logging(
   $use_stderr                    = $::os_service_default,
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/gnocchi',
+  $log_file                      = $::os_service_default,
   $debug                         = $::os_service_default,
 ) {
 
@@ -53,6 +58,7 @@ class gnocchi::logging(
     use_journal         => $use_journal,
     use_stderr          => $use_stderr,
     log_dir             => $log_dir,
+    log_file            => $log_file,
     syslog_log_facility => $log_facility,
   }
 
