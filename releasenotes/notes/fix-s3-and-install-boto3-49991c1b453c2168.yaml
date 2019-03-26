@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Install python-boto3 automatically in order to satisfy s3 storage backend
+    package dependencies. This can be disabled by setting
+    the ``gnocchi::storage::s3::manage_boto3`` parameter.
