@@ -25,15 +25,34 @@
 #   (optional) S3 bucket prefix for gnocchi
 #   Defaults to undef
 #
+# [*manage_boto3*]
+#   (optional) Manage boto3 package.
+#   Defaoutls to true
+#
+# [*package_ensure*]
+#   (optional) The state of boto3 package.
+#   Defaults to 'present'
+#
 class gnocchi::storage::s3(
   $s3_endpoint_url      = $::os_service_default,
   $s3_region_name       = $::os_service_default,
   $s3_access_key_id     = undef,
   $s3_secret_access_key = undef,
   $s3_bucket_prefix     = $::os_service_default,
+  $manage_boto3         = true,
+  $package_ensure       = 'present',
 ) {
 
   include gnocchi::deps
+  include gnocchi::params
+
+  if $manage_boto3 {
+    ensure_packages('python-boto3', {
+      'ensure' => $package_ensure,
+      'name'   => $::gnocchi::params::boto3_package_name,
+      'tag'    => ['openstack','gnocchi-package'],
+    })
+  }
 
   gnocchi_config {
     'storage/driver':                value => 's3';

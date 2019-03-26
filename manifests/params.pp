@@ -16,6 +16,7 @@ class gnocchi::params {
   $statsd_service_name        = 'gnocchi-statsd'
   $group                      = 'gnocchi'
   $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
+  $boto3_package_name         = 'python3-boto3'
 
   case $::osfamily {
     'RedHat': {
