@@ -114,4 +114,4 @@ Release Notes
 Repository
 ----------
 
-* https://git.openstack.org/cgit/openstack/puppet-gnocchi
+* https://opendev.org/openstack/puppet-gnocchi
