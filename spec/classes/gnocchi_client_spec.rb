@@ -10,6 +10,8 @@ describe 'gnocchi::client' do
       :name   => platform_params[:client_package_name],
       :tag    => 'openstack',
     )}
+
+    it { is_expected.to contain_class('openstacklib::openstackclient') }
   end
 
   on_supported_os({

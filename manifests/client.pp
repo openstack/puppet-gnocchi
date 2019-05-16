@@ -18,5 +18,7 @@ class gnocchi::client (
     tag    => 'openstack',
   }
 
+  include '::openstacklib::openstackclient'
+
 }
 
