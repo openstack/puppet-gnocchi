@@ -63,6 +63,7 @@ describe 'gnocchi::api' do
       is_expected.to contain_gnocchi_config('api/middlewares').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('gnocchi_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+        :max_request_body_size        => '<SERVICE DEFAULT>',
       )
     end
 
@@ -162,6 +163,16 @@ describe 'gnocchi::api' do
 
       it { is_expected.to contain_oslo__middleware('gnocchi_config').with(
         :enable_proxy_headers_parsing => true,
+      )}
+    end
+
+    context 'with max_request_body_size' do
+      before do
+        params.merge!({:max_request_body_size => '102400' })
+      end
+
+      it { is_expected.to contain_oslo__middleware('gnocchi_config').with(
+        :max_request_body_size => '102400',
       )}
     end
 

@@ -42,6 +42,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*max_request_body_size*]
+#   (Optional) Set max request body size
+#   Defaults to $::os_service_default.
+#
 # [*middlewares*]
 #   (optional) Middlewares to use.
 #   Defaults to $::os_service_default
@@ -55,6 +59,7 @@ class gnocchi::api (
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
+  $max_request_body_size        = $::os_service_default,
   $middlewares                  = $::os_service_default,
 ) inherits gnocchi::params {
 
@@ -114,6 +119,7 @@ standalone service, or httpd for being run by a httpd server")
 
   oslo::middleware { 'gnocchi_config':
     enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+    max_request_body_size        => $max_request_body_size,
   }
 
   if $auth_strategy == 'keystone' {
