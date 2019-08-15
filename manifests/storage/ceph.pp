@@ -83,7 +83,7 @@ class gnocchi::storage::ceph(
     'storage/driver':        value => 'ceph';
     'storage/ceph_username': value => $ceph_username;
     'storage/ceph_keyring':  value => $ceph_keyring;
-    'storage/ceph_secret':   value => $ceph_secret;
+    'storage/ceph_secret':   value => $ceph_secret, secret => true;
     'storage/ceph_pool':     value => $ceph_pool;
     'storage/ceph_conffile': value => $ceph_conffile;
   }
