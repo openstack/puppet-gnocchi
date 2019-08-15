@@ -31,7 +31,7 @@ describe 'gnocchi::storage::ceph' do
         params.merge!({
           :ceph_secret => 'secrete'})
       end
-      it { is_expected.to contain_gnocchi_config('storage/ceph_secret').with_value('secrete') }
+      it { is_expected.to contain_gnocchi_config('storage/ceph_secret').with_value('secrete').with_secret(true) }
     end
 
     context 'without required parameters' do
