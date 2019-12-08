@@ -32,7 +32,7 @@ class gnocchi::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   ::openstacklib::db::postgresql { 'gnocchi':
     password_hash => postgresql_password($user, $password),

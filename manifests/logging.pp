@@ -49,7 +49,7 @@ class gnocchi::logging(
   $debug                         = $::os_service_default,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   oslo::log { 'gnocchi_config':
     debug               => $debug,

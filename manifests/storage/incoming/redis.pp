@@ -12,7 +12,7 @@ class gnocchi::storage::incoming::redis(
   $redis_url = undef,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   gnocchi_config {
     'incoming/driver':        value => 'redis';

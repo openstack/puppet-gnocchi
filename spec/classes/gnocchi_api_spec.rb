@@ -4,8 +4,8 @@ describe 'gnocchi::api' do
 
   let :pre_condition do
     "class { 'gnocchi': }
-     include ::gnocchi::db
-     class { '::gnocchi::keystone::authtoken':
+     include gnocchi::db
+     class { 'gnocchi::keystone::authtoken':
        password => 'gnocchi-passw0rd',
      }"
   end
@@ -25,10 +25,10 @@ describe 'gnocchi::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::gnocchi::db
+        "include apache
+         include gnocchi::db
          class { 'gnocchi': }
-         class { '::gnocchi::keystone::authtoken':
+         class { 'gnocchi::keystone::authtoken':
            password => 'gnocchi-passw0rd',
          }"
       end
@@ -121,10 +121,10 @@ describe 'gnocchi::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::gnocchi::db
+        "include apache
+         include gnocchi::db
          class { 'gnocchi': }
-         class { '::gnocchi::keystone::authtoken':
+         class { 'gnocchi::keystone::authtoken':
            password => 'gnocchi-passw0rd',
          }"
       end
@@ -145,10 +145,10 @@ describe 'gnocchi::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::gnocchi::db
+        "include apache
+         include gnocchi::db
          class { 'gnocchi': }
-         class { '::gnocchi::keystone::authtoken':
+         class { 'gnocchi::keystone::authtoken':
            password => 'gnocchi-passw0rd',
          }"
       end

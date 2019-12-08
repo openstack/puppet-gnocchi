@@ -123,12 +123,12 @@ class gnocchi::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::gnocchi::deps
-  include ::gnocchi::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include gnocchi::deps
+  include gnocchi::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
 
   ::openstacklib::wsgi::apache { 'gnocchi_wsgi':

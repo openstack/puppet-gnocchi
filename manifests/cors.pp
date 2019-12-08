@@ -45,7 +45,7 @@ class gnocchi::cors (
   $allow_headers     = $::os_service_default,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   oslo::cors { 'gnocchi_config':
     allowed_origin    => $allowed_origin,

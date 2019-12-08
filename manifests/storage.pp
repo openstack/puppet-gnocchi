@@ -35,7 +35,7 @@ class gnocchi::storage(
   $metric_processing_delay = $::os_service_default,
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   if $coordination_url {
 

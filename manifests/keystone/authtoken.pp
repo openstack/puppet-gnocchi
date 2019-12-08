@@ -214,7 +214,7 @@ class gnocchi::keystone::authtoken(
   $service_token_roles_required   = $::os_service_default,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   if is_service_default($password) {
     fail('Please set password for Gnocchi service user')

@@ -17,7 +17,7 @@ class gnocchi::db (
   $package_ensure      = 'present',
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use gnocchi::<myparam> if gnocchi::db::<myparam> isn't specified.

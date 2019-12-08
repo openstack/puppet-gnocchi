@@ -24,7 +24,7 @@ class gnocchi::config (
   $gnocchi_config        = {},
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   validate_legacy(Hash, 'validate_hash', $gnocchi_config)
 

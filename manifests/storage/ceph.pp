@@ -63,7 +63,7 @@ class gnocchi::storage::ceph(
   $manage_rados   = false,
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   if (is_service_default($ceph_keyring) and is_service_default($ceph_secret)) or (! $ceph_keyring and ! $ceph_secret) {
     fail('You need to specify either gnocchi::storage::ceph::ceph_keyring or gnocchi::storage::ceph::ceph_secret.')

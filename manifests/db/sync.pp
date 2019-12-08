@@ -15,7 +15,7 @@ class gnocchi::db::sync (
   $extra_opts = undef,
 ){
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   exec { 'gnocchi-db-sync':
     command     => "gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf ${extra_opts}",

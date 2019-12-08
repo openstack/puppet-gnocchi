@@ -23,8 +23,8 @@ class gnocchi (
   $purge_config        = false,
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
-  include ::gnocchi::db
+  include gnocchi::deps
+  include gnocchi::db
 
   package { 'gnocchi':
     ensure => $package_ensure,

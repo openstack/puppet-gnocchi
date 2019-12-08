@@ -33,7 +33,7 @@ class gnocchi::storage::s3(
   $s3_bucket_prefix     = $::os_service_default,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   gnocchi_config {
     'storage/driver':                value => 's3';

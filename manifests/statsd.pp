@@ -33,7 +33,7 @@ class gnocchi::statsd (
   $package_ensure      = 'present',
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   package { 'gnocchi-statsd':
     ensure => $package_ensure,

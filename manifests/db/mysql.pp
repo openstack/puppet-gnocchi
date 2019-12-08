@@ -43,7 +43,7 @@ class gnocchi::db::mysql(
   $allowed_hosts = undef
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   validate_legacy(String, 'validate_string', $password)
 

@@ -55,7 +55,7 @@ class gnocchi::storage::swift(
   $swift_endpoint_type = $::os_service_default,
 ) {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   gnocchi_config {
     'storage/driver':              value => 'swift';

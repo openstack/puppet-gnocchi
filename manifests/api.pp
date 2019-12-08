@@ -63,8 +63,8 @@ class gnocchi::api (
   $middlewares                  = $::os_service_default,
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
-  include ::gnocchi::policy
+  include gnocchi::deps
+  include gnocchi::policy
 
   package { 'gnocchi-api':
     ensure => $package_ensure,
@@ -81,7 +81,7 @@ class gnocchi::api (
   }
 
   if $sync_db {
-    include ::gnocchi::db::sync
+    include gnocchi::db::sync
   }
 
   if $service_name == $::gnocchi::params::api_service_name {
@@ -94,7 +94,7 @@ class gnocchi::api (
       tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
     }
   } elsif $service_name == 'httpd' {
-    include ::apache::params
+    include apache::params
 
     service { 'gnocchi-api':
       ensure => 'stopped',
@@ -123,6 +123,6 @@ standalone service, or httpd for being run by a httpd server")
   }
 
   if $auth_strategy == 'keystone' {
-    include ::gnocchi::keystone::authtoken
+    include gnocchi::keystone::authtoken
   }
 }

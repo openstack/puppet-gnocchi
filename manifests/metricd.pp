@@ -36,7 +36,7 @@ class gnocchi::metricd (
   $package_ensure          = 'present',
 ) inherits gnocchi::params {
 
-  include ::gnocchi::deps
+  include gnocchi::deps
 
   gnocchi_config {
     'metricd/workers':              value => $workers;

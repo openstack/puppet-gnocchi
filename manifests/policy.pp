@@ -28,8 +28,8 @@ class gnocchi::policy (
   $policy_path = '/etc/gnocchi/policy.json',
 ) {
 
-  include ::gnocchi::deps
-  include ::gnocchi::params
+  include gnocchi::deps
+  include gnocchi::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 
