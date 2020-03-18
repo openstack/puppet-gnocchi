@@ -12,6 +12,10 @@
 #   (optional) Connection url for the gnocchi database.
 #   Defaults to undef.
 #
+# [*coordination_url*]
+#   (optional) The url to use for distributed group membership coordination.
+#   Defaults to $::os_service_default.
+#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the gnocchi config.
@@ -20,6 +24,7 @@
 class gnocchi (
   $package_ensure      = 'present',
   $database_connection = undef,
+  $coordination_url    = $::os_service_default,
   $purge_config        = false,
 ) inherits gnocchi::params {
 
@@ -36,4 +41,21 @@ class gnocchi (
     purge => $purge_config,
   }
 
+  $coordination_url_real = pick($::gnocchi::storage::coordination_url, $coordination_url)
+  $storage_package_ensure = pick($::gnocchi::storage::package_ensure, $package_ensure)
+
+  if $coordination_url_real {
+
+    gnocchi_config {
+      'DEFAULT/coordination_url' : value => $coordination_url_real;
+    }
+
+    if ($coordination_url_real =~ /^redis/ ) {
+      ensure_resource('package', 'python-redis', {
+        ensure => $storage_package_ensure,
+        name   => $::gnocchi::params::redis_package_name,
+        tag    => 'openstack',
+      })
+    }
+  }
 }

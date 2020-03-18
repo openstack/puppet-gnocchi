@@ -1,0 +1,10 @@
+---
+deprecations:
+  - |
+    gnocchi::storage::coordination_url and gnocchi::storage::package_ensure
+    were deprecated because coordination_url in storage seciton was deprecated
+    in gnocchi. Use the parameters in gnocchi class.
+  - |
+    gnocchi::storage::metric_processing_dealy was deprecated because the
+    corresponding parameter under storage section was deprecated in gnocchi.
+    Use gnocchi::metricd::metric_processing_delay instead.

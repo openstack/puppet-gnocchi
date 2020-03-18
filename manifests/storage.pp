@@ -16,39 +16,41 @@
 #
 # == Parameters
 #
+# DEPRECATED PARAMETERS
+#
 # [*package_ensure*]
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
 # [*coordination_url*]
 #   (optional) The url to use for distributed group membership coordination.
-#   Defaults to $::os_service_default.
+#   Defaults to undef
 #
 # [*metric_processing_delay*]
 #   (optional) Delay between processng metrics
-#   Defaults to $::os_service_default.
+#   Defaults to undef
 #
-
 class gnocchi::storage(
-  $package_ensure          = 'present',
-  $coordination_url        = $::os_service_default,
-  $metric_processing_delay = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $package_ensure          = undef,
+  $coordination_url        = undef,
+  $metric_processing_delay = undef,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
 
+  if $package_ensure {
+    warning('The gnocchi::storage::package_ensure parameter was deprecated. \
+Use gnocchi::package_ensure instead')
+  }
+
   if $coordination_url {
+    warning('The gnocchi::storage::coordination_url parameter was deprecated. \
+Use gnocchi::coordination_url instead')
+  }
 
-    gnocchi_config {
-      'storage/coordination_url'        : value => $coordination_url;
-      'storage/metric_processing_delay' : value => $metric_processing_delay;
-    }
-
-    if ($coordination_url =~ /^redis/ ) {
-      ensure_resource('package', 'python-redis', {
-        name   => $::gnocchi::params::redis_package_name,
-        tag    => 'openstack',
-      })
-    }
+  if $metric_processing_delay {
+    warning('The gnocchi::storage::metric_processing_delay parameter was deprecated. \
+Use gnocchi::metricd::metric_processing_delay instead')
   }
 }
