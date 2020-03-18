@@ -8,10 +8,6 @@
 #   (optional) The state of gnocchi packages
 #   Defaults to 'present'
 #
-# [*database_connection*]
-#   (optional) Connection url for the gnocchi database.
-#   Defaults to undef.
-#
 # [*coordination_url*]
 #   (optional) The url to use for distributed group membership coordination.
 #   Defaults to $::os_service_default.
@@ -21,15 +17,27 @@
 #   in the gnocchi config.
 #   Defaults to false.
 #
+# DEPRECATED PARAMETERS
+#
+# [*database_connection*]
+#   (optional) Connection url for the gnocchi database.
+#   Defaults to undef.
+#
 class gnocchi (
   $package_ensure      = 'present',
-  $database_connection = undef,
   $coordination_url    = $::os_service_default,
   $purge_config        = false,
+  # DEPRECATED PARAMETERS
+  $database_connection = undef,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
   include gnocchi::db
+
+  if $database_connection {
+    warning('The gnocchi::database_connection parameter is deprecated. \
+Use gnocchi::db::database_connection instead.')
+  }
 
   package { 'gnocchi':
     ensure => $package_ensure,

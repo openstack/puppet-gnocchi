@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The gnocchi::database_connection was deperecated. Use the
+    gnocchi::db::database_connection parameter instead.
