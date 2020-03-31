@@ -71,9 +71,21 @@ describe 'gnocchi' do
             :redis_package_name     => 'python3-redis'
           }
         when 'RedHat'
-          { :gnocchi_common_package => 'gnocchi-common',
-            :redis_package_name     => 'python-redis'
-          }
+          if facts[:operatingsystem] == 'Fedora'
+            { :gnocchi_common_package => 'gnocchi-common',
+              :redis_package_name     => 'python3-redis'
+            }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :gnocchi_common_package => 'gnocchi-common',
+                :redis_package_name     => 'python3-redis'
+              }
+            else
+              { :gnocchi_common_package => 'gnocchi-common',
+                :redis_package_name     => 'python-redis'
+              }
+            end
+          end
         end
       end
       it_behaves_like 'gnocchi'
