@@ -38,7 +38,20 @@
 #   Defaults to $::os_service_default
 #
 # [*swift_project_name*]
-#   (optional) Swift tenant name, only used if swift_auth_version is '2'.
+#   (optional) Swift tenant name, only used if swift_auth_version is '2' or
+#   '3'.
+#   Defaults to $::os_service_default
+#
+# [*swift_user_domain_name*]
+#   (optional) Swift user domain name.
+#   Defaults to $::os_service_default
+#
+# [*swift_project_domain_name*]
+#   (optional) Swift project domain name.
+#   Defaults to $::os_service_default
+#
+# [*swift_region*]
+#   (optional) Swift region.
 #   Defaults to $::os_service_default
 #
 # [*swift_endpoint_type*]
@@ -49,18 +62,22 @@
 # DEPRECATED PARAMETERS
 #
 # [*swift_tenant_name*]
-#   (optional) Swift tenant name, only used if swift_auth_version is '2'.
+#   (optional) Swift tenant name, only used if swift_auth_version is '2' or
+#   '3'.
 #   Defaults to undef
 #
 class gnocchi::storage::swift(
-  $swift_auth_version  = $::os_service_default,
-  $swift_authurl       = $::os_service_default,
-  $swift_user          = $::os_service_default,
-  $swift_key           = $::os_service_default,
-  $swift_project_name  = $::os_service_default,
-  $swift_endpoint_type = $::os_service_default,
+  $swift_auth_version        = $::os_service_default,
+  $swift_authurl             = $::os_service_default,
+  $swift_user                = $::os_service_default,
+  $swift_key                 = $::os_service_default,
+  $swift_project_name        = $::os_service_default,
+  $swift_user_domain_name    = $::os_service_default,
+  $swift_project_domain_name = $::os_service_default,
+  $swift_region              = $::os_service_default,
+  $swift_endpoint_type       = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $swift_tenant_name   = undef,
+  $swift_tenant_name         = undef,
 ) {
 
   include gnocchi::deps
@@ -74,13 +91,16 @@ will be removed in a future release. Use swift_project_name instead')
   }
 
   gnocchi_config {
-    'storage/driver':              value => 'swift';
-    'storage/swift_user':          value => $swift_user;
-    'storage/swift_key':           value => $swift_key;
-    'storage/swift_project_name':  value => $swift_project_name_real;
-    'storage/swift_auth_version':  value => $swift_auth_version;
-    'storage/swift_authurl':       value => $swift_authurl;
-    'storage/swift_endpoint_type': value => $swift_endpoint_type;
+    'storage/driver':                    value => 'swift';
+    'storage/swift_user':                value => $swift_user;
+    'storage/swift_key':                 value => $swift_key;
+    'storage/swift_project_name':        value => $swift_project_name_real;
+    'storage/swift_user_domain_name':    value => $swift_user_domain_name;
+    'storage/swift_project_domain_name': value => $swift_project_domain_name;
+    'storage/swift_region':              value => $swift_region;
+    'storage/swift_auth_version':        value => $swift_auth_version;
+    'storage/swift_authurl':             value => $swift_authurl;
+    'storage/swift_endpoint_type':       value => $swift_endpoint_type;
   }
 
 }

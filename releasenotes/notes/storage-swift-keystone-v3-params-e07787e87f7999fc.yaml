@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The following parameters were added to the ``gnocchi::storage::swift``
+    class to configure keystone region and domain used for access to Swift.
+
+    - ``swift_region``
+    - ``swift_user_domain_name``
+    - ``swift_project_domain_name``

@@ -18,6 +18,9 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/swift_key').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_user_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_region').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_auth_version').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('<SERVICE DEFAULT>')
       end
