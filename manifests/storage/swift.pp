@@ -37,7 +37,7 @@
 #   (optional) Swift key.
 #   Defaults to 'admin'
 #
-# [*swift_tenant_name*]
+# [*swift_project_name*]
 #   (optional) Swift tenant name, only used if swift_auth_version is '2'.
 #   Defaults to undef
 #
@@ -46,22 +46,38 @@
 #   (publicURL, internalURL or adminURL).
 #   Defaults to undef
 #
+# DEPRECATED PARAMETERS
+#
+# [*swift_tenant_name*]
+#   (optional) Swift tenant name, only used if swift_auth_version is '2'.
+#   Defaults to undef
+#
 class gnocchi::storage::swift(
   $swift_auth_version  = '1',
   $swift_authurl       = 'http://localhost:8080/auth/v1.0',
   $swift_user          = 'admin:admin',
   $swift_key           = 'admin',
-  $swift_tenant_name   = undef,
+  $swift_project_name  = undef,
   $swift_endpoint_type = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $swift_tenant_name   = undef,
 ) {
 
   include gnocchi::deps
+
+  if $swift_tenant_name != undef {
+    warning('gnocchi::storage::swift::swift_tenant_name is deprecated and \
+will be removed in a future release. Use swift_project_name instead')
+    $swift_project_name_real = $swift_tenant_name
+  } else {
+    $swift_project_name_real = $swift_project_name
+  }
 
   gnocchi_config {
     'storage/driver':              value => 'swift';
     'storage/swift_user':          value => $swift_user;
     'storage/swift_key':           value => $swift_key;
-    'storage/swift_tenant_name':   value => $swift_tenant_name;
+    'storage/swift_project_name':  value => $swift_project_name_real;
     'storage/swift_auth_version':  value => $swift_auth_version;
     'storage/swift_authurl':       value => $swift_authurl;
     'storage/swift_endpoint_type': value => $swift_endpoint_type;

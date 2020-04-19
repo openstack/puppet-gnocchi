@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``gnocchi::storage::swift::auth_tenant_name`` parameter was deprecated
+    and will be remove in a future release. Use the ``auth_project_name``
+    parameter instead.

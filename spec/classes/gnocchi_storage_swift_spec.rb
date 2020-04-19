@@ -17,6 +17,7 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/swift_user').with_value('admin:admin')
         is_expected.to contain_gnocchi_config('storage/swift_key').with_value('admin')
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('http://localhost:8080/auth/v1.0')
+        is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value(nil)
         is_expected.to contain_gnocchi_config('storage/swift_auth_version').with_value('1')
         is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('<SERVICE DEFAULT>')
       end
