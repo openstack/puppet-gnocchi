@@ -23,28 +23,28 @@
 #
 # [*swift_auth_version*]
 #   (optional) 'Swift authentication version to user.
-#   Defaults to '1'.
+#   Defaults to $::os_service_default
 #
 # [*swift_authurl*]
 #   (optional) Swift auth URL.
-#   Defaults to 'http://localhost:8080/auth/v1.0'.
+#   Defaults to $::os_service_default
 #
 # [*swift_user*]
 #   (optional) Swift user.
-#   Defaults to 'admin:admin'
+#   Defaults to $::os_service_default
 #
 # [*swift_key*]
 #   (optional) Swift key.
-#   Defaults to 'admin'
+#   Defaults to $::os_service_default
 #
 # [*swift_project_name*]
 #   (optional) Swift tenant name, only used if swift_auth_version is '2'.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*swift_endpoint_type*]
 #   (optional) Swift endpoint type. Defines the keystone endpoint type
 #   (publicURL, internalURL or adminURL).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # DEPRECATED PARAMETERS
 #
@@ -53,11 +53,11 @@
 #   Defaults to undef
 #
 class gnocchi::storage::swift(
-  $swift_auth_version  = '1',
-  $swift_authurl       = 'http://localhost:8080/auth/v1.0',
-  $swift_user          = 'admin:admin',
-  $swift_key           = 'admin',
-  $swift_project_name  = undef,
+  $swift_auth_version  = $::os_service_default,
+  $swift_authurl       = $::os_service_default,
+  $swift_user          = $::os_service_default,
+  $swift_key           = $::os_service_default,
+  $swift_project_name  = $::os_service_default,
   $swift_endpoint_type = $::os_service_default,
   # DEPRECATED PARAMETERS
   $swift_tenant_name   = undef,
