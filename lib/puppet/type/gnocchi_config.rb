@@ -46,8 +46,8 @@ Puppet::Type.newtype(:gnocchi_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'gnocchi-api'
+  autorequire(:anchor) do
+    ['gnocchi::install::end']
   end
 
 end
