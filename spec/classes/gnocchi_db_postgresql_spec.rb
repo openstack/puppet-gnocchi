@@ -4,7 +4,7 @@ describe 'gnocchi::db::postgresql' do
 
   shared_examples_for 'gnocchi::db::postgresql' do
     let :req_params do
-      { :password => 'pw' }
+      { :password => 'gnocchipass' }
     end
 
     let :pre_condition do
@@ -16,11 +16,15 @@ describe 'gnocchi::db::postgresql' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('gnocchi').with(
-        :user     => 'gnocchi',
-        :password => 'md590440288cb225f56d585b88ad270cd37'
+      it { is_expected.to contain_openstacklib__db__postgresql('gnocchi').with(
+        :user       => 'gnocchi',
+        :password   => 'gnocchipass',
+        :dbname     => 'gnocchi',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
+
   end
 
   on_supported_os({
@@ -28,10 +32,14 @@ describe 'gnocchi::db::postgresql' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({ :concat_basedir => '/var/lib/puppet/concat' }))
+        facts.merge(OSDefaults.get_facts({
+          :os_workers => 8,
+          :concat_basedir => '/var/lib/puppet/concat'
+        }))
       end
 
       it_configures 'gnocchi::db::postgresql'
     end
   end
+
 end

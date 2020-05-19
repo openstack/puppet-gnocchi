@@ -14,9 +14,9 @@ describe 'gnocchi::db::mysql' do
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
-        :password_hash => '*C13FFB03C3674F278DF1673D0DA7FB1EF58899F0',
-        :charset       => 'utf8',
-        :collate       => 'utf8_general_ci',
+        :password => 'gnocchipass1',
+        :charset  => 'utf8',
+        :collate  => 'utf8_general_ci',
       )}
 
     end
@@ -24,16 +24,16 @@ describe 'gnocchi::db::mysql' do
     describe "overriding default params" do
       let :params do
         {
-          :password       => 'gnocchipass2',
-          :dbname         => 'gnocchidb2',
-          :charset        => 'utf8',
+          :password => 'gnocchipass2',
+          :dbname   => 'gnocchidb2',
+          :charset  => 'utf8',
         }
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
-        :password_hash => '*CE931F98EEC20A712654BF67B17E413F3FE69089',
-        :dbname        => 'gnocchidb2',
-        :charset       => 'utf8'
+        :password => 'gnocchipass2',
+        :dbname   => 'gnocchidb2',
+        :charset  => 'utf8'
       )}
 
     end
@@ -41,14 +41,14 @@ describe 'gnocchi::db::mysql' do
     describe "overriding allowed_hosts param to array" do
       let :params do
         {
-          :password       => 'gnocchipass2',
-          :dbname         => 'gnocchidb2',
-          :allowed_hosts  => ['127.0.0.1','%']
+          :password      => 'gnocchipass2',
+          :dbname        => 'gnocchidb2',
+          :allowed_hosts => ['127.0.0.1','%']
         }
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
-        :password_hash => '*CE931F98EEC20A712654BF67B17E413F3FE69089',
+        :password      => 'gnocchipass2',
         :dbname        => 'gnocchidb2',
         :allowed_hosts => ['127.0.0.1','%']
       )}
@@ -58,14 +58,14 @@ describe 'gnocchi::db::mysql' do
     describe "overriding allowed_hosts param to string" do
       let :params do
         {
-          :password       => 'gnocchipass2',
-          :dbname         => 'gnocchidb2',
-          :allowed_hosts  => '192.168.1.1'
+          :password      => 'gnocchipass2',
+          :dbname        => 'gnocchidb2',
+          :allowed_hosts => '192.168.1.1'
         }
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
-        :password_hash => '*CE931F98EEC20A712654BF67B17E413F3FE69089',
+        :password      => 'gnocchipass2',
         :dbname        => 'gnocchidb2',
         :allowed_hosts => '192.168.1.1'
       )}
@@ -74,14 +74,14 @@ describe 'gnocchi::db::mysql' do
     describe "overriding allowed_hosts param equals to host param " do
       let :params do
         {
-          :password       => 'gnocchipass2',
-          :dbname         => 'gnocchidb2',
-          :allowed_hosts  => '127.0.0.1'
+          :password      => 'gnocchipass2',
+          :dbname        => 'gnocchidb2',
+          :allowed_hosts => '127.0.0.1'
         }
       end
 
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
-        :password_hash => '*CE931F98EEC20A712654BF67B17E413F3FE69089',
+        :password      => 'gnocchipass2',
         :dbname        => 'gnocchidb2',
         :allowed_hosts => '127.0.0.1'
       )}
