@@ -43,7 +43,8 @@ describe 'gnocchi::wsgi::apache' do
           },
           :access_log_file           => '/var/log/httpd/access_log',
           :access_log_format         => 'some format',
-          :error_log_file            => '/var/log/httpd/error_log'
+          :error_log_file            => '/var/log/httpd/error_log',
+          :vhost_custom_fragment     => 'Timeout 99'
         }
       end
 
@@ -60,6 +61,7 @@ describe 'gnocchi::wsgi::apache' do
         :ssl                       => false,
         :threads                   => 2,
         :user                      => 'gnocchi',
+        :vhost_custom_fragment     => 'Timeout 99',
         :workers                   => 8,
         :wsgi_daemon_process       => 'gnocchi',
         :wsgi_process_display_name => 'gnocchi',
