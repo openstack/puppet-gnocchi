@@ -17,27 +17,13 @@
 #   in the gnocchi config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*database_connection*]
-#   (optional) Connection url for the gnocchi database.
-#   Defaults to undef.
-#
 class gnocchi (
-  $package_ensure      = 'present',
-  $coordination_url    = $::os_service_default,
-  $purge_config        = false,
-  # DEPRECATED PARAMETERS
-  $database_connection = undef,
+  $package_ensure   = 'present',
+  $coordination_url = $::os_service_default,
+  $purge_config     = false,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-  include gnocchi::db
-
-  if $database_connection {
-    warning('The gnocchi::database_connection parameter is deprecated. \
-Use gnocchi::db::database_connection instead.')
-  }
 
   package { 'gnocchi':
     ensure => $package_ensure,

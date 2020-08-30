@@ -19,19 +19,15 @@ class gnocchi::db (
 
   include gnocchi::deps
 
-  # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
-  # to use gnocchi::<myparam> if gnocchi::db::<myparam> isn't specified.
-  $database_connection_real = pick($::gnocchi::database_connection, $database_connection)
-
-  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection_real,
+  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
     ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
 
-  if $database_connection_real {
-    case $database_connection_real {
+  if $database_connection {
+    case $database_connection {
       /^mysql(\+pymysql)?:\/\//: {
         require mysql::bindings
         require mysql::bindings::python
-        if $database_connection_real =~ /^mysql\+pymysql/ {
+        if $database_connection =~ /^mysql\+pymysql/ {
           $backend_package = $::gnocchi::params::pymysql_package_name
         } else {
           $backend_package = false
@@ -58,7 +54,7 @@ class gnocchi::db (
     }
 
     gnocchi_config {
-      'indexer/url': value => $database_connection_real, secret => true;
+      'indexer/url': value => $database_connection, secret => true;
     }
 
     # NOTE(tobasco): gnocchi-indexer-sqlalchemy not packaged in Ubuntu for Queens release.

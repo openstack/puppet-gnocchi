@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The deprecated gnocchi::database_connection parameter is removed.
+    Use the gnocchi:db::database_connection parameter instead.
+  - |
+    Deployments now need to explicitly use the gnocchi::db class.

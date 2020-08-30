@@ -24,7 +24,7 @@ describe 'gnocchi::db' do
 
     context 'with postgresql backend' do
       let :params do
-        { :database_connection     => 'postgresql://gnocchi:gnocchi@localhost/gnocchi', }
+        { :database_connection => 'postgresql://gnocchi:gnocchi@localhost/gnocchi', }
       end
 
       it { should contain_package('python-psycopg2').with_ensure('present') }
