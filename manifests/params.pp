@@ -29,10 +29,11 @@ class gnocchi::params {
     }
     'Debian': {
       $sqlite_package_name        = 'python-pysqlite2'
+      $indexer_package_name       = undef
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
       $pymysql_package_name       = "python${pyvers}-pymysql"
-      $redis_package_name         = "python${pyvers}-redis"
       $cradox_package_name        = undef
+      $redis_package_name         = "python${pyvers}-redis"
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")
