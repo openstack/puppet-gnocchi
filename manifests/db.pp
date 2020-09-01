@@ -61,8 +61,7 @@ class gnocchi::db (
       'indexer/url': value => $database_connection_real, secret => true;
     }
 
-    # NOTE(tobasco): gnocchi-indexer-sqlalchemy not packaged in Ubuntu for Queens release.
-    if $::osfamily != 'Debian' {
+    if $::gnocchi::params::indexer_package_name != undef {
       package { 'gnocchi-indexer-sqlalchemy':
         ensure => $package_ensure,
         name   => $::gnocchi::params::indexer_package_name,

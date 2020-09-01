@@ -98,7 +98,7 @@ describe 'gnocchi::storage::ceph' do
         })
       end
 
-      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_cradox set to true on debian family will fail due to no package being available./) }
+      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_cradox set to true will fail due to no package being available./) }
 
     end
   end

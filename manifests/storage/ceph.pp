@@ -74,8 +74,8 @@ class gnocchi::storage::ceph(
   }
 
   if $manage_cradox {
-    if $::osfamily == 'Debian' {
-      fail('gnocchi::storage::ceph::manage_cradox set to true on debian family will fail due to no package being available.')
+    if $::gnocchi::params::cradox_package_name == undef {
+      fail('gnocchi::storage::ceph::manage_cradox set to true will fail due to no package being available.')
     }
   }
 
@@ -89,22 +89,18 @@ class gnocchi::storage::ceph(
   }
 
   if $manage_cradox {
-    if $::gnocchi::params::common_package_name {
-      ensure_packages('python-cradox', {
-        'ensure' => 'present',
-        'name'   => $::gnocchi::params::cradox_package_name,
-        'tag'    => ['openstack','gnocchi-package'],
-      })
-    }
+    ensure_packages('python-cradox', {
+      'ensure' => 'present',
+      'name'   => $::gnocchi::params::cradox_package_name,
+      'tag'    => ['openstack','gnocchi-package'],
+    })
   }
 
   if $manage_rados {
-    if $::gnocchi::params::common_package_name {
-      ensure_packages('python-rados', {
-        'ensure' => 'present',
-        'name'   => $::gnocchi::params::rados_package_name,
-        'tag'    => ['openstack','gnocchi-package'],
-      })
-    }
+    ensure_packages('python-rados', {
+      'ensure' => 'present',
+      'name'   => $::gnocchi::params::rados_package_name,
+      'tag'    => ['openstack','gnocchi-package'],
+    })
   }
 }
