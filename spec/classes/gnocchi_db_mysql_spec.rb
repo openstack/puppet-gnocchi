@@ -13,6 +13,8 @@ describe 'gnocchi::db::mysql' do
         }
       end
 
+      it { is_expected.to contain_class('gnocchi::deps') }
+
       it { is_expected.to contain_openstacklib__db__mysql('gnocchi').with(
         :password => 'gnocchipass1',
         :charset  => 'utf8',
