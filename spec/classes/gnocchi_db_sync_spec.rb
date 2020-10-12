@@ -4,6 +4,8 @@ describe 'gnocchi::db::sync' do
 
   shared_examples_for 'gnocchi-dbsync' do
 
+    it { is_expected.to contain_class('gnocchi::deps') }
+
     it 'runs gnocchi-manage db_sync' do
       is_expected.to contain_exec('gnocchi-db-sync').with(
         :command     => 'gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf ',
