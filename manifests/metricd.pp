@@ -38,12 +38,10 @@ class gnocchi::metricd (
 
   include gnocchi::deps
 
-  $metric_processing_delay_real = pick($::gnocchi::storage::metric_processing_delay, $metric_processing_delay)
-
   gnocchi_config {
     'metricd/workers':                 value => $workers;
     'metricd/metric_cleanup_delay':    value => $cleanup_delay;
-    'metricd/metric_processing_delay': value => $metric_processing_delay_real;
+    'metricd/metric_processing_delay': value => $metric_processing_delay;
   }
 
   package { 'gnocchi-metricd':

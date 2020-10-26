@@ -35,18 +35,15 @@ class gnocchi (
     purge => $purge_config,
   }
 
-  $coordination_url_real = pick($::gnocchi::storage::coordination_url, $coordination_url)
-  $storage_package_ensure = pick($::gnocchi::storage::package_ensure, $package_ensure)
-
-  if $coordination_url_real {
+  if $coordination_url {
 
     gnocchi_config {
-      'DEFAULT/coordination_url' : value => $coordination_url_real;
+      'DEFAULT/coordination_url' : value => $coordination_url;
     }
 
-    if ($coordination_url_real =~ /^redis/ ) {
+    if ($coordination_url =~ /^redis/ ) {
       ensure_resource('package', 'python-redis', {
-        ensure => $storage_package_ensure,
+        ensure => $package_ensure,
         name   => $::gnocchi::params::redis_package_name,
         tag    => 'openstack',
       })

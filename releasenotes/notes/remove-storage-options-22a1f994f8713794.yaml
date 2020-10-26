@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The following parameters have been removed from the ``gnocchi::storage``
+    class.
+
+    - ``package_ensure``
+    - ``coordination_url``
+    - ``metric_processing_delay``

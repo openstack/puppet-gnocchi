@@ -13,44 +13,11 @@
 # gnocchi::storage
 #
 # Storage backend for Gnocchi
+# This class currently has no effect but is kept as a placeholder.
 #
 # == Parameters
 #
-# DEPRECATED PARAMETERS
-#
-# [*package_ensure*]
-#   (optional) ensure state for package.
-#   Defaults to 'present'
-#
-# [*coordination_url*]
-#   (optional) The url to use for distributed group membership coordination.
-#   Defaults to undef
-#
-# [*metric_processing_delay*]
-#   (optional) Delay between processng metrics
-#   Defaults to undef
-#
 class gnocchi::storage(
-  # DEPRECATED PARAMETERS
-  $package_ensure          = undef,
-  $coordination_url        = undef,
-  $metric_processing_delay = undef,
-) inherits gnocchi::params {
-
+) {
   include gnocchi::deps
-
-  if $package_ensure {
-    warning('The gnocchi::storage::package_ensure parameter was deprecated. \
-Use gnocchi::package_ensure instead')
-  }
-
-  if $coordination_url {
-    warning('The gnocchi::storage::coordination_url parameter was deprecated. \
-Use gnocchi::coordination_url instead')
-  }
-
-  if $metric_processing_delay {
-    warning('The gnocchi::storage::metric_processing_delay parameter was deprecated. \
-Use gnocchi::metricd::metric_processing_delay instead')
-  }
 }
