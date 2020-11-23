@@ -10,9 +10,14 @@
 #   to the gnocchi-db-sync command.
 #   Defaults to undef
 #
+# [*db_sync_timeout*]
+#   (Optional) Timeout for the execution of the db_sync
+#   Defaults to 300
+#
 class gnocchi::db::sync (
-  $user       = 'gnocchi',
-  $extra_opts = undef,
+  $user            = 'gnocchi',
+  $extra_opts      = undef,
+  $db_sync_timeout = 300,
 ){
 
   include gnocchi::deps
@@ -24,6 +29,7 @@ class gnocchi::db::sync (
     user        => $user,
     try_sleep   => 5,
     tries       => 10,
+    timeout     => $db_sync_timeout,
     logoutput   => on_failure,
     subscribe   => [
       Anchor['gnocchi::install::end'],

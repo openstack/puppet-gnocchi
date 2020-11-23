@@ -14,6 +14,7 @@ describe 'gnocchi::db::sync' do
         :refreshonly => 'true',
         :try_sleep   => 5,
         :tries       => 10,
+        :timeout     => 300,
         :logoutput   => 'on_failure',
         :subscribe   => ['Anchor[gnocchi::install::end]',
                          'Anchor[gnocchi::config::end]',
@@ -22,10 +23,11 @@ describe 'gnocchi::db::sync' do
         :tag         => 'openstack-db',
       )
     end
-    describe "overriding extra_opts" do
+    describe "overriding params" do
         let :params do
             {
-              :extra_opts => '--skip-storage',
+              :extra_opts      => '--skip-storage',
+              :db_sync_timeout => 750,
             }
         end
         it { is_expected.to contain_exec('gnocchi-db-sync').with(
@@ -35,6 +37,7 @@ describe 'gnocchi::db::sync' do
             :refreshonly => 'true',
             :try_sleep   => 5,
             :tries       => 10,
+            :timeout     => 750,
             :logoutput   => 'on_failure',
             :subscribe   => ['Anchor[gnocchi::install::end]',
                              'Anchor[gnocchi::config::end]',
