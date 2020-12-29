@@ -5,7 +5,7 @@ describe 'gnocchi::policy' do
   shared_examples_for 'gnocchi policies' do
     let :params do
       {
-        :policy_path => '/etc/gnocchi/policy.json',
+        :policy_path => '/etc/gnocchi/policy.yaml',
         :policies    => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
@@ -17,13 +17,14 @@ describe 'gnocchi::policy' do
 
     it 'set up the policies' do
       is_expected.to contain_openstacklib__policy__base('context_is_admin').with({
-        :key        => 'context_is_admin',
-        :value      => 'foo:bar',
-        :file_user  => 'root',
-        :file_group => 'gnocchi',
+        :key         => 'context_is_admin',
+        :value       => 'foo:bar',
+        :file_user   => 'root',
+        :file_group  => 'gnocchi',
+        :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('gnocchi_config').with(
-        :policy_file => '/etc/gnocchi/policy.json',
+        :policy_file => '/etc/gnocchi/policy.yaml',
       )
     end
   end
