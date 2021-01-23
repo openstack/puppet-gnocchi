@@ -93,7 +93,7 @@ will be removed in a future release. Use swift_project_name instead')
   gnocchi_config {
     'storage/driver':                    value => 'swift';
     'storage/swift_user':                value => $swift_user;
-    'storage/swift_key':                 value => $swift_key;
+    'storage/swift_key':                 value => $swift_key, secret => true;
     'storage/swift_project_name':        value => $swift_project_name_real;
     'storage/swift_user_domain_name':    value => $swift_user_domain_name;
     'storage/swift_project_domain_name': value => $swift_project_domain_name;

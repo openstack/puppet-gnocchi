@@ -15,7 +15,7 @@ describe 'gnocchi::storage::swift' do
       it 'configures gnocchi-api with default parameters' do
         is_expected.to contain_gnocchi_config('storage/driver').with_value('swift')
         is_expected.to contain_gnocchi_config('storage/swift_user').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_gnocchi_config('storage/swift_key').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_key').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_user_domain_name').with_value('<SERVICE DEFAULT>')
@@ -44,7 +44,7 @@ describe 'gnocchi::storage::swift' do
       it 'configures gnocchi-api with given endpoint type' do
         is_expected.to contain_gnocchi_config('storage/driver').with_value('swift')
         is_expected.to contain_gnocchi_config('storage/swift_user').with_value('swift2')
-        is_expected.to contain_gnocchi_config('storage/swift_key').with_value('admin')
+        is_expected.to contain_gnocchi_config('storage/swift_key').with_value('admin').with_secret(true)
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('http://localhost:5000')
         is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value('service')
         is_expected.to contain_gnocchi_config('storage/swift_user_domain_name').with_value('Default')
