@@ -23,6 +23,8 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/swift_region').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_auth_version').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_service_type').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('storage/swift_timeout').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -38,6 +40,8 @@ describe 'gnocchi::storage::swift' do
           :swift_region              => 'regionOne',
           :swift_auth_version        => 2,
           :swift_endpoint_type       => 'publicURL',
+          :swift_service_type        => 'object-store',
+          :swift_timeout             => 0
         })
       end
 
@@ -52,6 +56,8 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/swift_region').with_value('regionOne')
         is_expected.to contain_gnocchi_config('storage/swift_auth_version').with_value(2)
         is_expected.to contain_gnocchi_config('storage/swift_endpoint_type').with_value('publicURL')
+        is_expected.to contain_gnocchi_config('storage/swift_service_type').with_value('object-store')
+        is_expected.to contain_gnocchi_config('storage/swift_timeout').with_value(0)
       end
     end
   end

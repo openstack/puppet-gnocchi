@@ -59,6 +59,14 @@
 #   (publicURL, internalURL or adminURL).
 #   Defaults to $::os_service_default
 #
+# [*swift_service_type*]
+#   (optional) A string giving the service type of the swift service to use.
+#   Defaults to $::os_service_default
+#
+# [*swift_timeout*]
+#   (optional) Connection timeout in seconds.
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*swift_tenant_name*]
@@ -76,6 +84,8 @@ class gnocchi::storage::swift(
   $swift_project_domain_name = $::os_service_default,
   $swift_region              = $::os_service_default,
   $swift_endpoint_type       = $::os_service_default,
+  $swift_service_type        = $::os_service_default,
+  $swift_timeout             = $::os_service_default,
   # DEPRECATED PARAMETERS
   $swift_tenant_name         = undef,
 ) {
@@ -101,6 +111,8 @@ will be removed in a future release. Use swift_project_name instead')
     'storage/swift_auth_version':        value => $swift_auth_version;
     'storage/swift_authurl':             value => $swift_authurl;
     'storage/swift_endpoint_type':       value => $swift_endpoint_type;
+    'storage/swift_service_type':        value => $swift_service_type;
+    'storage/swift_timeout':             value => $swift_timeout;
   }
 
 }

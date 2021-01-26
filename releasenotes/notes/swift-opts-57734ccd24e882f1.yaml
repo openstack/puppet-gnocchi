@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The following two parameters have been added to ``swift::storage::swift``
+
+    - ``swift_service_type``
+    - ``swift_timeout``
