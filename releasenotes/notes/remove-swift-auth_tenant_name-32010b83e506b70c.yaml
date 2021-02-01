@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated ``gnocchi::storage::swift::auth_tenant_name`` parameter has
+    been removed. 
