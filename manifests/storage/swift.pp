@@ -67,13 +67,6 @@
 #   (optional) Connection timeout in seconds.
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*swift_tenant_name*]
-#   (optional) Swift tenant name, only used if swift_auth_version is '2' or
-#   '3'.
-#   Defaults to undef
-#
 class gnocchi::storage::swift(
   $swift_auth_version        = $::os_service_default,
   $swift_authurl             = $::os_service_default,
@@ -86,25 +79,15 @@ class gnocchi::storage::swift(
   $swift_endpoint_type       = $::os_service_default,
   $swift_service_type        = $::os_service_default,
   $swift_timeout             = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $swift_tenant_name         = undef,
 ) {
 
   include gnocchi::deps
-
-  if $swift_tenant_name != undef {
-    warning('gnocchi::storage::swift::swift_tenant_name is deprecated and \
-will be removed in a future release. Use swift_project_name instead')
-    $swift_project_name_real = $swift_tenant_name
-  } else {
-    $swift_project_name_real = $swift_project_name
-  }
 
   gnocchi_config {
     'storage/driver':                    value => 'swift';
     'storage/swift_user':                value => $swift_user;
     'storage/swift_key':                 value => $swift_key, secret => true;
-    'storage/swift_project_name':        value => $swift_project_name_real;
+    'storage/swift_project_name':        value => $swift_project_name;
     'storage/swift_user_domain_name':    value => $swift_user_domain_name;
     'storage/swift_project_domain_name': value => $swift_project_domain_name;
     'storage/swift_region':              value => $swift_region;
