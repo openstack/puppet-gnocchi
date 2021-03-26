@@ -20,12 +20,12 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the nova policy.json file
-#   Defaults to /etc/gnocchi/policy.json
+#   (Optional) Path to the nova policy.yaml file
+#   Defaults to /etc/gnocchi/policy.yaml
 #
 class gnocchi::policy (
   $policies    = {},
-  $policy_path = '/etc/gnocchi/policy.json',
+  $policy_path = '/etc/gnocchi/policy.yaml',
 ) {
 
   include gnocchi::deps
@@ -33,10 +33,22 @@ class gnocchi::policy (
 
   validate_legacy(Hash, 'validate_hash', $policies)
 
+  # TODO(tkajinam): Remove this once version with policy-in-code implementation
+  #                 is released.
+  exec { 'gnocci-oslopolicy-convert-json-to-yaml':
+    command => "oslopolicy-convert-json-to-yaml --namespace gnocchi --policy-file /etc/gnocchi/policy.json --output-file ${policy_path}",
+    unless  => "test -f ${policy_path}",
+    path    => ['/bin','/usr/bin','/usr/local/bin'],
+    require => Anchor['gnocchi::install::end'],
+  }
+  Exec<| title == 'gnocchi-oslopolicy-convert-json-to-yaml' |>
+  -> File<| title == $policy_path |>
+
   Openstacklib::Policy::Base {
-    file_path  => $policy_path,
-    file_user  => 'root',
-    file_group => $::gnocchi::params::group,
+    file_path   => $policy_path,
+    file_user   => 'root',
+    file_group  => $::gnocchi::params::group,
+    file_format => 'yaml',
   }
 
   create_resources('openstacklib::policy::base', $policies)
