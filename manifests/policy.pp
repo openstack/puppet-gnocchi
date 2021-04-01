@@ -23,9 +23,14 @@
 #   (Optional) Path to the nova policy.yaml file
 #   Defaults to /etc/gnocchi/policy.yaml
 #
+# [*policy_dirs*]
+#   (Optional) Path to the gnocchi policy folder
+#   Defaults to $::os_service_default
+#
 class gnocchi::policy (
   $policies    = {},
   $policy_path = '/etc/gnocchi/policy.yaml',
+  $policy_dirs = $::os_service_default,
 ) {
 
   include gnocchi::deps
@@ -53,6 +58,9 @@ class gnocchi::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
-  oslo::policy { 'gnocchi_config': policy_file => $policy_path }
+  oslo::policy { 'gnocchi_config':
+    policy_file => $policy_path,
+    policy_dirs => $policy_dirs,
+  }
 
 }
