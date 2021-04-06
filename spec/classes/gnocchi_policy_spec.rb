@@ -6,6 +6,7 @@ describe 'gnocchi::policy' do
     let :params do
       {
         :policy_path => '/etc/gnocchi/policy.yaml',
+        :policy_dirs => '/etc/gnocchi/policy.d',
         :policies    => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
@@ -25,6 +26,7 @@ describe 'gnocchi::policy' do
       })
       is_expected.to contain_oslo__policy('gnocchi_config').with(
         :policy_file => '/etc/gnocchi/policy.yaml',
+        :policy_dirs => '/etc/gnocchi/policy.d',
       )
     end
   end
