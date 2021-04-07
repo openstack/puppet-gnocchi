@@ -29,6 +29,11 @@ class gnocchi::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['gnocchi::config::end']
 
+  # On any uwsgi config change, we must restart gnocchi-api.
+  Anchor['gnocchi::config::begin']
+  -> Gnocchi_api_uwsgi_config<||>
+  ~> Anchor['gnocchi::config::end']
+
   # Installation or config changes will always restart services.
   Anchor['gnocchi::install::end'] ~> Anchor['gnocchi::service::begin']
   Anchor['gnocchi::config::end']  ~> Anchor['gnocchi::service::begin']
