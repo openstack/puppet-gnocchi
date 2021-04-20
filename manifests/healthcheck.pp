@@ -1,4 +1,4 @@
-# == Define: gnocchi::healthcheck
+# == Class: gnocchi::healthcheck
 #
 # Configure oslo_middleware options in healthcheck section
 #
