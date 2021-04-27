@@ -8,6 +8,11 @@
 #  (Optional) Whether or not to enforce scope when evaluating policies.
 #  Defaults to $::os_service_default.
 #
+# [*enforce_new_defaults*]
+#  (Optional) Whether or not to use old deprecated defaults when evaluating
+#  policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for gnocchi
 #   Example :
@@ -24,7 +29,7 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the nova policy.yaml file
+#   (Optional) Path to the gnocchi policy.yaml file
 #   Defaults to /etc/gnocchi/policy.yaml
 #
 # [*policy_dirs*]
@@ -32,10 +37,11 @@
 #   Defaults to $::os_service_default
 #
 class gnocchi::policy (
-  $enforce_scope = $::os_service_default,
-  $policies      = {},
-  $policy_path   = '/etc/gnocchi/policy.yaml',
-  $policy_dirs   = $::os_service_default,
+  $enforce_scope        = $::os_service_default,
+  $enforce_new_defaults = $::os_service_default,
+  $policies             = {},
+  $policy_path          = '/etc/gnocchi/policy.yaml',
+  $policy_dirs          = $::os_service_default,
 ) {
 
   include gnocchi::deps
@@ -64,9 +70,10 @@ class gnocchi::policy (
   create_resources('openstacklib::policy::base', $policies)
 
   oslo::policy { 'gnocchi_config':
-    enforce_scope => $enforce_scope,
-    policy_file   => $policy_path,
-    policy_dirs   => $policy_dirs,
+    enforce_scope        => $enforce_scope,
+    enforce_new_defaults => $enforce_new_defaults,
+    policy_file          => $policy_path,
+    policy_dirs          => $policy_dirs,
   }
 
 }
