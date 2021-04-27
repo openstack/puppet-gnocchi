@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for gnocchi
 #   Example :
@@ -28,9 +32,10 @@
 #   Defaults to $::os_service_default
 #
 class gnocchi::policy (
-  $policies    = {},
-  $policy_path = '/etc/gnocchi/policy.yaml',
-  $policy_dirs = $::os_service_default,
+  $enforce_scope = $::os_service_default,
+  $policies      = {},
+  $policy_path   = '/etc/gnocchi/policy.yaml',
+  $policy_dirs   = $::os_service_default,
 ) {
 
   include gnocchi::deps
@@ -59,8 +64,9 @@ class gnocchi::policy (
   create_resources('openstacklib::policy::base', $policies)
 
   oslo::policy { 'gnocchi_config':
-    policy_file => $policy_path,
-    policy_dirs => $policy_dirs,
+    enforce_scope => $enforce_scope,
+    policy_file   => $policy_path,
+    policy_dirs   => $policy_dirs,
   }
 
 }

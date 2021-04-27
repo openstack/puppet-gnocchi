@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe 'gnocchi::policy' do
 
-  shared_examples_for 'gnocchi policies' do
+  shared_examples_for 'gnocchi::policy' do
     let :params do
       {
-        :policy_path => '/etc/gnocchi/policy.yaml',
-        :policy_dirs => '/etc/gnocchi/policy.d',
-        :policies    => {
+        :enforce_scope => false,
+        :policy_path   => '/etc/gnocchi/policy.yaml',
+        :policy_dirs   => '/etc/gnocchi/policy.d',
+        :policies      => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
             'value' => 'foo:bar'
@@ -25,8 +26,9 @@ describe 'gnocchi::policy' do
         :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('gnocchi_config').with(
-        :policy_file => '/etc/gnocchi/policy.yaml',
-        :policy_dirs => '/etc/gnocchi/policy.d',
+        :enforce_scope => false,
+        :policy_file   => '/etc/gnocchi/policy.yaml',
+        :policy_dirs   => '/etc/gnocchi/policy.d',
       )
     end
   end
@@ -39,7 +41,7 @@ describe 'gnocchi::policy' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_configures 'gnocchi policies'
+      it_configures 'gnocchi::policy'
     end
   end
 end
