@@ -42,7 +42,7 @@ class gnocchi (
     }
 
     if ($coordination_url =~ /^redis/ ) {
-      ensure_resource('package', 'python-redis', {
+      ensure_packages('python-redis', {
         ensure => $package_ensure,
         name   => $::gnocchi::params::redis_package_name,
         tag    => 'openstack',
