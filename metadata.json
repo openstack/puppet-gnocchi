@@ -19,11 +19,11 @@
         },
         {
             "name": "openstack/openstacklib",
-            "version_requirement": ">=15.4.0 <16.0.0"
+            "version_requirement": ">=15.5.0 <16.0.0"
         },
         {
             "name": "openstack/oslo",
-            "version_requirement": ">=15.4.0 <16.0.0"
+            "version_requirement": ">=15.5.0 <16.0.0"
         }
     ],
     "description": "Installs and configures OpenStack Gnocchi (Metric & index storage API).",
@@ -65,5 +65,5 @@
     ],
     "source": "git://github.com/openstack/puppet-gnocchi.git",
     "summary": "Puppet module for OpenStack Gnocchi",
-    "version": "15.4.0"
+    "version": "15.5.0"
 }
