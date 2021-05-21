@@ -28,8 +28,8 @@ describe 'gnocchi' do
       end
 
       it 'does not configure coordination_url' do
-        is_expected.not_to contain_gnocchi_config('DEFAUTL/coordination_url')
-        is_expected.not_to contain_package('python-redis')
+        is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to_not contain_package('python-redis')
       end
     end
 
