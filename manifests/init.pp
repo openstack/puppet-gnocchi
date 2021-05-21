@@ -35,18 +35,15 @@ class gnocchi (
     purge => $purge_config,
   }
 
-  if $coordination_url {
+  gnocchi_config {
+    'DEFAULT/coordination_url' : value => $coordination_url;
+  }
 
-    gnocchi_config {
-      'DEFAULT/coordination_url' : value => $coordination_url;
-    }
-
-    if ($coordination_url =~ /^redis/ ) {
-      ensure_packages('python-redis', {
-        ensure => $package_ensure,
-        name   => $::gnocchi::params::redis_package_name,
-        tag    => 'openstack',
-      })
-    }
+  if ($coordination_url =~ /^redis/ ) {
+    ensure_packages('python-redis', {
+      ensure => $package_ensure,
+      name   => $::gnocchi::params::redis_package_name,
+      tag    => 'openstack',
+    })
   }
 }
