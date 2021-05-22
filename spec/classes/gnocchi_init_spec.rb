@@ -29,7 +29,10 @@ describe 'gnocchi' do
 
       it 'does not configure coordination_url' do
         is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('<SERVICE DEFAULT>')
-        is_expected.to_not contain_package('python-redis')
+        is_expected.to contain_oslo__coordination('gnocchi_config').with(
+          :backend_url   => '<SERVICE DEFAULT>',
+          :manage_config => false,
+        )
       end
     end
 
@@ -47,10 +50,9 @@ describe 'gnocchi' do
 
       it 'cnfigures coordination' do
         is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('redis://localhost:6379')
-        is_expected.to contain_package('python-redis').with(
-          :name   => platform_params[:redis_package_name],
-          :ensure => 'present',
-          :tag    => 'openstack'
+        is_expected.to contain_oslo__coordination('gnocchi_config').with(
+          :backend_url   => 'redis://localhost:6379',
+          :manage_config => false,
         )
       end
     end
@@ -67,13 +69,9 @@ describe 'gnocchi' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :gnocchi_common_package => 'gnocchi-common',
-            :redis_package_name     => 'python3-redis'
-          }
+          { :gnocchi_common_package => 'gnocchi-common' }
         when 'RedHat'
-          { :gnocchi_common_package => 'gnocchi-common',
-            :redis_package_name     => 'python3-redis'
-          }
+          { :gnocchi_common_package => 'gnocchi-common' }
         end
       end
       it_behaves_like 'gnocchi'

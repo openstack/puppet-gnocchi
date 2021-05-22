@@ -14,15 +14,6 @@ describe 'gnocchi::storage' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      let(:platform_params) do
-         case facts[:osfamily]
-         when 'Debian'
-           { :redis_package_name => 'python3-redis' }
-         when 'RedHat'
-           { :redis_package_name => 'python3-redis' }
-         end
-      end
-
       it_behaves_like 'gnocchi-storage'
     end
   end
