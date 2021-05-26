@@ -23,7 +23,6 @@ class gnocchi::params {
       $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
       $pymysql_package_name       = undef
-      $cradox_package_name        = 'python3-cradox'
       $redis_package_name         = 'python3-redis'
     }
     'Debian': {
@@ -31,7 +30,6 @@ class gnocchi::params {
       $indexer_package_name       = undef
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
       $pymysql_package_name       = 'python3-pymysql'
-      $cradox_package_name        = undef
       $redis_package_name         = 'python3-redis'
     }
     default: {

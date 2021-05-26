@@ -9,12 +9,10 @@ describe 'gnocchi::storage::ceph' do
     {
       :ceph_username => 'joe',
       :ceph_keyring  => 'client.admin',
-      :manage_cradox => false,
-      :manage_rados  => true,
     }
   end
 
-  shared_examples 'gnocchi storage ceph' do
+  shared_examples 'gnocchi::storage::ceph' do
 
     context 'with default parameters' do
       it 'configures gnocchi-api with default parameters' do
@@ -24,6 +22,12 @@ describe 'gnocchi::storage::ceph' do
         is_expected.to contain_gnocchi_config('storage/ceph_pool').with_value('gnocchi')
         is_expected.to contain_gnocchi_config('storage/ceph_conffile').with_value('/etc/ceph/ceph.conf')
       end
+
+      it { is_expected.to contain_package('python-rados').with(
+        :ensure => 'present',
+        :name   => 'python3-rados',
+        :tag    => ['openstack', 'gnocchi-package'],
+      )}
     end
 
     context 'with ceph_secret parameter' do
@@ -31,6 +35,7 @@ describe 'gnocchi::storage::ceph' do
         params.merge!({
           :ceph_secret => 'secrete'})
       end
+
       it { is_expected.to contain_gnocchi_config('storage/ceph_secret').with_value('secrete').with_secret(true) }
     end
 
@@ -49,57 +54,12 @@ describe 'gnocchi::storage::ceph' do
       it { expect { is_expected.to raise_error(Puppet::Error) } }
     end
 
-    context 'with manage_rados to true' do
+    context 'with manage_rados to false' do
       before do
-        params.merge!({
-          :manage_cradox => false,
-          :manage_rados  => true,
-        })
+        params.merge!( :manage_rados => false )
       end
 
-      it { is_expected.not_to contain_package('python-cradox') }
-      it { is_expected.to contain_package('python-rados').with(:ensure => 'present') }
-
-    end
-
-    context 'with manage_cradox and manage_rados to true' do
-      before do
-        params.merge!({
-          :manage_cradox => true,
-          :manage_rados  => true,
-        })
-      end
-
-      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_rados and gnocchi::storage::ceph::manage_cradox both cannot be set to true./) }
-
-    end
-  end
-
-  shared_examples 'gnocchi storage ceph cradox redhat' do
-    context 'with manage_cradox to true' do
-      before do
-        params.merge!({
-          :manage_cradox => true,
-          :manage_rados  => false,
-        })
-      end
-
-      it { is_expected.to contain_package('python-cradox').with(:ensure => 'present') }
       it { is_expected.not_to contain_package('python-rados') }
-    end
-  end
-
-  shared_examples 'gnocchi storage ceph cradox debian' do
-    context 'with manage_cradox to true' do
-      before do
-        params.merge!({
-          :manage_cradox => true,
-          :manage_rados  => false,
-        })
-      end
-
-      it { is_expected.to raise_error(Puppet::Error, /gnocchi::storage::ceph::manage_cradox set to true will fail due to no package being available./) }
-
     end
   end
 
@@ -111,14 +71,7 @@ describe 'gnocchi::storage::ceph' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      case facts[:osfamily]
-      when 'Debian'
-          it_behaves_like 'gnocchi storage ceph cradox debian'
-      when 'RedHat'
-          it_behaves_like 'gnocchi storage ceph cradox redhat'
-      end
-
-      it_behaves_like 'gnocchi storage ceph'
+      it_behaves_like 'gnocchi::storage::ceph'
     end
   end
 end

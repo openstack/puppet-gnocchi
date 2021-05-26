@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The gnocchi::storage::ceph::manage_rados parameters default value is now
+    true.
+deprecations:
+  - |
+    The gnocchi::storage::ceph::manage_cradox parameter is deprecated and has
+    no effect.
