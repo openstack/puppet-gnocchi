@@ -4,10 +4,9 @@
 #
 class gnocchi::params {
   include openstacklib::defaults
-  $pyvers = $::openstacklib::defaults::pyvers
 
-  $client_package_name        = "python${pyvers}-gnocchiclient"
-  $rados_package_name         = "python${pyvers}-rados"
+  $client_package_name        = 'python3-gnocchiclient'
+  $rados_package_name         = 'python3-rados'
   $common_package_name        = 'gnocchi-common'
   $api_package_name           = 'gnocchi-api'
   $api_service_name           = 'gnocchi-api'
@@ -24,16 +23,16 @@ class gnocchi::params {
       $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
       $pymysql_package_name       = undef
-      $cradox_package_name        = "python${pyvers}-cradox"
-      $redis_package_name         = "python${pyvers}-redis"
+      $cradox_package_name        = 'python3-cradox'
+      $redis_package_name         = 'python3-redis'
     }
     'Debian': {
       $sqlite_package_name        = 'python-pysqlite2'
       $indexer_package_name       = undef
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
-      $pymysql_package_name       = "python${pyvers}-pymysql"
+      $pymysql_package_name       = 'python3-pymysql'
       $cradox_package_name        = undef
-      $redis_package_name         = "python${pyvers}-redis"
+      $redis_package_name         = 'python3-redis'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

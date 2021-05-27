@@ -19,7 +19,7 @@ describe 'gnocchi::storage' do
          when 'Debian'
            { :redis_package_name => 'python3-redis' }
          when 'RedHat'
-           { :redis_package_name => 'python-redis' }
+           { :redis_package_name => 'python3-redis' }
          end
       end
 

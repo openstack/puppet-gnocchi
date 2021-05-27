@@ -27,15 +27,7 @@ describe 'gnocchi::client' do
         when 'Debian'
           { :client_package_name => 'python3-gnocchiclient' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :client_package_name => 'python3-gnocchiclient' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :client_package_name => 'python3-gnocchiclient' }
-            else
-              { :client_package_name => 'python-gnocchiclient' }
-            end
-          end
+          { :client_package_name => 'python3-gnocchiclient' }
         end
       end
 
