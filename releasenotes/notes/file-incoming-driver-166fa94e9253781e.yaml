@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``gnocchi::storage::incoming::file`` class has been added. This
+    class can be used to set up the file incoming driver.
