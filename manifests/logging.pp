@@ -38,6 +38,10 @@
 #   (Optional) File where logs should be stored.
 #   Defaults to $::os_service_default
 #
+# [*watch_log_file*]
+#   (Optional) Uses logging handler designed to watch file system (boolean value).
+#   Defaults to $::os_service_default
+#
 class gnocchi::logging(
   $use_syslog                    = $::os_service_default,
   $use_json                      = $::os_service_default,
@@ -46,6 +50,7 @@ class gnocchi::logging(
   $log_facility                  = $::os_service_default,
   $log_dir                       = '/var/log/gnocchi',
   $log_file                      = $::os_service_default,
+  $watch_log_file                = $::os_service_default,
   $debug                         = $::os_service_default,
 ) {
 
@@ -59,6 +64,7 @@ class gnocchi::logging(
     use_stderr          => $use_stderr,
     log_dir             => $log_dir,
     log_file            => $log_file,
+    watch_log_file      => $watch_log_file,
     syslog_log_facility => $log_facility,
   }
 
