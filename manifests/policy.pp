@@ -36,12 +36,18 @@
 #   (Optional) Path to the gnocchi policy folder
 #   Defaults to $::os_service_default
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified policy rules in the policy
+#    file.
+#    Defaults to false.
+#
 class gnocchi::policy (
   $enforce_scope        = $::os_service_default,
   $enforce_new_defaults = $::os_service_default,
   $policies             = {},
   $policy_path          = '/etc/gnocchi/policy.yaml',
   $policy_dirs          = $::os_service_default,
+  $purge_config         = false,
 ) {
 
   include gnocchi::deps
@@ -49,25 +55,29 @@ class gnocchi::policy (
 
   validate_legacy(Hash, 'validate_hash', $policies)
 
-  # TODO(tkajinam): Remove this once version with policy-in-code implementation
-  #                 is released.
-  exec { 'gnocci-oslopolicy-convert-json-to-yaml':
-    command => "oslopolicy-convert-json-to-yaml --namespace gnocchi --policy-file /etc/gnocchi/policy.json --output-file ${policy_path}",
-    unless  => "test -f ${policy_path}",
-    path    => ['/bin','/usr/bin','/usr/local/bin'],
-    require => Anchor['gnocchi::install::end'],
-  }
-  Exec<| title == 'gnocchi-oslopolicy-convert-json-to-yaml' |>
-  -> File<| title == $policy_path |>
-
-  Openstacklib::Policy::Base {
-    file_path   => $policy_path,
-    file_user   => 'root',
-    file_group  => $::gnocchi::params::group,
-    file_format => 'yaml',
+  if ! $purge_config {
+    # TODO(tkajinam): Remove this once version with policy-in-code implementation
+    #                 is released.
+    exec { 'gnocci-oslopolicy-convert-json-to-yaml':
+      command => "oslopolicy-convert-json-to-yaml --namespace gnocchi --policy-file /etc/gnocchi/policy.json --output-file ${policy_path}",
+      unless  => "test -f ${policy_path}",
+      path    => ['/bin','/usr/bin','/usr/local/bin'],
+      require => Anchor['gnocchi::install::end'],
+    }
+    Exec<| title == 'gnocchi-oslopolicy-convert-json-to-yaml' |>
+    -> File<| title == $policy_path |>
   }
 
-  create_resources('openstacklib::policy::base', $policies)
+  $policy_parameters = {
+    policies     => $policies,
+    policy_path  => $policy_path,
+    file_user    => 'root',
+    file_group   => $::gnocchi::params::group,
+    file_format  => 'yaml',
+    purge_config => $purge_config,
+  }
+
+  create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
 
   oslo::policy { 'gnocchi_config':
     enforce_scope        => $enforce_scope,
