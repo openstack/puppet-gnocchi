@@ -24,7 +24,7 @@ describe 'gnocchi::storage::ceph' do
       end
 
       it { is_expected.to contain_package('python-rados').with(
-        :ensure => 'present',
+        :ensure => 'installed',
         :name   => 'python3-rados',
         :tag    => ['openstack', 'gnocchi-package'],
       )}
