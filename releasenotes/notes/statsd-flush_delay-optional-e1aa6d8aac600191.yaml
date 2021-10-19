@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The ``gnocchi::statsd::flush_delay`` is now optional and defaults to
+    ``$::os_service_default`` which effectively use the default value defined
+    in Gnocchi itself.

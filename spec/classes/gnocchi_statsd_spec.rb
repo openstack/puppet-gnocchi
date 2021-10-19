@@ -7,7 +7,6 @@ describe 'gnocchi::statsd' do
       :manage_service      => true,
       :resource_id         => '07f26121-5777-48ba-8a0b-d70468133dd9',
       :archive_policy_name => 'high',
-      :flush_delay         => '200',
     }
   end
 
@@ -27,7 +26,7 @@ describe 'gnocchi::statsd' do
     it 'configures gnocchi statsd' do
       is_expected.to contain_gnocchi_config('statsd/resource_id').with_value('07f26121-5777-48ba-8a0b-d70468133dd9')
       is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('high')
-      is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value('200')
+      is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value('<SERVICE DEFAULT>')
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -65,6 +64,16 @@ describe 'gnocchi::statsd' do
           :hasrestart => true,
           :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
         )
+      end
+    end
+
+    context 'with flush_delay' do
+      before do
+        params.merge!({ :flush_delay => 10 })
+      end
+
+      it 'configures the parameter' do
+        is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value(10)
       end
     end
   end

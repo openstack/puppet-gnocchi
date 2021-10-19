@@ -6,7 +6,8 @@
 #   (required) Resource UUID to use to identify statsd in Gnocchi.
 #
 # [*flush_delay*]
-#   (required) Delay between flushes.
+#   (optional) Delay between flushes.
+#   Defaults to $::os_service_default
 #
 # [*enabled*]
 #   (optional) Should the service be enabled.
@@ -26,7 +27,7 @@
 #
 class gnocchi::statsd (
   $resource_id,
-  $flush_delay,
+  $flush_delay         = $::os_service_default,
   $archive_policy_name = undef,
   $manage_service      = true,
   $enabled             = true,
