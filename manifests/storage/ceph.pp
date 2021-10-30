@@ -44,15 +44,6 @@
 #   (optional) Ensure state of the rados python package.
 #   Defaults to true.
 #
-# == DEPRECATED PARAMS
-#
-# [*manage_cradox*]
-#   (optional) Ensure state of the cradox package.
-#   As of ceph jewel the python-rados package should be used. Option
-#   must be set to false for Ubuntu as there is no cradox package for
-#   Ubuntu.
-#   Defaults to undef.
-#
 class gnocchi::storage::ceph(
   $ceph_username,
   $ceph_keyring   = $::os_service_default,
@@ -60,15 +51,9 @@ class gnocchi::storage::ceph(
   $ceph_pool      = 'gnocchi',
   $ceph_conffile  = '/etc/ceph/ceph.conf',
   $manage_rados   = true,
-  ## DEPRECATED PARAMS
-  $manage_cradox  = undef,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  if $manage_cradox != undef {
-    warning('gnocchi::storage::ceph::manage_cradox parameter is deprecated and has no effect')
-  }
 
   if (is_service_default($ceph_keyring) and is_service_default($ceph_secret)) or (! $ceph_keyring and ! $ceph_secret) {
     fail('You need to specify either gnocchi::storage::ceph::ceph_keyring or gnocchi::storage::ceph::ceph_secret.')

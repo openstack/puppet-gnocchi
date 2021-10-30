@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``gnocchi::storage::ceph::manage_cradox`` parameter has been removed.
