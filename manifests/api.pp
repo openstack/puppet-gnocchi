@@ -46,9 +46,11 @@
 #   (Optional) Set max request body size
 #   Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
 # [*middlewares*]
 #   (optional) Middlewares to use.
-#   Defaults to $::os_service_default
+#   Defaults to undef
 #
 class gnocchi::api (
   $manage_service               = true,
@@ -60,11 +62,19 @@ class gnocchi::api (
   $auth_strategy                = 'keystone',
   $enable_proxy_headers_parsing = $::os_service_default,
   $max_request_body_size        = $::os_service_default,
-  $middlewares                  = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $middlewares                  = undef,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
   include gnocchi::policy
+
+  if $middlewares != undef {
+    warning('The gnocchi::api::middleware parameter is deprecated and has no effect')
+  }
+  gnocchi_config {
+    'api/middlewares': ensure => absent;
+  }
 
   package { 'gnocchi-api':
     ensure => $package_ensure,
@@ -112,9 +122,8 @@ standalone service, or httpd for being run by a httpd server")
   }
 
   gnocchi_config {
-    'api/max_limit': value   => $max_limit;
-    'api/auth_mode': value   => $auth_strategy;
-    'api/middlewares': value => $middlewares;
+    'api/max_limit': value => $max_limit;
+    'api/auth_mode': value => $auth_strategy;
   }
 
   oslo::middleware { 'gnocchi_config':

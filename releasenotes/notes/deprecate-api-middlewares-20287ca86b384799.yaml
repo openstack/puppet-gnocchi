@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``gnocchi::api::middlewares`` parameter has been deprecated and will be
+    removed in a future release. The parmaeter has no effect now.
