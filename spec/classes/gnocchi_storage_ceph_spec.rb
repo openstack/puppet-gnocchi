@@ -61,6 +61,18 @@ describe 'gnocchi::storage::ceph' do
 
       it { is_expected.not_to contain_package('python-rados') }
     end
+
+    context 'with package_ensure' do
+      before do
+        params.merge!( :package_ensure => 'latest' )
+      end
+
+      it { is_expected.to contain_package('python-rados').with(
+        :ensure => 'latest',
+        :name   => 'python3-rados',
+        :tag    => ['openstack', 'gnocchi-package'],
+      )}
+    end
   end
 
   on_supported_os({
