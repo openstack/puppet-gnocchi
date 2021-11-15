@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``gnocchi::metricd`` class.
+
+    - ``greedy``
+    - ``metric_reporting_delay``
+    - ``processing_replicas``
+
+deprecations:
+  - |
+    The ``gnocchi::metricd::cleanup_delay`` parameter has been deprecated in
+    favor of the new ``gnocchi::metricd::metric_cleanup_delay`` parameter.

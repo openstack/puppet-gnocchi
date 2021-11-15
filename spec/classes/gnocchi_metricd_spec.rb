@@ -18,6 +18,15 @@ describe 'gnocchi::metricd' do
       )
     end
 
+    it 'configures the default value' do
+      is_expected.to contain_gnocchi_config('metricd/workers').with_value(4)
+      is_expected.to contain_gnocchi_config('metricd/metric_processing_delay').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('metricd/greedy').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('metricd/metric_reporting_delay').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('metricd/metric_cleanup_delay').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('metricd/processing_replicas').with_value('<SERVICE DEFAULT>')
+    end
+
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
       context "when service should be #{param_hash[:enabled] ? 'enabled' : 'disabled'}" do
         before do
@@ -56,33 +65,25 @@ describe 'gnocchi::metricd' do
       end
     end
 
-    context 'with workers set' do
+    context 'with parameters set' do
       before do
         params.merge!({
-          :workers => 2 })
+          :workers                 => 2,
+          :metric_processing_delay => 60,
+          :greedy                  => true,
+          :metric_reporting_delay  => 120,
+          :metric_cleanup_delay    => 300,
+          :processing_replicas     => 3,
+        })
       end
-      it 'configures gnocchi metricd worker value' do
-        is_expected.to contain_gnocchi_config('metricd/workers').with_value('2')
-      end
-    end
 
-    context 'with metric delay set' do
-      before do
-        params.merge!({
-          :metric_processing_delay => 15 })
-      end
-      it 'configures gnocchi metricd processing delay value' do
-        is_expected.to contain_gnocchi_config('metricd/metric_processing_delay').with_value('15')
-      end
-    end
-
-    context 'with cleanup_delay set' do
-      before do
-        params.merge!({
-          :cleanup_delay => 30 })
-      end
-      it 'configures gnocchi metricd cleanup_delay value' do
-        is_expected.to contain_gnocchi_config('metricd/metric_cleanup_delay').with_value('30')
+      it 'configures the overridden value' do
+        is_expected.to contain_gnocchi_config('metricd/workers').with_value(2)
+        is_expected.to contain_gnocchi_config('metricd/metric_processing_delay').with_value(60)
+        is_expected.to contain_gnocchi_config('metricd/greedy').with_value(true)
+        is_expected.to contain_gnocchi_config('metricd/metric_reporting_delay').with_value(120)
+        is_expected.to contain_gnocchi_config('metricd/metric_cleanup_delay').with_value(300)
+        is_expected.to contain_gnocchi_config('metricd/processing_replicas').with_value(3)
       end
     end
   end
@@ -92,7 +93,7 @@ describe 'gnocchi::metricd' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts())
+        facts.merge!(OSDefaults.get_facts({ :os_workers => 4 }))
       end
 
       let(:platform_params) do
