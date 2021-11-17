@@ -44,6 +44,10 @@
 #   (optional) Ensure state of the rados python package.
 #   Defaults to true.
 #
+# [*package_ensure*]
+#   (optional) ensure state for package.
+#   Defaults to 'present'
+#
 class gnocchi::storage::ceph(
   $ceph_username,
   $ceph_keyring   = $::os_service_default,
@@ -51,6 +55,7 @@ class gnocchi::storage::ceph(
   $ceph_pool      = 'gnocchi',
   $ceph_conffile  = '/etc/ceph/ceph.conf',
   $manage_rados   = true,
+  $package_ensure = 'present',
 ) inherits gnocchi::params {
 
   include gnocchi::deps
@@ -70,7 +75,7 @@ class gnocchi::storage::ceph(
 
   if $manage_rados {
     ensure_packages('python-rados', {
-      'ensure' => 'present',
+      'ensure' => $package_ensure,
       'name'   => $::gnocchi::params::rados_package_name,
       'tag'    => ['openstack','gnocchi-package'],
     })
