@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``gnocchi::config::gnocchi_api_paste_ini`` parameter has been
+    added.
