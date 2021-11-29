@@ -29,6 +29,10 @@ class gnocchi::deps {
   -> Gnocchi_api_paste_ini<||>
   ~> Anchor['gnocchi::config::end']
 
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination<||> -> Anchor['gnocchi::service::begin']
+
   # policy config should occur in the config block also.
   Anchor['gnocchi::config::begin']
   -> Openstacklib::Policy<||>
