@@ -37,6 +37,10 @@
 #   Can be set to noauth and keystone.
 #   Defaults to 'keystone'.
 #
+# [*paste_config*]
+#   (Optional) Path to API paste configuration.
+#   Defaults to $:;os_service_default
+#
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
@@ -60,6 +64,7 @@ class gnocchi::api (
   $service_name                 = $::gnocchi::params::api_service_name,
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
+  $paste_config                 = $::os_service_default,
   $enable_proxy_headers_parsing = $::os_service_default,
   $max_request_body_size        = $::os_service_default,
   # DEPRECATED PARAMETERS
@@ -122,8 +127,9 @@ standalone service, or httpd for being run by a httpd server")
   }
 
   gnocchi_config {
-    'api/max_limit': value => $max_limit;
-    'api/auth_mode': value => $auth_strategy;
+    'api/max_limit':    value => $max_limit;
+    'api/auth_mode':    value => $auth_strategy;
+    'api/paste_config': value => $paste_config;
   }
 
   oslo::middleware { 'gnocchi_config':
