@@ -109,8 +109,6 @@ class gnocchi::api (
       tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
     }
   } elsif $service_name == 'httpd' {
-    include apache::params
-
     service { 'gnocchi-api':
       ensure => 'stopped',
       name   => $::gnocchi::params::api_service_name,

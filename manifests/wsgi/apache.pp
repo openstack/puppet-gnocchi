@@ -136,11 +136,6 @@ class gnocchi::wsgi::apache (
 
   include gnocchi::deps
   include gnocchi::params
-  include apache
-  include apache::mod::wsgi
-  if $ssl_real {
-    include apache::mod::ssl
-  }
 
   ::openstacklib::wsgi::apache { 'gnocchi_wsgi':
     bind_host                   => $bind_host,
