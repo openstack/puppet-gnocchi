@@ -60,6 +60,7 @@ describe 'gnocchi::api' do
     it 'configures gnocchi-api' do
       is_expected.to contain_gnocchi_config('api/max_limit').with_value( params[:max_limit] )
       is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
+      is_expected.to contain_gnocchi_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('gnocchi_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         :max_request_body_size        => '<SERVICE DEFAULT>',
@@ -153,6 +154,14 @@ describe 'gnocchi::api' do
       end
 
       it_raises 'a Puppet::Error', /Invalid service_name/
+    end
+
+    context 'with paste_config' do
+      before do
+        params.merge!({:paste_config => 'api-paste.ini' })
+      end
+
+      it { is_expected.to contain_gnocchi_config('api/paste_config').with_value('api-paste.ini') }
     end
 
     context 'with enable_proxy_headers_parsing' do
