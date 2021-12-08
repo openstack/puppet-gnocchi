@@ -24,6 +24,11 @@ class gnocchi::deps {
   ~> Service<| tag == 'gnocchi-service' |>
   ~> anchor { 'gnocchi::service::end': }
 
+  # paste-api.ini config should occur in the config block also.
+  Anchor['gnocchi::config::begin']
+  -> Gnocchi_api_paste_ini<||>
+  ~> Anchor['gnocchi::config::end']
+
   # policy config should occur in the config block also.
   Anchor['gnocchi::config::begin']
   -> Openstacklib::Policy<||>
