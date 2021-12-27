@@ -1,14 +1,3 @@
-$LOAD_PATH.push(
-  File.join(
-    File.dirname(__FILE__),
-    '..',
-    '..',
-    '..',
-    'fixtures',
-    'modules',
-    'inifile',
-    'lib')
-)
 require 'spec_helper'
 provider_class = Puppet::Type.type(:gnocchi_api_uwsgi_config).provider(:ini_setting)
 describe provider_class do
