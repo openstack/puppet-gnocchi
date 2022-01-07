@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    The ``system_scope`` parameter has been added to
+    the ``gnocchi::keystone::authtoken`` class.
+
+  - |
+    The ``gnocchi::keystone::auth`` class now supports customizing roles
+    assigned to the gnocchi service user.
+
+  - |
+    The ``gnocchi::keystone::auth`` class now supports defining assignmet of
+    system-scoped roles to the gnocchi service user.
