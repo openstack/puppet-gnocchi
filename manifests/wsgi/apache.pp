@@ -137,6 +137,8 @@ class gnocchi::wsgi::apache (
   include gnocchi::deps
   include gnocchi::params
 
+  Anchor['gnocchi::install::end'] -> Class['apache']
+
   ::openstacklib::wsgi::apache { 'gnocchi_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
@@ -166,6 +168,5 @@ class gnocchi::wsgi::apache (
     access_log_format           => $access_log_format,
     error_log_file              => $error_log_file,
     custom_wsgi_process_options => $custom_wsgi_process_options,
-    require                     => Anchor['gnocchi::install::end'],
   }
 }
