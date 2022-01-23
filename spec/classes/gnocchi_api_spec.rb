@@ -75,7 +75,7 @@ describe 'gnocchi::api' do
 
         it 'configures gnocchi-api service' do
           is_expected.to contain_service('gnocchi-api').with(
-            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+            :ensure     => params[:enabled] ? 'running' : 'stopped',
             :name       => platform_params[:api_service_name],
             :enable     => params[:enabled],
             :hasstatus  => true,
@@ -99,19 +99,12 @@ describe 'gnocchi::api' do
     context 'with disabled service managing' do
       before do
         params.merge!({
-          :manage_service => false,
-          :enabled        => false })
+          :manage_service => false
+        })
       end
 
-      it 'configures gnocchi-api service' do
-        is_expected.to contain_service('gnocchi-api').with(
-          :ensure     => nil,
-          :name       => platform_params[:api_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
-        )
+      it 'does not configure gnocchi-api service' do
+        is_expected.to_not contain_service('gnocchi-api')
       end
     end
 

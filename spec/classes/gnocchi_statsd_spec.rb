@@ -37,7 +37,7 @@ describe 'gnocchi::statsd' do
 
         it 'configures gnocchi-statsd service' do
           is_expected.to contain_service('gnocchi-statsd').with(
-            :ensure     => (params[:manage_service] && params[:enabled]) ? 'running' : 'stopped',
+            :ensure     => params[:enabled] ? 'running' : 'stopped',
             :name       => platform_params[:statsd_service_name],
             :enable     => params[:enabled],
             :hasstatus  => true,
@@ -51,19 +51,12 @@ describe 'gnocchi::statsd' do
     context 'with disabled service managing' do
       before do
         params.merge!({
-          :manage_service => false,
-          :enabled        => false })
+          :manage_service => false
+        })
       end
 
-      it 'configures gnocchi-statsd service' do
-        is_expected.to contain_service('gnocchi-statsd').with(
-          :ensure     => nil,
-          :name       => platform_params[:statsd_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
-        )
+      it 'does not configure gnocchi-statsd service' do
+        is_expected.to_not contain_service('gnocchi-statsd')
       end
     end
 

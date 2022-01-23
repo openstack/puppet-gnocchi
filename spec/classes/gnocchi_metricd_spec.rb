@@ -49,19 +49,12 @@ describe 'gnocchi::metricd' do
     context 'with disabled service managing' do
       before do
         params.merge!({
-          :manage_service => false,
-          :enabled        => false })
+          :manage_service => false
+        })
       end
 
-      it 'configures gnocchi-metricd service' do
-        is_expected.to contain_service('gnocchi-metricd').with(
-          :ensure     => nil,
-          :name       => platform_params[:metricd_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
-        )
+      it 'does not configure gnocchi-metricd service' do
+        is_expected.to_not contain_service('gnocchi-metricd')
       end
     end
 

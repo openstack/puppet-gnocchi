@@ -87,15 +87,14 @@ class gnocchi::metricd (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'gnocchi-metricd':
-    ensure     => $service_ensure,
-    name       => $::gnocchi::params::metricd_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+    service { 'gnocchi-metricd':
+      ensure     => $service_ensure,
+      name       => $::gnocchi::params::metricd_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+    }
   }
-
 }

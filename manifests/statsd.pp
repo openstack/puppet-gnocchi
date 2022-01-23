@@ -48,15 +48,15 @@ class gnocchi::statsd (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'gnocchi-statsd':
-    ensure     => $service_ensure,
-    name       => $::gnocchi::params::statsd_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+    service { 'gnocchi-statsd':
+      ensure     => $service_ensure,
+      name       => $::gnocchi::params::statsd_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+    }
   }
 
   gnocchi_config {
