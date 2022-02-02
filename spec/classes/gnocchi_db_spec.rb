@@ -27,7 +27,7 @@ describe 'gnocchi::db' do
         { :database_connection => 'postgresql://gnocchi:gnocchi@localhost/gnocchi', }
       end
 
-      it { should contain_package('python-psycopg2').with_ensure('present') }
+      it { should contain_class('postgresql::lib::python') }
     end
 
     context 'with MySQL-python library as backend package' do
@@ -37,7 +37,8 @@ describe 'gnocchi::db' do
         }
       end
 
-      it { should contain_package('python-mysqldb').with_ensure('present') }
+      it { should contain_class('mysql::bindings') }
+      it { should contain_class('mysql::bindings::python') }
     end
 
     context 'with incorrect database_connection string' do
