@@ -96,12 +96,7 @@ class gnocchi::keystone::auth (
 
   include gnocchi::deps
 
-  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['gnocchi::service::end']
-  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['gnocchi::service::end']
-
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['gnocchi::service::end']
-  }
+  Keystone::Resource::Service_identity['gnocchi'] -> Anchor['gnocchi::service::end']
 
   keystone::resource::service_identity { 'gnocchi':
     configure_user      => $configure_user,
