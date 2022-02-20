@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``gnocchi::storage::ceph::ceph_timeout`` parameter has been added.

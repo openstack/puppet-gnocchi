@@ -20,6 +20,7 @@ describe 'gnocchi::storage::ceph' do
         is_expected.to contain_gnocchi_config('storage/ceph_username').with_value('joe')
         is_expected.to contain_gnocchi_config('storage/ceph_keyring').with_value('client.admin')
         is_expected.to contain_gnocchi_config('storage/ceph_pool').with_value('gnocchi')
+        is_expected.to contain_gnocchi_config('storage/ceph_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/ceph_conffile').with_value('/etc/ceph/ceph.conf')
       end
 
@@ -72,6 +73,14 @@ describe 'gnocchi::storage::ceph' do
         :name   => 'python3-rados',
         :tag    => ['openstack', 'gnocchi-package'],
       )}
+    end
+
+    context 'with ceph_timeout' do
+      before do
+        params.merge!( :ceph_timeout => 30 )
+      end
+
+      it { is_expected.to contain_gnocchi_config('storage/ceph_timeout').with_value(30) }
     end
   end
 
