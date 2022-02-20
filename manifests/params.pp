@@ -14,6 +14,7 @@ class gnocchi::params {
   $metricd_service_name       = 'gnocchi-metricd'
   $statsd_package_name        = 'gnocchi-statsd'
   $statsd_service_name        = 'gnocchi-statsd'
+  $user                       = 'gnocchi'
   $group                      = 'gnocchi'
   $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
   $boto3_package_name         = 'python3-boto3'
