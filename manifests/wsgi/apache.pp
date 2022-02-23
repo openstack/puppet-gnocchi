@@ -142,7 +142,7 @@ class gnocchi::wsgi::apache (
   ::openstacklib::wsgi::apache { 'gnocchi_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => 'gnocchi',
+    group                       => $::gnocchi::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -155,7 +155,7 @@ class gnocchi::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => 'gnocchi',
+    user                        => $::gnocchi::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'gnocchi',

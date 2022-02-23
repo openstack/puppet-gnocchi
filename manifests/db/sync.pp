@@ -3,7 +3,7 @@
 #
 # [*user*]
 #   (Optional) User to run dbsync command.
-#   Defaults to 'gnocchi'
+#   Defaults to $::gnocchi::params::user
 #
 # [*extra_opts*]
 #   (Optional) String of extra command line parameters to append
@@ -15,10 +15,10 @@
 #   Defaults to 300
 #
 class gnocchi::db::sync (
-  $user            = 'gnocchi',
+  $user            = $::gnocchi::params::user,
   $extra_opts      = undef,
   $db_sync_timeout = 300,
-){
+) inherits gnocchi::params {
 
   include gnocchi::deps
 
