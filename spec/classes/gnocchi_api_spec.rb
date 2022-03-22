@@ -11,10 +11,9 @@ describe 'gnocchi::api' do
   end
 
   let :params do
-    { :enabled           => true,
-      :manage_service    => true,
-      :package_ensure    => 'latest',
-      :max_limit         => '1000',
+    { :enabled        => true,
+      :manage_service => true,
+      :package_ensure => 'latest',
     }
   end
 
@@ -58,9 +57,10 @@ describe 'gnocchi::api' do
     end
 
     it 'configures gnocchi-api' do
-      is_expected.to contain_gnocchi_config('api/max_limit').with_value( params[:max_limit] )
+      is_expected.to contain_gnocchi_config('api/max_limit').with_value(1000)
       is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
       is_expected.to contain_gnocchi_config('api/paste_config').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('api/operation_timeout').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('gnocchi_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
         :max_request_body_size        => '<SERVICE DEFAULT>',
@@ -149,12 +149,28 @@ describe 'gnocchi::api' do
       it_raises 'a Puppet::Error', /Invalid service_name/
     end
 
+    context 'with max_limit' do
+      before do
+        params.merge!({:max_limit => 1001 })
+      end
+
+      it { is_expected.to contain_gnocchi_config('api/max_limit').with_value(1001) }
+    end
+
     context 'with paste_config' do
       before do
         params.merge!({:paste_config => 'api-paste.ini' })
       end
 
       it { is_expected.to contain_gnocchi_config('api/paste_config').with_value('api-paste.ini') }
+    end
+
+    context 'with operation_timeout' do
+      before do
+        params.merge!({:operation_timeout => 10 })
+      end
+
+      it { is_expected.to contain_gnocchi_config('api/operation_timeout').with_value(10) }
     end
 
     context 'with enable_proxy_headers_parsing' do

@@ -39,7 +39,12 @@
 #
 # [*paste_config*]
 #   (Optional) Path to API paste configuration.
-#   Defaults to $:;os_service_default
+#   Defaults to $::os_service_default.
+#
+# [*operation_timeout*]
+#   (Optional) Number of seconds before timeout when attempting to do some
+#   operations.
+#   Defaults to $::os_service_default.
 #
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
@@ -65,6 +70,7 @@ class gnocchi::api (
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
   $paste_config                 = $::os_service_default,
+  $operation_timeout            = $::os_service_default,
   $enable_proxy_headers_parsing = $::os_service_default,
   $max_request_body_size        = $::os_service_default,
   # DEPRECATED PARAMETERS
@@ -125,9 +131,10 @@ standalone service, or httpd for being run by a httpd server")
   }
 
   gnocchi_config {
-    'api/max_limit':    value => $max_limit;
-    'api/auth_mode':    value => $auth_strategy;
-    'api/paste_config': value => $paste_config;
+    'api/max_limit':         value => $max_limit;
+    'api/auth_mode':         value => $auth_strategy;
+    'api/paste_config':      value => $paste_config;
+    'api/operation_timeout': value => $operation_timeout;
   }
 
   oslo::middleware { 'gnocchi_config':

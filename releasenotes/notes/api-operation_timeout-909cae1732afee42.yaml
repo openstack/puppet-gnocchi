@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``gnochi::api::operation_timeout`` parameter has been added.
