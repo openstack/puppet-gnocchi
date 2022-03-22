@@ -3,10 +3,9 @@ require 'spec_helper'
 describe 'gnocchi::statsd' do
 
   let :params do
-    { :enabled             => true,
-      :manage_service      => true,
-      :resource_id         => '07f26121-5777-48ba-8a0b-d70468133dd9',
-      :archive_policy_name => 'high',
+    { :enabled        => true,
+      :manage_service => true,
+      :resource_id    => '07f26121-5777-48ba-8a0b-d70468133dd9',
     }
   end
 
@@ -25,8 +24,8 @@ describe 'gnocchi::statsd' do
 
     it 'configures gnocchi statsd' do
       is_expected.to contain_gnocchi_config('statsd/resource_id').with_value('07f26121-5777-48ba-8a0b-d70468133dd9')
-      is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('high')
       is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('<SERVICE DEFAULT>')
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -67,6 +66,16 @@ describe 'gnocchi::statsd' do
 
       it 'configures the parameter' do
         is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value(10)
+      end
+    end
+
+    context 'with archive_policy_name' do
+      before do
+        params.merge!({ :archive_policy_name => 'high' })
+      end
+
+      it 'configures the parameter' do
+        is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('high')
       end
     end
   end
