@@ -57,7 +57,7 @@ describe 'gnocchi::api' do
     end
 
     it 'configures gnocchi-api' do
-      is_expected.to contain_gnocchi_config('api/max_limit').with_value(1000)
+      is_expected.to contain_gnocchi_config('api/max_limit').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
       is_expected.to contain_gnocchi_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('api/operation_timeout').with_value('<SERVICE DEFAULT>')
@@ -151,10 +151,10 @@ describe 'gnocchi::api' do
 
     context 'with max_limit' do
       before do
-        params.merge!({:max_limit => 1001 })
+        params.merge!({:max_limit => 1000 })
       end
 
-      it { is_expected.to contain_gnocchi_config('api/max_limit').with_value(1001) }
+      it { is_expected.to contain_gnocchi_config('api/max_limit').with_value(1000) }
     end
 
     context 'with paste_config' do
