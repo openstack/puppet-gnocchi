@@ -21,7 +21,7 @@ describe 'gnocchi::storage::s3' do
         is_expected.to contain_gnocchi_config('storage/driver').with_value('s3')
         is_expected.to contain_gnocchi_config('storage/s3_endpoint_url').with_value('https://s3-eu-west-1.amazonaws.com')
         is_expected.to contain_gnocchi_config('storage/s3_region_name').with_value('eu-west-1')
-        is_expected.to contain_gnocchi_config('storage/s3_access_key_id').with_value('xyz')
+        is_expected.to contain_gnocchi_config('storage/s3_access_key_id').with_value('xyz').with_secret(true)
         is_expected.to contain_gnocchi_config('storage/s3_secret_access_key').with_value('secret-xyz').with_secret(true)
       end
 
