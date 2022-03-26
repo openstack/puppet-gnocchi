@@ -13,7 +13,7 @@
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
 #   single response from a collection resource.
-#   Defaults to 1000
+#   Defaults to $::os_service_default
 #
 # [*package_ensure*]
 #   (optional) ensure state for package.
@@ -65,7 +65,7 @@ class gnocchi::api (
   $manage_service               = true,
   $enabled                      = true,
   $package_ensure               = 'present',
-  $max_limit                    = 1000,
+  $max_limit                    = $::os_service_default,
   $service_name                 = $::gnocchi::params::api_service_name,
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
