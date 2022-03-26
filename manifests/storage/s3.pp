@@ -58,7 +58,7 @@ class gnocchi::storage::s3(
     'storage/driver':                value => 's3';
     'storage/s3_endpoint_url':       value => $s3_endpoint_url;
     'storage/s3_region_name':        value => $s3_region_name;
-    'storage/s3_access_key_id':      value => $s3_access_key_id;
+    'storage/s3_access_key_id':      value => $s3_access_key_id, secret => true;
     'storage/s3_secret_access_key':  value => $s3_secret_access_key, secret => true;
     'storage/s3_bucket_prefix':      value => $s3_bucket_prefix;
   }
