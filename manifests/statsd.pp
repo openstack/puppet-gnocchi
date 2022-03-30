@@ -23,12 +23,12 @@
 #
 # [*archive_policy_name*]
 #   (optional) Archive policy name to use when creating metrics.
-#   Defaults to undef.
+#   Defaults to $::os_service_default.
 #
 class gnocchi::statsd (
   $resource_id,
   $flush_delay         = $::os_service_default,
-  $archive_policy_name = undef,
+  $archive_policy_name = $::os_service_default,
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
