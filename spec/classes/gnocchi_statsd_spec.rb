@@ -28,6 +28,7 @@ describe 'gnocchi::statsd' do
       is_expected.to contain_gnocchi_config('statsd/port').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('statsd/creator').with_value('<SERVICE DEFAULT>')
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -92,6 +93,16 @@ describe 'gnocchi::statsd' do
 
       it 'configures the parameter' do
         is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('high')
+      end
+    end
+
+    context 'with creator' do
+      before do
+        params.merge!({ :creator => 'creator' })
+      end
+
+      it 'configures the parameter' do
+        is_expected.to contain_gnocchi_config('statsd/creator').with_value('creator')
       end
     end
   end
