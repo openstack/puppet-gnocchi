@@ -24,6 +24,8 @@ describe 'gnocchi::statsd' do
 
     it 'configures gnocchi statsd' do
       is_expected.to contain_gnocchi_config('statsd/resource_id').with_value('07f26121-5777-48ba-8a0b-d70468133dd9')
+      is_expected.to contain_gnocchi_config('statsd/host').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('statsd/port').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('statsd/flush_delay').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('statsd/archive_policy_name').with_value('<SERVICE DEFAULT>')
     end
@@ -56,6 +58,20 @@ describe 'gnocchi::statsd' do
 
       it 'does not configure gnocchi-statsd service' do
         is_expected.to_not contain_service('gnocchi-statsd')
+      end
+    end
+
+    context 'whth host and port' do
+      before do
+        params.merge!({
+          :host => '192.0.2.1',
+          :port => 8125,
+        })
+      end
+
+      it 'configures the parameter' do
+        is_expected.to contain_gnocchi_config('statsd/host').with_value('192.0.2.1')
+        is_expected.to contain_gnocchi_config('statsd/port').with_value(8125)
       end
     end
 

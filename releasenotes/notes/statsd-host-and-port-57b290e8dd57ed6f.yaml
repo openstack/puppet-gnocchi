@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``gnocchi::statsd`` class now supports ``host`` and ``port``.

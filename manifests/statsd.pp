@@ -5,6 +5,14 @@
 # [*resource_id*]
 #   (required) Resource UUID to use to identify statsd in Gnocchi.
 #
+# [*host*]
+#   (optional) The listen IP for statsd.
+#   Defaults to $::os_service_default
+#
+# [*port*]
+#   (optional) The port for statsd.
+#   Defaults to $::os_service_default.
+#
 # [*flush_delay*]
 #   (optional) Delay between flushes.
 #   Defaults to $::os_service_default
@@ -27,6 +35,8 @@
 #
 class gnocchi::statsd (
   $resource_id,
+  $host                = $::os_service_default,
+  $port                = $::os_service_default,
   $flush_delay         = $::os_service_default,
   $archive_policy_name = $::os_service_default,
   $manage_service      = true,
@@ -61,6 +71,8 @@ class gnocchi::statsd (
 
   gnocchi_config {
     'statsd/resource_id'         : value => $resource_id;
+    'statsd/host'                : value => $host;
+    'statsd/port'                : value => $port;
     'statsd/archive_policy_name' : value => $archive_policy_name;
     'statsd/flush_delay'         : value => $flush_delay;
   }
