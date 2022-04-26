@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``gnocchi::api::middleware`` parameter has been removed.
