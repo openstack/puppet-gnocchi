@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``gnocchi::statsd::creator`` parameter has been added.

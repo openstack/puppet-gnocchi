@@ -17,6 +17,14 @@
 #   (optional) Delay between flushes.
 #   Defaults to $::os_service_default
 #
+# [*archive_policy_name*]
+#   (optional) Archive policy name to use when creating metrics.
+#   Defaults to $::os_service_default.
+#
+# [*creator*]
+#   (required) Creator value to use to identify statsd in Gnocchi.
+#   Defaults to $::os_service_default.
+#
 # [*enabled*]
 #   (optional) Should the service be enabled.
 #   Defaults to true
@@ -29,16 +37,13 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*archive_policy_name*]
-#   (optional) Archive policy name to use when creating metrics.
-#   Defaults to $::os_service_default.
-#
 class gnocchi::statsd (
   $resource_id,
   $host                = $::os_service_default,
   $port                = $::os_service_default,
   $flush_delay         = $::os_service_default,
   $archive_policy_name = $::os_service_default,
+  $creator             = $::os_service_default,
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
@@ -73,8 +78,9 @@ class gnocchi::statsd (
     'statsd/resource_id'         : value => $resource_id;
     'statsd/host'                : value => $host;
     'statsd/port'                : value => $port;
-    'statsd/archive_policy_name' : value => $archive_policy_name;
     'statsd/flush_delay'         : value => $flush_delay;
+    'statsd/archive_policy_name' : value => $archive_policy_name;
+    'statsd/creator'             : value => $creator;
   }
 
 }
