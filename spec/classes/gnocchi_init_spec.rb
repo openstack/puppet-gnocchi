@@ -36,7 +36,7 @@ describe 'gnocchi' do
       end
     end
 
-    context 'with overriden parameters' do
+    context 'with overridden parameters' do
       let :params do
         { :purge_config     => true,
           :coordination_url => 'redis://localhost:6379', }
@@ -48,7 +48,7 @@ describe 'gnocchi' do
         })
       end
 
-      it 'cnfigures coordination' do
+      it 'configures coordination' do
         is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('redis://localhost:6379')
         is_expected.to contain_oslo__coordination('gnocchi_config').with(
           :backend_url   => 'redis://localhost:6379',

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'gnocchi::storage' do
 
   shared_examples_for 'gnocchi-storage' do
-    # Nothong to test
+    # Nothing to test
   end
 
   on_supported_os({

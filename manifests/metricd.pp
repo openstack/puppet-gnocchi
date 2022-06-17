@@ -15,16 +15,16 @@
 #   Defaults to $::os_workers
 #
 # [*metric_processing_delay*]
-#   (optional) Delay between processng metrics
+#   (optional) Delay between processing metrics
 #   Defaults to $::os_service_default.
 #
 # [*greedy*]
 #   (optional) Allow to bypass metric_processing_delay if metricd is noticed
 #   that messages are ready to be processed.
-#   Defaoults to $::os_service_default.
+#   Defaults to $::os_service_default.
 #
 # [*metric_reporting_delay*]
-#   (optional) How many seocnds to wait between metric ingestion reporting.
+#   (optional) How many seconds to wait between metric ingestion reporting.
 #   Defaults to $::os_service_default.
 #
 # [*metric_cleanup_delay*]

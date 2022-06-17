@@ -27,7 +27,7 @@
 #
 # [*manage_boto3*]
 #   (optional) Manage boto3 package.
-#   Defaoutls to true
+#   Defaults to true
 #
 # [*package_ensure*]
 #   (optional) The state of boto3 package.
