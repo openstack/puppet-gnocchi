@@ -33,7 +33,7 @@ describe 'Puppet::Type.type(:gnocchi_config)' do
     expect(@gnocchi_config[:value]).to eq(['bar'])
   end
 
-  it 'should not accept a value with whitespace' do
+  it 'should accept a value with whitespace' do
     @gnocchi_config[:value] = 'b ar'
     expect(@gnocchi_config[:value]).to eq(['b ar'])
   end
