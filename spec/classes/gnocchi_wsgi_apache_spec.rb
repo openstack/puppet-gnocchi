@@ -9,6 +9,7 @@ describe 'gnocchi::wsgi::apache' do
         :bind_port                   => 8041,
         :group                       => 'gnocchi',
         :path                        => '/',
+        :priority                    => 10,
         :servername                  => facts[:fqdn],
         :ssl                         => false,
         :threads                     => 1,
@@ -20,8 +21,8 @@ describe 'gnocchi::wsgi::apache' do
         :wsgi_script_file            => 'app',
         :wsgi_script_source          => platform_params[:wsgi_script_source],
         :custom_wsgi_process_options => {},
-        :access_log_file             => false,
-        :access_log_format           => false,
+        :access_log_file             => nil,
+        :access_log_format           => nil,
       )}
     end
 
