@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``gnocchi::metricd::cleanup_delay`` parameter has been removed. Use
+    the ``metric_cleanup_delay`` parameter instead.

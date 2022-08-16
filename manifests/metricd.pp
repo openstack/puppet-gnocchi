@@ -39,13 +39,6 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# DEPRECATED PARAMETERS
-#
-# [*cleanup_delay*]
-#   (optional) How many seconds to wait between
-#   cleaning of expired data.
-#   Defaults to $::os_service_default
-#
 class gnocchi::metricd (
   $manage_service          = true,
   $enabled                 = true,
@@ -56,22 +49,16 @@ class gnocchi::metricd (
   $metric_cleanup_delay    = $::os_service_default,
   $processing_replicas     = $::os_service_default,
   $package_ensure          = 'present',
-  # DEPRECATED PARAMETERS
-  $cleanup_delay           = undef,
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  if $cleanup_delay != undef {
-    warning('The cleanup_delay parameter is deprecated. Use metric_cleanup_delay instead')
-  }
 
   gnocchi_config {
     'metricd/workers':                 value => $workers;
     'metricd/metric_processing_delay': value => $metric_processing_delay;
     'metricd/greedy':                  value => $greedy;
     'metricd/metric_reporting_delay':  value => $metric_reporting_delay;
-    'metricd/metric_cleanup_delay':    value => pick($cleanup_delay, $metric_cleanup_delay);
+    'metricd/metric_cleanup_delay':    value => $metric_cleanup_delay;
     'metricd/processing_replicas':     value => $processing_replicas;
   }
 
