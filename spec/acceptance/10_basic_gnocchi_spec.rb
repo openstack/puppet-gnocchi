@@ -10,6 +10,8 @@ describe 'basic gnocchi' do
       include openstack_integration::repos
       include openstack_integration::apache
       include openstack_integration::mysql
+      include openstack_integration::memcached
+      include openstack_integration::redis
       include openstack_integration::keystone
       class { 'openstack_integration::gnocchi':
         integration_enable => false,
