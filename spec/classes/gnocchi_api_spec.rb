@@ -61,9 +61,9 @@ describe 'gnocchi::api' do
       is_expected.to contain_gnocchi_config('api/auth_mode').with_value('keystone')
       is_expected.to contain_gnocchi_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_gnocchi_config('api/operation_timeout').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_gnocchi_config('api/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('gnocchi_config').with(
-        :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
-        :max_request_body_size        => '<SERVICE DEFAULT>',
+        :max_request_body_size => '<SERVICE DEFAULT>',
       )
     end
 
@@ -178,9 +178,7 @@ describe 'gnocchi::api' do
         params.merge!({:enable_proxy_headers_parsing => true })
       end
 
-      it { is_expected.to contain_oslo__middleware('gnocchi_config').with(
-        :enable_proxy_headers_parsing => true,
-      )}
+      it { is_expected.to contain_gnocchi_config('api/enable_proxy_headers_parsing').with_value(true) }
     end
 
     context 'with max_request_body_size' do
