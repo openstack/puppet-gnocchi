@@ -66,7 +66,7 @@ describe 'gnocchi::storage::s3' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :boto3_package_name => 'python3-boto3' }
         when 'RedHat'

@@ -19,7 +19,7 @@ class gnocchi::params {
   $gnocchi_wsgi_script_source = '/usr/bin/gnocchi-api'
   $boto3_package_name         = 'python3-boto3'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $sqlite_package_name        = undef
       $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
@@ -33,8 +33,8 @@ class gnocchi::params {
       $pymysql_package_name       = 'python3-pymysql'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
 
-  } # Case $::osfamily
+  } # Case $facts['os']['family']
 }

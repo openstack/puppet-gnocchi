@@ -13,7 +13,7 @@
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
 #   single response from a collection resource.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*package_ensure*]
 #   (optional) ensure state for package.
@@ -39,34 +39,34 @@
 #
 # [*paste_config*]
 #   (Optional) Path to API paste configuration.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*operation_timeout*]
 #   (Optional) Number of seconds before timeout when attempting to do some
 #   operations.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_request_body_size*]
 #   (Optional) Set max request body size
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class gnocchi::api (
   $manage_service               = true,
   $enabled                      = true,
   $package_ensure               = 'present',
-  $max_limit                    = $::os_service_default,
+  $max_limit                    = $facts['os_service_default'],
   $service_name                 = $::gnocchi::params::api_service_name,
   $sync_db                      = false,
   $auth_strategy                = 'keystone',
-  $paste_config                 = $::os_service_default,
-  $operation_timeout            = $::os_service_default,
-  $enable_proxy_headers_parsing = $::os_service_default,
-  $max_request_body_size        = $::os_service_default,
+  $paste_config                 = $facts['os_service_default'],
+  $operation_timeout            = $facts['os_service_default'],
+  $enable_proxy_headers_parsing = $facts['os_service_default'],
+  $max_request_body_size        = $facts['os_service_default'],
 ) inherits gnocchi::params {
 
   include gnocchi::deps

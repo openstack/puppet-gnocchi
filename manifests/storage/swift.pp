@@ -23,62 +23,62 @@
 #
 # [*swift_auth_version*]
 #   (optional) 'Swift authentication version to user.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_authurl*]
 #   (optional) Swift auth URL.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_user*]
 #   (optional) Swift user.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_key*]
 #   (optional) Swift key.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_project_name*]
 #   (optional) Swift tenant name, only used if swift_auth_version is '2' or
 #   '3'.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_user_domain_name*]
 #   (optional) Swift user domain name.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_project_domain_name*]
 #   (optional) Swift project domain name.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_region*]
 #   (optional) Swift region.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_endpoint_type*]
 #   (optional) Swift endpoint type. Defines the keystone endpoint type
 #   (publicURL, internalURL or adminURL).
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_service_type*]
 #   (optional) A string giving the service type of the swift service to use.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*swift_timeout*]
 #   (optional) Connection timeout in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 class gnocchi::storage::swift(
-  $swift_auth_version        = $::os_service_default,
-  $swift_authurl             = $::os_service_default,
-  $swift_user                = $::os_service_default,
-  $swift_key                 = $::os_service_default,
-  $swift_project_name        = $::os_service_default,
-  $swift_user_domain_name    = $::os_service_default,
-  $swift_project_domain_name = $::os_service_default,
-  $swift_region              = $::os_service_default,
-  $swift_endpoint_type       = $::os_service_default,
-  $swift_service_type        = $::os_service_default,
-  $swift_timeout             = $::os_service_default,
+  $swift_auth_version        = $facts['os_service_default'],
+  $swift_authurl             = $facts['os_service_default'],
+  $swift_user                = $facts['os_service_default'],
+  $swift_key                 = $facts['os_service_default'],
+  $swift_project_name        = $facts['os_service_default'],
+  $swift_user_domain_name    = $facts['os_service_default'],
+  $swift_project_domain_name = $facts['os_service_default'],
+  $swift_region              = $facts['os_service_default'],
+  $swift_endpoint_type       = $facts['os_service_default'],
+  $swift_service_type        = $facts['os_service_default'],
+  $swift_timeout             = $facts['os_service_default'],
 ) {
 
   include gnocchi::deps

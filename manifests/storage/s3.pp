@@ -7,11 +7,11 @@
 #
 # [*s3_endpoint_url*]
 #   (optional) 'S3 endpoint url.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*s3_region_name*]
 #   (optional) S3 Region name.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*s3_access_key_id*]
 #   (optional) S3 storage access key id.
@@ -34,11 +34,11 @@
 #   Defaults to 'present'
 #
 class gnocchi::storage::s3(
-  $s3_endpoint_url      = $::os_service_default,
-  $s3_region_name       = $::os_service_default,
+  $s3_endpoint_url      = $facts['os_service_default'],
+  $s3_region_name       = $facts['os_service_default'],
   $s3_access_key_id     = undef,
   $s3_secret_access_key = undef,
-  $s3_bucket_prefix     = $::os_service_default,
+  $s3_bucket_prefix     = $facts['os_service_default'],
   $manage_boto3         = true,
   $package_ensure       = 'present',
 ) {

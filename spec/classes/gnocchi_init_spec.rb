@@ -67,7 +67,7 @@ describe 'gnocchi' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :gnocchi_common_package => 'gnocchi-common' }
         when 'RedHat'

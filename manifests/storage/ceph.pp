@@ -26,11 +26,11 @@
 #
 # [*ceph_keyring*]
 #   (optional) Ceph keyring path.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ceph_secret*]
 #   (optional) Ceph secret.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ceph_pool*]
 #   (optional) Ceph pool name to use.
@@ -38,7 +38,7 @@
 #
 # [*ceph_timeout*]
 #   (optional) Ceph connection timeout in seconds.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*ceph_conffile*]
 #   (optional) Ceph configuration file.
@@ -54,10 +54,10 @@
 #
 class gnocchi::storage::ceph(
   $ceph_username,
-  $ceph_keyring   = $::os_service_default,
-  $ceph_secret    = $::os_service_default,
+  $ceph_keyring   = $facts['os_service_default'],
+  $ceph_secret    = $facts['os_service_default'],
   $ceph_pool      = 'gnocchi',
-  $ceph_timeout   = $::os_service_default,
+  $ceph_timeout   = $facts['os_service_default'],
   $ceph_conffile  = '/etc/ceph/ceph.conf',
   $manage_rados   = true,
   $package_ensure = 'present',

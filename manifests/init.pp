@@ -10,7 +10,7 @@
 #
 # [*coordination_url*]
 #   (optional) The url to use for distributed group membership coordination.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
@@ -19,7 +19,7 @@
 #
 class gnocchi (
   $package_ensure   = 'present',
-  $coordination_url = $::os_service_default,
+  $coordination_url = $facts['os_service_default'],
   $purge_config     = false,
 ) inherits gnocchi::params {
 

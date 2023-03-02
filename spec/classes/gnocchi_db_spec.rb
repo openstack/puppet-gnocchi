@@ -111,7 +111,7 @@ describe 'gnocchi::db' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           {
             :pymysql_package_name => 'python3-pymysql',
@@ -120,7 +120,7 @@ describe 'gnocchi::db' do
       end
 
       it_behaves_like 'gnocchi::db'
-      it_behaves_like "gnocchi::db on #{facts[:osfamily]}"
+      it_behaves_like "gnocchi::db on #{facts[:os]['family']}"
     end
   end
 end

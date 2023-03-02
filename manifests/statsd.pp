@@ -7,23 +7,23 @@
 #
 # [*host*]
 #   (optional) The listen IP for statsd.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*port*]
 #   (optional) The port for statsd.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*flush_delay*]
 #   (optional) Delay between flushes.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*archive_policy_name*]
 #   (optional) Archive policy name to use when creating metrics.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*creator*]
 #   (required) Creator value to use to identify statsd in Gnocchi.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*enabled*]
 #   (optional) Should the service be enabled.
@@ -39,11 +39,11 @@
 #
 class gnocchi::statsd (
   $resource_id,
-  $host                = $::os_service_default,
-  $port                = $::os_service_default,
-  $flush_delay         = $::os_service_default,
-  $archive_policy_name = $::os_service_default,
-  $creator             = $::os_service_default,
+  $host                = $facts['os_service_default'],
+  $port                = $facts['os_service_default'],
+  $flush_delay         = $facts['os_service_default'],
+  $archive_policy_name = $facts['os_service_default'],
+  $creator             = $facts['os_service_default'],
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',

@@ -12,28 +12,28 @@
 #
 # [*workers*]
 #   (optional) the number of workers.
-#   Defaults to $::os_workers
+#   Defaults to $facts['os_workers']
 #
 # [*metric_processing_delay*]
 #   (optional) Delay between processing metrics
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*greedy*]
 #   (optional) Allow to bypass metric_processing_delay if metricd is noticed
 #   that messages are ready to be processed.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*metric_reporting_delay*]
 #   (optional) How many seconds to wait between metric ingestion reporting.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*metric_cleanup_delay*]
 #   (optional) How many seconds to wait between cleaning of expired data.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*processing_replicas*]
 #   (optional) Number of workers tht share a task.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*manage_service*]
 #   (optional) Whether the service should be managed by Puppet.
@@ -42,12 +42,12 @@
 class gnocchi::metricd (
   $manage_service          = true,
   $enabled                 = true,
-  $workers                 = $::os_workers,
-  $metric_processing_delay = $::os_service_default,
-  $greedy                  = $::os_service_default,
-  $metric_reporting_delay  = $::os_service_default,
-  $metric_cleanup_delay    = $::os_service_default,
-  $processing_replicas     = $::os_service_default,
+  $workers                 = $facts['os_workers'],
+  $metric_processing_delay = $facts['os_service_default'],
+  $greedy                  = $facts['os_service_default'],
+  $metric_reporting_delay  = $facts['os_service_default'],
+  $metric_cleanup_delay    = $facts['os_service_default'],
+  $processing_replicas     = $facts['os_service_default'],
   $package_ensure          = 'present',
 ) inherits gnocchi::params {
 
