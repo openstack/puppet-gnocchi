@@ -72,6 +72,10 @@ class gnocchi::api (
   include gnocchi::deps
   include gnocchi::policy
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+  validate_legacy(Boolean, 'validate_bool', $sync_db)
+
   package { 'gnocchi-api':
     ensure => $package_ensure,
     name   => $::gnocchi::params::api_package_name,

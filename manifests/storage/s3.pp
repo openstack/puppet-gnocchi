@@ -46,6 +46,8 @@ class gnocchi::storage::s3(
   include gnocchi::deps
   include gnocchi::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_boto3)
+
   if $manage_boto3 {
     ensure_packages('python-boto3', {
       'ensure' => $package_ensure,

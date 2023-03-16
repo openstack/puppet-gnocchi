@@ -51,6 +51,9 @@ class gnocchi::statsd (
 
   include gnocchi::deps
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   package { 'gnocchi-statsd':
     ensure => $package_ensure,
     name   => $::gnocchi::params::statsd_package_name,

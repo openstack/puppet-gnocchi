@@ -53,6 +53,9 @@ class gnocchi::metricd (
 
   include gnocchi::deps
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   gnocchi_config {
     'metricd/workers':                 value => $workers;
     'metricd/metric_processing_delay': value => $metric_processing_delay;
