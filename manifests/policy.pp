@@ -60,19 +60,6 @@ class gnocchi::policy (
 
   validate_legacy(Hash, 'validate_hash', $policies)
 
-  if ! $purge_config {
-    # TODO(tkajinam): Remove this once version with policy-in-code implementation
-    #                 is released.
-    exec { 'gnocci-oslopolicy-convert-json-to-yaml':
-      command => "oslopolicy-convert-json-to-yaml --namespace gnocchi --policy-file /etc/gnocchi/policy.json --output-file ${policy_path}",
-      unless  => "test -f ${policy_path}",
-      path    => ['/bin','/usr/bin','/usr/local/bin'],
-      require => Anchor['gnocchi::install::end'],
-    }
-    Exec<| title == 'gnocchi-oslopolicy-convert-json-to-yaml' |>
-    -> File<| title == $policy_path |>
-  }
-
   $policy_parameters = {
     policies     => $policies,
     policy_path  => $policy_path,
