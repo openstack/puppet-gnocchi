@@ -17,7 +17,7 @@ describe 'gnocchi::storage::incoming::redis' do
     context 'with redis' do
       it 'configures gnocchi incoming driver with redis' do
         is_expected.to contain_gnocchi_config('incoming/driver').with_value('redis')
-        is_expected.to contain_gnocchi_config('incoming/redis_url').with_value('http://localhost:6378')
+        is_expected.to contain_gnocchi_config('incoming/redis_url').with_value('http://localhost:6378').with_secret(true)
       end
     end
   end

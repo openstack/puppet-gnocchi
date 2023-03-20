@@ -15,8 +15,8 @@ class gnocchi::storage::incoming::redis(
   include gnocchi::deps
 
   gnocchi_config {
-    'incoming/driver':        value => 'redis';
-    'incoming/redis_url':     value => $redis_url;
+    'incoming/driver':    value => 'redis';
+    'incoming/redis_url': value => $redis_url, secret => true;
   }
 
 }
