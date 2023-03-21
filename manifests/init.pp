@@ -40,6 +40,6 @@ class gnocchi (
     manage_config => false,
   }
   gnocchi_config {
-    'DEFAULT/coordination_url' : value => $coordination_url;
+    'DEFAULT/coordination_url' : value => $coordination_url, secret => true;
   }
 }

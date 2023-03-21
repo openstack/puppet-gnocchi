@@ -28,7 +28,7 @@ describe 'gnocchi' do
       end
 
       it 'does not configure coordination_url' do
-        is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_oslo__coordination('gnocchi_config').with(
           :backend_url   => '<SERVICE DEFAULT>',
           :manage_config => false,
@@ -49,7 +49,7 @@ describe 'gnocchi' do
       end
 
       it 'configures coordination' do
-        is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('redis://localhost:6379')
+        is_expected.to contain_gnocchi_config('DEFAULT/coordination_url').with_value('redis://localhost:6379').with_secret(true)
         is_expected.to contain_oslo__coordination('gnocchi_config').with(
           :backend_url   => 'redis://localhost:6379',
           :manage_config => false,
