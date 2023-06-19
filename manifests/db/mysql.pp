@@ -34,7 +34,7 @@
 #   Defaults to 'utf8_general_ci'
 #
 class gnocchi::db::mysql(
-  $password,
+  String[1] $password,
   $dbname        = 'gnocchi',
   $user          = 'gnocchi',
   $host          = '127.0.0.1',
@@ -44,8 +44,6 @@ class gnocchi::db::mysql(
 ) {
 
   include gnocchi::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   ::openstacklib::db::mysql { 'gnocchi':
     user          => $user,

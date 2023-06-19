@@ -48,7 +48,7 @@ describe 'gnocchi::db' do
         }
       end
 
-      it { should raise_error(Puppet::Error, /validate_re/) }
+      it { should raise_error(Puppet::Error) }
     end
 
     context 'with incorrect pymysql database_connection string' do
@@ -58,7 +58,7 @@ describe 'gnocchi::db' do
         }
       end
 
-      it { should raise_error(Puppet::Error, /validate_re/) }
+      it { should raise_error(Puppet::Error) }
     end
   end
 

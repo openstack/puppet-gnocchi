@@ -39,14 +39,12 @@ class gnocchi::storage::s3(
   $s3_access_key_id     = undef,
   $s3_secret_access_key = undef,
   $s3_bucket_prefix     = $facts['os_service_default'],
-  $manage_boto3         = true,
+  Boolean $manage_boto3 = true,
   $package_ensure       = 'present',
 ) {
 
   include gnocchi::deps
   include gnocchi::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_boto3)
 
   if $manage_boto3 {
     ensure_packages('python-boto3', {

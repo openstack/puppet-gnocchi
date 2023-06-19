@@ -54,18 +54,16 @@
 #
 class gnocchi::storage::ceph(
   $ceph_username,
-  $ceph_keyring   = $facts['os_service_default'],
-  $ceph_secret    = $facts['os_service_default'],
-  $ceph_pool      = 'gnocchi',
-  $ceph_timeout   = $facts['os_service_default'],
-  $ceph_conffile  = '/etc/ceph/ceph.conf',
-  $manage_rados   = true,
-  $package_ensure = 'present',
+  $ceph_keyring         = $facts['os_service_default'],
+  $ceph_secret          = $facts['os_service_default'],
+  $ceph_pool            = 'gnocchi',
+  $ceph_timeout         = $facts['os_service_default'],
+  $ceph_conffile        = '/etc/ceph/ceph.conf',
+  Boolean $manage_rados = true,
+  $package_ensure       = 'present',
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  validate_legacy(Boolean, 'validate_bool', $manage_rados)
 
   if (is_service_default($ceph_keyring) and is_service_default($ceph_secret)) or (! $ceph_keyring and ! $ceph_secret) {
     fail('You need to specify either gnocchi::storage::ceph::ceph_keyring or gnocchi::storage::ceph::ceph_secret.')

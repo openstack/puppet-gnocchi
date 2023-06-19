@@ -13,14 +13,11 @@
 #   Defaults to 'present'
 #
 class gnocchi::db (
-  $database_connection = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
-  $package_ensure      = 'present',
+  Oslo::DBconn $database_connection = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
+  $package_ensure                   = 'present',
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  validate_legacy(Oslo::Dbconn, 'validate_re', $database_connection,
-    ['^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?'])
 
   if $database_connection {
     case $database_connection {
