@@ -35,7 +35,7 @@ class gnocchi::deps {
 
   # policy config should occur in the config block also.
   Anchor['gnocchi::config::begin']
-  -> Openstacklib::Policy<||>
+  -> Openstacklib::Policy<| tag == 'gnocchi' |>
   ~> Anchor['gnocchi::config::end']
 
   # On any uwsgi config change, we must restart gnocchi-api.
