@@ -32,6 +32,7 @@ describe 'gnocchi::policy' do
           :file_group   => 'gnocchi',
           :file_format  => 'yaml',
           :purge_config => false,
+          :tag          => 'gnocchi',
         )
         is_expected.to contain_oslo__policy('gnocchi_config').with(
           :enforce_scope        => false,
@@ -61,6 +62,7 @@ describe 'gnocchi::policy' do
           :file_group   => 'gnocchi',
           :file_format  => 'yaml',
           :purge_config => true,
+          :tag          => 'gnocchi',
         )
         is_expected.to contain_oslo__policy('gnocchi_config').with(
           :enforce_scope        => false,
