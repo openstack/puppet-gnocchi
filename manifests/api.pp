@@ -56,12 +56,12 @@
 #   Defaults to $facts['os_service_default'].
 #
 class gnocchi::api (
-  $manage_service               = true,
-  $enabled                      = true,
+  Boolean $manage_service       = true,
+  Boolean $enabled              = true,
   $package_ensure               = 'present',
   $max_limit                    = $facts['os_service_default'],
   $service_name                 = $::gnocchi::params::api_service_name,
-  $sync_db                      = false,
+  Boolean $sync_db              = false,
   $auth_strategy                = 'keystone',
   $paste_config                 = $facts['os_service_default'],
   $operation_timeout            = $facts['os_service_default'],
@@ -71,10 +71,6 @@ class gnocchi::api (
 
   include gnocchi::deps
   include gnocchi::policy
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
-  validate_legacy(Boolean, 'validate_bool', $sync_db)
 
   package { 'gnocchi-api':
     ensure => $package_ensure,

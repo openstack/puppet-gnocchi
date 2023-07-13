@@ -24,14 +24,11 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class gnocchi::config (
-  $gnocchi_config        = {},
-  $gnocchi_api_paste_ini = {},
+  Hash $gnocchi_config        = {},
+  Hash $gnocchi_api_paste_ini = {},
 ) {
 
   include gnocchi::deps
-
-  validate_legacy(Hash, 'validate_hash', $gnocchi_config)
-  validate_legacy(Hash, 'validate_hash', $gnocchi_api_paste_ini)
 
   create_resources('gnocchi_config', $gnocchi_config)
   create_resources('gnocchi_api_paste_ini', $gnocchi_api_paste_ini)

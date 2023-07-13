@@ -39,20 +39,17 @@
 #
 class gnocchi::statsd (
   $resource_id,
-  $host                = $facts['os_service_default'],
-  $port                = $facts['os_service_default'],
-  $flush_delay         = $facts['os_service_default'],
-  $archive_policy_name = $facts['os_service_default'],
-  $creator             = $facts['os_service_default'],
-  $manage_service      = true,
-  $enabled             = true,
-  $package_ensure      = 'present',
+  $host                   = $facts['os_service_default'],
+  $port                   = $facts['os_service_default'],
+  $flush_delay            = $facts['os_service_default'],
+  $archive_policy_name    = $facts['os_service_default'],
+  $creator                = $facts['os_service_default'],
+  Boolean $manage_service = true,
+  Boolean $enabled        = true,
+  $package_ensure         = 'present',
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   package { 'gnocchi-statsd':
     ensure => $package_ensure,
