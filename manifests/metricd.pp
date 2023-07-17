@@ -40,8 +40,8 @@
 #   Defaults to true.
 #
 class gnocchi::metricd (
-  $manage_service          = true,
-  $enabled                 = true,
+  Boolean $manage_service  = true,
+  Boolean $enabled         = true,
   $workers                 = $facts['os_workers'],
   $metric_processing_delay = $facts['os_service_default'],
   $greedy                  = $facts['os_service_default'],
@@ -52,9 +52,6 @@ class gnocchi::metricd (
 ) inherits gnocchi::params {
 
   include gnocchi::deps
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   gnocchi_config {
     'metricd/workers':                 value => $workers;
