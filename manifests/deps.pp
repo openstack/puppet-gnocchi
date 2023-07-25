@@ -33,6 +33,10 @@ class gnocchi::deps {
   # installed before service startup
   Oslo::Coordination<||> -> Anchor['gnocchi::service::begin']
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['gnocchi::dbsync::begin']
+
   # policy config should occur in the config block also.
   Anchor['gnocchi::config::begin']
   -> Openstacklib::Policy<| tag == 'gnocchi' |>

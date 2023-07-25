@@ -19,39 +19,13 @@ class gnocchi::db (
 
   include gnocchi::deps
 
-  if $database_connection {
-    case $database_connection {
-      /^mysql(\+pymysql)?:\/\//: {
-        require mysql::bindings
-        require mysql::bindings::python
-        if $database_connection =~ /^mysql\+pymysql/ {
-          $backend_package = $::gnocchi::params::pymysql_package_name
-        } else {
-          $backend_package = false
-        }
-      }
-      /^postgresql:\/\//: {
-        $backend_package = false
-        require postgresql::lib::python
-      }
-      /^sqlite:\/\//: {
-        $backend_package = $::gnocchi::params::sqlite_package_name
-      }
-      default: {
-        fail('Unsupported backend configured')
-      }
-    }
+  oslo::db { 'gnocchi_config':
+    connection             => $database_connection,
+    backend_package_ensure => $package_ensure,
+    manage_config          => false,
+  }
 
-    if $backend_package and !defined(Package[$backend_package]) {
-      package {'gnocchi-backend-package':
-        ensure => present,
-        name   => $backend_package,
-        tag    => 'openstack',
-      }
-    }
-
-    gnocchi_config {
-      'indexer/url': value => $database_connection, secret => true;
-    }
+  gnocchi_config {
+    'indexer/url': value => $database_connection, secret => true;
   }
 }
