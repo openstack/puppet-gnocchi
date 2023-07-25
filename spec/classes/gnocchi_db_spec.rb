@@ -79,14 +79,6 @@ describe 'gnocchi::db' do
   end
 
   shared_examples 'gnocchi::db on RedHat' do
-    context 'using sqlite' do
-      it { should contain_package('gnocchi-indexer-sqlalchemy').with(
-        :name   => 'openstack-gnocchi-indexer-sqlalchemy',
-        :ensure => 'present',
-        :tag    => ['openstack', 'gnocchi-package']
-      )}
-    end
-
     context 'using pymysql driver' do
       let :params do
         {

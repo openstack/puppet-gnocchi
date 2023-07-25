@@ -53,14 +53,5 @@ class gnocchi::db (
     gnocchi_config {
       'indexer/url': value => $database_connection, secret => true;
     }
-
-    if $::gnocchi::params::indexer_package_name != undef {
-      package { 'gnocchi-indexer-sqlalchemy':
-        ensure => $package_ensure,
-        name   => $::gnocchi::params::indexer_package_name,
-        tag    => ['openstack', 'gnocchi-package'],
-      }
-    }
   }
-
 }

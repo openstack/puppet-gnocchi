@@ -22,13 +22,11 @@ class gnocchi::params {
   case $facts['os']['family'] {
     'RedHat': {
       $sqlite_package_name        = undef
-      $indexer_package_name       = 'openstack-gnocchi-indexer-sqlalchemy'
       $gnocchi_wsgi_script_path   = '/var/www/cgi-bin/gnocchi'
       $pymysql_package_name       = undef
     }
     'Debian': {
       $sqlite_package_name        = 'python-pysqlite2'
-      $indexer_package_name       = undef
       $gnocchi_wsgi_script_path   = '/usr/lib/cgi-bin/gnocchi'
       $pymysql_package_name       = 'python3-pymysql'
     }
