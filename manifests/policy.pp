@@ -75,6 +75,7 @@ class gnocchi::policy (
     file_group   => $::gnocchi::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'gnocchi',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
