@@ -14,7 +14,7 @@ describe 'basic gnocchi' do
       include openstack_integration::redis
       include openstack_integration::keystone
       class { 'openstack_integration::gnocchi':
-        integration_enable => false,
+        backend => 'file'
       }
       EOS
 
