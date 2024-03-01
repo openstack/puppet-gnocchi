@@ -42,4 +42,8 @@ class gnocchi (
   gnocchi_config {
     'DEFAULT/coordination_url' : value => $coordination_url, secret => true;
   }
+
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination['gnocchi_config'] -> Anchor['gnocchi::service::begin']
 }

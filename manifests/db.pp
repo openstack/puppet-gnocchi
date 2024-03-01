@@ -28,4 +28,8 @@ class gnocchi::db (
   gnocchi_config {
     'indexer/url': value => $database_connection, secret => true;
   }
+
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db['gnocchi_config'] -> Anchor['gnocchi::dbsync::begin']
 }

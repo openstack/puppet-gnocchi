@@ -24,28 +24,13 @@ class gnocchi::deps {
   ~> Service<| tag == 'gnocchi-service' |>
   ~> anchor { 'gnocchi::service::end': }
 
-  # paste-api.ini config should occur in the config block also.
   Anchor['gnocchi::config::begin']
   -> Gnocchi_api_paste_ini<||>
-  ~> Anchor['gnocchi::config::end']
-
-  # all coordination settings should be applied and all packages should be
-  # installed before service startup
-  Oslo::Coordination<||> -> Anchor['gnocchi::service::begin']
-
-  # all db settings should be applied and all packages should be installed
-  # before dbsync starts
-  Oslo::Db<||> -> Anchor['gnocchi::dbsync::begin']
-
-  # policy config should occur in the config block also.
-  Anchor['gnocchi::config::begin']
-  -> Openstacklib::Policy<| tag == 'gnocchi' |>
   -> Anchor['gnocchi::config::end']
 
-  # On any uwsgi config change, we must restart gnocchi-api.
   Anchor['gnocchi::config::begin']
   -> Gnocchi_api_uwsgi_config<||>
-  ~> Anchor['gnocchi::config::end']
+  -> Anchor['gnocchi::config::end']
 
   # Installation or config changes will always restart services.
   Anchor['gnocchi::install::end'] ~> Anchor['gnocchi::service::begin']

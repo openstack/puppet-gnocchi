@@ -65,10 +65,14 @@ class gnocchi::policy (
     file_group   => $::gnocchi::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
-    tag          => 'gnocchi',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
+
+  # policy config should occur in the config block also.
+  Anchor['gnocchi::config::begin']
+  -> Openstacklib::Policy[$policy_path]
+  -> Anchor['gnocchi::config::end']
 
   oslo::policy { 'gnocchi_config':
     enforce_scope        => $enforce_scope,
@@ -77,5 +81,4 @@ class gnocchi::policy (
     policy_default_rule  => $policy_default_rule,
     policy_dirs          => $policy_dirs,
   }
-
 }

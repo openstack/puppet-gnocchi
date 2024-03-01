@@ -98,6 +98,12 @@ class gnocchi::api (
         hasrestart => true,
         tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
       }
+
+      # On any paste-api.ini config change, we must rstart Gnocchi API.
+      Gnocchi_api_paste_ini<||> ~> Service['gnocchi-api']
+      # On any uwsgi config change, we must restart Gnocchi API.
+      Gnocchi_api_uwsgi_config<||> ~> Service['gnocchi-api']
+
     } elsif $service_name == 'httpd' {
       service { 'gnocchi-api':
         ensure => 'stopped',
@@ -109,6 +115,10 @@ class gnocchi::api (
 
       # we need to make sure gnocchi-api/eventlet is stopped before trying to start apache
       Service['gnocchi-api'] -> Service[$service_name]
+
+      # On any paste-api.ini config change, we must rstart Gnocchi API.
+      Gnocchi_api_paste_ini<||> ~> Service[$service_name]
+
     } else {
       fail("Invalid service_name. Either gnocchi/openstack-gnocchi-api for running as a \
 standalone service, or httpd for being run by a httpd server")

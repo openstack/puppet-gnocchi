@@ -279,4 +279,6 @@ class gnocchi::keystone::authtoken(
       service_type                   => $service_type,
       interface                      => $interface;
   }
+
+  Keystone::Resource::Authtoken['gnocchi_config'] -> Anchor['gnocchi::config::end']
 }
