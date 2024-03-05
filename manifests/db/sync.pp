@@ -23,7 +23,7 @@ class gnocchi::db::sync (
   include gnocchi::deps
 
   exec { 'gnocchi-db-sync':
-    command     => "gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf ${extra_opts}",
+    command     => "gnocchi-upgrade ${extra_opts}",
     path        => '/usr/bin',
     refreshonly => true,
     user        => $user,

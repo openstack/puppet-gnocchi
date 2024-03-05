@@ -8,7 +8,7 @@ describe 'gnocchi::db::sync' do
 
     it 'runs gnocchi-manage db_sync' do
       is_expected.to contain_exec('gnocchi-db-sync').with(
-        :command     => 'gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf ',
+        :command     => 'gnocchi-upgrade ',
         :path        => '/usr/bin',
         :user        => 'gnocchi',
         :refreshonly => 'true',
@@ -31,7 +31,7 @@ describe 'gnocchi::db::sync' do
             }
         end
         it { is_expected.to contain_exec('gnocchi-db-sync').with(
-            :command     => 'gnocchi-upgrade --config-file /etc/gnocchi/gnocchi.conf --skip-storage',
+            :command     => 'gnocchi-upgrade --skip-storage',
             :path        => '/usr/bin',
             :user        => 'gnocchi',
             :refreshonly => 'true',
