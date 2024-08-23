@@ -26,11 +26,11 @@
 #
 # [*ceph_keyring*]
 #   (optional) Ceph keyring path.
-#   Defaults to $facts['os_service_default']
+#   Defaults to undef
 #
 # [*ceph_secret*]
 #   (optional) Ceph secret.
-#   Defaults to $facts['os_service_default']
+#   Defaults to undef
 #
 # [*ceph_pool*]
 #   (optional) Ceph pool name to use.
@@ -54,8 +54,8 @@
 #
 class gnocchi::storage::ceph(
   $ceph_username,
-  $ceph_keyring         = $facts['os_service_default'],
-  $ceph_secret          = $facts['os_service_default'],
+  $ceph_keyring         = undef,
+  $ceph_secret          = undef,
   $ceph_pool            = 'gnocchi',
   $ceph_timeout         = $facts['os_service_default'],
   $ceph_conffile        = '/etc/ceph/ceph.conf',
@@ -65,15 +65,24 @@ class gnocchi::storage::ceph(
 
   include gnocchi::deps
 
-  if (is_service_default($ceph_keyring) and is_service_default($ceph_secret)) or (! $ceph_keyring and ! $ceph_secret) {
-    fail('You need to specify either gnocchi::storage::ceph::ceph_keyring or gnocchi::storage::ceph::ceph_secret.')
+  if (! $ceph_keyring and ! $ceph_secret) {
+    fail('You need to specify either ceph_keyring or ceph_secret.')
+  }
+
+  $ceph_keyring_real = $ceph_keyring ? {
+    undef   => $facts['os_service_default'],
+    default => $ceph_keyring
+  }
+  $ceph_secret_real = $ceph_secret ? {
+    undef   => $facts['os_service_default'],
+    default => $ceph_secret
   }
 
   gnocchi_config {
     'storage/driver':        value => 'ceph';
     'storage/ceph_username': value => $ceph_username;
-    'storage/ceph_keyring':  value => $ceph_keyring;
-    'storage/ceph_secret':   value => $ceph_secret, secret => true;
+    'storage/ceph_keyring':  value => $ceph_keyring_real;
+    'storage/ceph_secret':   value => $ceph_secret_real, secret => true;
     'storage/ceph_pool':     value => $ceph_pool;
     'storage/ceph_timeout':  value => $ceph_timeout;
     'storage/ceph_conffile': value => $ceph_conffile;
