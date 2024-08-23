@@ -16,7 +16,7 @@ describe 'gnocchi::storage::incoming::file' do
       it 'configures gnocchi incoming driver with file' do
         is_expected.to contain_class('gnocchi::deps')
         is_expected.to contain_gnocchi_config('incoming/driver').with_value('file')
-        is_expected.to_not contain_gnocchi_config('storage/file_basepath')
+        is_expected.to contain_gnocchi_config('incoming/file_basepath').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -27,7 +27,7 @@ describe 'gnocchi::storage::incoming::file' do
 
       it 'configures gnocchi incoming driver with file' do
         is_expected.to contain_gnocchi_config('incoming/driver').with_value('file')
-        is_expected.to contain_gnocchi_config('storage/file_basepath').with_value('/var/lib/gnocchi')
+        is_expected.to contain_gnocchi_config('incoming/file_basepath').with_value('/var/lib/gnocchi')
       end
     end
   end
