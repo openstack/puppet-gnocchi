@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``gnocchi::storage::swift::swift_container_prefix`` prameter has
+    been added.
