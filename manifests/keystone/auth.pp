@@ -47,13 +47,17 @@
 #   (Optional) Type of service.
 #   Defaults to 'metric'.
 #
-# [*region*]
-#   (Optional) Region for endpoint.
-#   Defaults to 'RegionOne'.
-#
 # [*service_name*]
 #   (Optional) Name of the service.
 #   Defaults to 'gnocchi'
+#
+# [*service_description*]
+#   (Optional) Description for keystone service.
+#   Defaults to 'Openstack Metric Service'.
+#
+# [*region*]
+#   (Optional) Region for endpoint.
+#   Defaults to 'RegionOne'.
 #
 # [*public_url*]
 #   (Optional) The endpoint's public url.
@@ -70,28 +74,24 @@
 #   This url should *not* contain any trailing '/'.
 #   Defaults to 'http://127.0.0.1:8041'
 #
-# [*service_description*]
-#   (Optional) Description for keystone service.
-#   Defaults to 'Openstack Metric Service'.
-#
 class gnocchi::keystone::auth (
-  $password,
-  $auth_name           = 'gnocchi',
-  $email               = 'gnocchi@localhost',
-  $tenant              = 'services',
-  $roles               = ['admin'],
-  $system_scope        = 'all',
-  $system_roles        = [],
-  $configure_endpoint  = true,
-  $configure_user      = true,
-  $configure_user_role = true,
-  $service_name        = 'gnocchi',
-  $service_type        = 'metric',
-  $region              = 'RegionOne',
-  $public_url          = 'http://127.0.0.1:8041',
-  $internal_url        = 'http://127.0.0.1:8041',
-  $admin_url           = 'http://127.0.0.1:8041',
-  $service_description = 'OpenStack Metric Service',
+  String[1] $password,
+  String[1] $auth_name                    = 'gnocchi',
+  String[1] $email                        = 'gnocchi@localhost',
+  String[1] $tenant                       = 'services',
+  Array[String[1]] $roles                 = ['admin'],
+  String[1] $system_scope                 = 'all',
+  Array[String[1]] $system_roles          = [],
+  Boolean $configure_endpoint             = true,
+  Boolean $configure_user                 = true,
+  Boolean $configure_user_role            = true,
+  String[1] $service_name                 = 'gnocchi',
+  String[1] $service_type                 = 'metric',
+  String[1] $service_description          = 'OpenStack Metric Service',
+  String[1] $region                       = 'RegionOne',
+  Keystone::PublicEndpointUrl $public_url = 'http://127.0.0.1:8041',
+  Keystone::EndpointUrl $internal_url     = 'http://127.0.0.1:8041',
+  Keystone::EndpointUrl $admin_url        = 'http://127.0.0.1:8041',
 ) {
 
   include gnocchi::deps
