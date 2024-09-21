@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``gnocchi::logging::watch_log_file`` parameter has been deprecated.
+    The parameter has no effect now.
