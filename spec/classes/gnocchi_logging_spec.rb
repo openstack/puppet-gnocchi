@@ -9,15 +9,14 @@ describe 'gnocchi::logging' do
 
   let :log_params do
     {
-     :use_syslog     => true,
-     :use_json       => true,
-     :use_journal    => true,
-     :use_stderr     => false,
-     :log_facility   => 'LOG_FOO',
-     :log_dir        => '/var/log',
-     :log_file       => '/var/log/gnocchi/gnocchi.log',
-     :watch_log_file => true,
-     :debug          => true,
+     :use_syslog   => true,
+     :use_json     => true,
+     :use_journal  => true,
+     :use_stderr   => false,
+     :log_facility => 'LOG_FOO',
+     :log_dir      => '/var/log',
+     :log_file     => '/var/log/gnocchi/gnocchi.log',
+     :debug        => true,
     }
   end
 
@@ -44,7 +43,6 @@ describe 'gnocchi::logging' do
         :syslog_log_facility => '<SERVICE DEFAULT>',
         :log_dir             => '/var/log/gnocchi',
         :log_file            => '<SERVICE DEFAULT>',
-        :watch_log_file      => '<SERVICE DEFAULT>',
         :debug               => '<SERVICE DEFAULT>',
       )
     end
@@ -60,7 +58,6 @@ describe 'gnocchi::logging' do
         :syslog_log_facility => 'LOG_FOO',
         :log_dir             => '/var/log',
         :log_file            => '/var/log/gnocchi/gnocchi.log',
-        :watch_log_file      => true,
         :debug               => true,
       )
     end
