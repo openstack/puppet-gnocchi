@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``gnocchi::keystone::auth::configure_service`` parameter has been
+    added.
