@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``gnocchi::db`` class now supports customizing oslo.db options.
