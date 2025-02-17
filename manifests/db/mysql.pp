@@ -45,7 +45,7 @@ class gnocchi::db::mysql(
 
   include gnocchi::deps
 
-  ::openstacklib::db::mysql { 'gnocchi':
+  openstacklib::db::mysql { 'gnocchi':
     user          => $user,
     password      => $password,
     dbname        => $dbname,

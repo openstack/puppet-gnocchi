@@ -34,7 +34,7 @@ class gnocchi::db::postgresql(
 
   include gnocchi::deps
 
-  ::openstacklib::db::postgresql { 'gnocchi':
+  openstacklib::db::postgresql { 'gnocchi':
     password   => $password,
     dbname     => $dbname,
     user       => $user,

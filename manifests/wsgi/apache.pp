@@ -172,7 +172,7 @@ class gnocchi::wsgi::apache (
 
   Anchor['gnocchi::install::end'] -> Class['apache']
 
-  ::openstacklib::wsgi::apache { 'gnocchi_wsgi':
+  openstacklib::wsgi::apache { 'gnocchi_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => $::gnocchi::params::group,
