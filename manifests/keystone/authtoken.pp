@@ -239,7 +239,7 @@ class gnocchi::keystone::authtoken(
 
   keystone::resource::authtoken {
     'gnocchi_config':
-      *                              => $params;
+      * => $params;
     default:
       username                       => $username,
       password                       => $password,
