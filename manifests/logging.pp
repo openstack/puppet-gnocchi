@@ -38,12 +38,6 @@
 #   (Optional) File where logs should be stored.
 #   Defaults to $facts['os_service_default']
 #
-# DEPRECATED PARAMETERS
-#
-# [*watch_log_file*]
-#   (Optional) Uses logging handler designed to watch file system (boolean value).
-#   Defaults to undef
-#
 class gnocchi::logging(
   $use_syslog     = $facts['os_service_default'],
   $use_json       = $facts['os_service_default'],
@@ -53,15 +47,9 @@ class gnocchi::logging(
   $log_dir        = '/var/log/gnocchi',
   $log_file       = $facts['os_service_default'],
   $debug          = $facts['os_service_default'],
-  # DEPRECATED PARAMETERS
-  $watch_log_file = undef,
 ) {
 
   include gnocchi::deps
-
-  if $watch_log_file {
-    warning('The watch_log_file parameter has been deprecated and has no effect.')
-  }
 
   oslo::log { 'gnocchi_config':
     debug               => $debug,
