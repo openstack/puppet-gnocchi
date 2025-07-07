@@ -42,7 +42,7 @@ describe 'gnocchi::storage::ceph' do
 
     context 'without required parameters' do
       before { params.delete(:ceph_keyring) }
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+      it { is_expected.to raise_error(Puppet::Error) }
     end
 
     context 'with both required parameters set to false' do
@@ -52,7 +52,7 @@ describe 'gnocchi::storage::ceph' do
           :ceph_keyring => false,
         })
       end
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+      it { is_expected.to raise_error(Puppet::Error) }
     end
 
     context 'with manage_rados to false' do
