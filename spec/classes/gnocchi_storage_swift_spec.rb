@@ -16,6 +16,7 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/driver').with_value('swift')
         is_expected.to contain_gnocchi_config('storage/swift_user').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_key').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_gnocchi_config('storage/swift_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_gnocchi_config('storage/swift_user_domain_name').with_value('<SERVICE DEFAULT>')
@@ -34,6 +35,7 @@ describe 'gnocchi::storage::swift' do
         params.merge!({
           :swift_user                => 'swift2',
           :swift_key                 => 'admin',
+          :swift_url                 => 'http://localhost:8080',
           :swift_authurl             => 'http://localhost:5000',
           :swift_project_name        => 'service',
           :swift_user_domain_name    => 'Default',
@@ -51,6 +53,7 @@ describe 'gnocchi::storage::swift' do
         is_expected.to contain_gnocchi_config('storage/driver').with_value('swift')
         is_expected.to contain_gnocchi_config('storage/swift_user').with_value('swift2')
         is_expected.to contain_gnocchi_config('storage/swift_key').with_value('admin').with_secret(true)
+        is_expected.to contain_gnocchi_config('storage/swift_url').with_value('http://localhost:8080')
         is_expected.to contain_gnocchi_config('storage/swift_authurl').with_value('http://localhost:5000')
         is_expected.to contain_gnocchi_config('storage/swift_project_name').with_value('service')
         is_expected.to contain_gnocchi_config('storage/swift_user_domain_name').with_value('Default')

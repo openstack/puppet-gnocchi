@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``gnocchi::storage::swift::swift_url`` parameter has been added.
