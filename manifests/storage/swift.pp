@@ -25,6 +25,10 @@
 #   (optional) 'Swift authentication version to user.
 #   Defaults to $facts['os_service_default']
 #
+# [*swift_url*]
+#   (optional) Swift URL.
+#   Defaults to $facts['os_service_default']
+#
 # [*swift_authurl*]
 #   (optional) Swift auth URL.
 #   Defaults to $facts['os_service_default']
@@ -73,6 +77,7 @@
 #
 class gnocchi::storage::swift(
   $swift_auth_version        = $facts['os_service_default'],
+  $swift_url                 = $facts['os_service_default'],
   $swift_authurl             = $facts['os_service_default'],
   $swift_user                = $facts['os_service_default'],
   $swift_key                 = $facts['os_service_default'],
@@ -97,6 +102,7 @@ class gnocchi::storage::swift(
     'storage/swift_project_domain_name': value => $swift_project_domain_name;
     'storage/swift_region':              value => $swift_region;
     'storage/swift_auth_version':        value => $swift_auth_version;
+    'storage/swift_url':                 value => $swift_url;
     'storage/swift_authurl':             value => $swift_authurl;
     'storage/swift_endpoint_type':       value => $swift_endpoint_type;
     'storage/swift_service_type':        value => $swift_service_type;
