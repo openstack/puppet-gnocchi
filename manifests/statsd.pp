@@ -53,7 +53,7 @@ class gnocchi::statsd (
 
   package { 'gnocchi-statsd':
     ensure => $package_ensure,
-    name   => $::gnocchi::params::statsd_package_name,
+    name   => $gnocchi::params::statsd_package_name,
     tag    => ['openstack', 'gnocchi-package'],
   }
 
@@ -66,7 +66,7 @@ class gnocchi::statsd (
 
     service { 'gnocchi-statsd':
       ensure     => $service_ensure,
-      name       => $::gnocchi::params::statsd_service_name,
+      name       => $gnocchi::params::statsd_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,

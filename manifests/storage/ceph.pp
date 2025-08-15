@@ -91,7 +91,7 @@ class gnocchi::storage::ceph(
   if $manage_rados {
     stdlib::ensure_packages('python-rados', {
       'ensure' => $package_ensure,
-      'name'   => $::gnocchi::params::rados_package_name,
+      'name'   => $gnocchi::params::rados_package_name,
       'tag'    => ['openstack','gnocchi-package'],
     })
   }

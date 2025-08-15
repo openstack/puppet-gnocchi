@@ -64,7 +64,7 @@ class gnocchi::metricd (
 
   package { 'gnocchi-metricd':
     ensure => $package_ensure,
-    name   => $::gnocchi::params::metricd_package_name,
+    name   => $gnocchi::params::metricd_package_name,
     tag    => ['openstack', 'gnocchi-package'],
   }
 
@@ -77,7 +77,7 @@ class gnocchi::metricd (
 
     service { 'gnocchi-metricd':
       ensure     => $service_ensure,
-      name       => $::gnocchi::params::metricd_service_name,
+      name       => $gnocchi::params::metricd_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,

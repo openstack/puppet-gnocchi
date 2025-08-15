@@ -49,7 +49,7 @@ class gnocchi::storage::s3(
   if $manage_boto3 {
     stdlib::ensure_packages('python-boto3', {
       'ensure' => $package_ensure,
-      'name'   => $::gnocchi::params::boto3_package_name,
+      'name'   => $gnocchi::params::boto3_package_name,
       'tag'    => ['openstack','gnocchi-package'],
     })
   }

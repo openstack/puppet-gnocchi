@@ -27,7 +27,7 @@ class gnocchi (
 
   package { 'gnocchi':
     ensure => $package_ensure,
-    name   => $::gnocchi::params::common_package_name,
+    name   => $gnocchi::params::common_package_name,
     tag    => ['openstack', 'gnocchi-package'],
   }
 

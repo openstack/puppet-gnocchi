@@ -5,7 +5,7 @@ class { 'gnocchi::keystone::auth':
   internal_url => 'http://10.0.0.1:8041',
   public_url   => 'http://10.0.0.1:8041',
   password     => 'verysecrete',
-  region       => 'OpenStack'
+  region       => 'OpenStack',
 }
 
 class { 'gnocchi':
@@ -15,7 +15,7 @@ class { 'gnocchi':
 class { 'gnocchi::api':
   bind_host         => '10.0.0.1',
   identity_uri      => 'https://identity.openstack.org:5000',
-  keystone_password => 'verysecrete'
+  keystone_password => 'verysecrete',
 }
 
 class { 'gnocchi::statsd':

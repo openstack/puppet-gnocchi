@@ -26,7 +26,7 @@
 #   service, and you must use another class to configure that
 #   web service. For example, use class { 'gnocchi::wsgi::apache'...}
 #   to make gnocchi-api be a web app using apache mod_wsgi.
-#   Defaults to '$::gnocchi::params::api_service_name'
+#   Defaults to '$gnocchi::params::api_service_name'
 #
 # [*sync_db*]
 #   (optional) Run gnocchi-upgrade db sync on api nodes after installing the package.
@@ -60,7 +60,7 @@ class gnocchi::api (
   Boolean $enabled              = true,
   $package_ensure               = 'present',
   $max_limit                    = $facts['os_service_default'],
-  $service_name                 = $::gnocchi::params::api_service_name,
+  $service_name                 = $gnocchi::params::api_service_name,
   Boolean $sync_db              = false,
   $auth_strategy                = 'keystone',
   $paste_config                 = $facts['os_service_default'],
@@ -74,7 +74,7 @@ class gnocchi::api (
 
   package { 'gnocchi-api':
     ensure => $package_ensure,
-    name   => $::gnocchi::params::api_package_name,
+    name   => $gnocchi::params::api_package_name,
     tag    => ['openstack', 'gnocchi-package'],
   }
 
@@ -89,10 +89,10 @@ class gnocchi::api (
       $service_ensure = 'stopped'
     }
 
-    if $service_name == $::gnocchi::params::api_service_name {
+    if $service_name == $gnocchi::params::api_service_name {
       service { 'gnocchi-api':
         ensure     => $service_ensure,
-        name       => $::gnocchi::params::api_service_name,
+        name       => $gnocchi::params::api_service_name,
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
@@ -107,7 +107,7 @@ class gnocchi::api (
     } elsif $service_name == 'httpd' {
       service { 'gnocchi-api':
         ensure => 'stopped',
-        name   => $::gnocchi::params::api_service_name,
+        name   => $gnocchi::params::api_service_name,
         enable => false,
         tag    => ['gnocchi-service', 'gnocchi-db-sync-service'],
       }
