@@ -50,7 +50,6 @@ class gnocchi::metricd (
   $processing_replicas     = $facts['os_service_default'],
   $package_ensure          = 'present',
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   gnocchi_config {

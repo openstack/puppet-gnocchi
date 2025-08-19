@@ -52,7 +52,7 @@
 #   (optional) ensure state for package.
 #   Defaults to 'present'
 #
-class gnocchi::storage::ceph(
+class gnocchi::storage::ceph (
   $ceph_username,
   $ceph_keyring         = undef,
   $ceph_secret          = undef,
@@ -62,7 +62,6 @@ class gnocchi::storage::ceph(
   Boolean $manage_rados = true,
   $package_ensure       = 'present',
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   if (! $ceph_keyring and ! $ceph_secret) {

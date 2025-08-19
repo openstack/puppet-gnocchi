@@ -98,7 +98,6 @@ class gnocchi::keystone::auth (
   Keystone::EndpointUrl $internal_url     = 'http://127.0.0.1:8041',
   Keystone::EndpointUrl $admin_url        = 'http://127.0.0.1:8041',
 ) {
-
   include gnocchi::deps
 
   Keystone::Resource::Service_identity['gnocchi'] -> Anchor['gnocchi::service::end']
@@ -123,5 +122,4 @@ class gnocchi::keystone::auth (
     internal_url        => $internal_url,
     admin_url           => $admin_url,
   }
-
 }

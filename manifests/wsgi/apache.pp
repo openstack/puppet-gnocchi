@@ -166,7 +166,6 @@ class gnocchi::wsgi::apache (
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) {
-
   include gnocchi::deps
   include gnocchi::params
 

@@ -22,7 +22,6 @@ class gnocchi (
   $coordination_url     = $facts['os_service_default'],
   Boolean $purge_config = false,
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   package { 'gnocchi':
@@ -35,7 +34,7 @@ class gnocchi (
     purge => $purge_config,
   }
 
-  oslo::coordination{ 'gnocchi_config':
+  oslo::coordination { 'gnocchi_config':
     backend_url   => $coordination_url,
     manage_config => false,
   }

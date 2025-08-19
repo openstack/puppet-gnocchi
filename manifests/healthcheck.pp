@@ -46,7 +46,6 @@ class gnocchi::healthcheck (
   $disable_by_file_paths   = $facts['os_service_default'],
   $enable_by_file_paths    = $facts['os_service_default'],
 ) {
-
   include gnocchi::deps
 
   oslo::healthcheck { 'gnocchi_config':

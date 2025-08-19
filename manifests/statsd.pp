@@ -48,7 +48,6 @@ class gnocchi::statsd (
   Boolean $enabled        = true,
   $package_ensure         = 'present',
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   package { 'gnocchi-statsd':
@@ -82,5 +81,4 @@ class gnocchi::statsd (
     'statsd/archive_policy_name' : value => $archive_policy_name;
     'statsd/creator'             : value => $creator;
   }
-
 }

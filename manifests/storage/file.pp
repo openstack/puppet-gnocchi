@@ -25,15 +25,13 @@
 #   (optional) Path used to store gnocchi data files.
 #   Defaults to '/var/lib/gnocchi'.
 #
-class gnocchi::storage::file(
+class gnocchi::storage::file (
   $file_basepath = '/var/lib/gnocchi',
 ) {
-
   include gnocchi::deps
 
   gnocchi_config {
     'storage/driver':        value => 'file';
     'storage/file_basepath': value => $file_basepath;
   }
-
 }

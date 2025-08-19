@@ -33,7 +33,7 @@
 #   Only used with mysql modules >= 2.2.
 #   Defaults to 'utf8_general_ci'
 #
-class gnocchi::db::mysql(
+class gnocchi::db::mysql (
   String[1] $password,
   $dbname        = 'gnocchi',
   $user          = 'gnocchi',
@@ -42,7 +42,6 @@ class gnocchi::db::mysql(
   $collate       = 'utf8_general_ci',
   $allowed_hosts = undef
 ) {
-
   include gnocchi::deps
 
   openstacklib::db::mysql { 'gnocchi':
@@ -58,5 +57,4 @@ class gnocchi::db::mysql(
   Anchor['gnocchi::db::begin']
   ~> Class['gnocchi::db::mysql']
   ~> Anchor['gnocchi::db::end']
-
 }

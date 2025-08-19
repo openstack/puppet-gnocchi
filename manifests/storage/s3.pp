@@ -33,7 +33,7 @@
 #   (optional) The state of boto3 package.
 #   Defaults to 'present'
 #
-class gnocchi::storage::s3(
+class gnocchi::storage::s3 (
   $s3_endpoint_url      = $facts['os_service_default'],
   $s3_region_name       = $facts['os_service_default'],
   $s3_access_key_id     = undef,
@@ -42,7 +42,6 @@ class gnocchi::storage::s3(
   Boolean $manage_boto3 = true,
   $package_ensure       = 'present',
 ) {
-
   include gnocchi::deps
   include gnocchi::params
 
@@ -62,5 +61,4 @@ class gnocchi::storage::s3(
     'storage/s3_secret_access_key':  value => $s3_secret_access_key, secret => true;
     'storage/s3_bucket_prefix':      value => $s3_bucket_prefix;
   }
-
 }

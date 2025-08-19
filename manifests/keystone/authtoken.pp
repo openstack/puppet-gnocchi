@@ -194,7 +194,7 @@
 #  (Optional) Hash of additional parameters to pass through to the keystone
 #  authtoken class. Values set here override the individual parameters above.
 #
-class gnocchi::keystone::authtoken(
+class gnocchi::keystone::authtoken (
   String[1] $password,
   $username                       = 'gnocchi',
   $auth_url                       = 'http://localhost:5000',
@@ -234,7 +234,6 @@ class gnocchi::keystone::authtoken(
   $interface                      = $facts['os_service_default'],
   $params                         = {}
 ) {
-
   include gnocchi::deps
 
   keystone::resource::authtoken {

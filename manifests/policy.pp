@@ -54,7 +54,6 @@ class gnocchi::policy (
   $policy_dirs          = $facts['os_service_default'],
   Boolean $purge_config = false,
 ) {
-
   include gnocchi::deps
   include gnocchi::params
 

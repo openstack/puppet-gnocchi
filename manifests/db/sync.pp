@@ -19,7 +19,6 @@ class gnocchi::db::sync (
   $extra_opts      = undef,
   $db_sync_timeout = 300,
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   exec { 'gnocchi-db-sync':
@@ -39,5 +38,4 @@ class gnocchi::db::sync (
     notify      => Anchor['gnocchi::dbsync::end'],
     tag         => 'openstack-db',
   }
-
 }

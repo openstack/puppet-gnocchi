@@ -17,7 +17,7 @@
 #
 # == Parameters
 #
-class gnocchi::storage(
+class gnocchi::storage (
 ) {
   include gnocchi::deps
 }

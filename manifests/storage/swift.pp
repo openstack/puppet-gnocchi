@@ -75,7 +75,7 @@
 #   (optional) Prefix to namespace metric containers.
 #   Defaults to $facts['os_service_default']
 #
-class gnocchi::storage::swift(
+class gnocchi::storage::swift (
   $swift_auth_version        = $facts['os_service_default'],
   $swift_url                 = $facts['os_service_default'],
   $swift_authurl             = $facts['os_service_default'],
@@ -90,7 +90,6 @@ class gnocchi::storage::swift(
   $swift_timeout             = $facts['os_service_default'],
   $swift_container_prefix    = $facts['os_service_default'],
 ) {
-
   include gnocchi::deps
 
   gnocchi_config {
@@ -109,5 +108,4 @@ class gnocchi::storage::swift(
     'storage/swift_timeout':             value => $swift_timeout;
     'storage/swift_container_prefix':    value => $swift_container_prefix;
   }
-
 }

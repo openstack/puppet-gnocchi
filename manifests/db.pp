@@ -64,7 +64,6 @@ class gnocchi::db (
   $mysql_enable_ndb                 = $facts['os_service_default'],
   $package_ensure                   = 'present',
 ) inherits gnocchi::params {
-
   include gnocchi::deps
 
   oslo::db { 'gnocchi_config':

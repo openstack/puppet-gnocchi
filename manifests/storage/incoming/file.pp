@@ -10,15 +10,13 @@
 #   This parameter can be used only when gnocchi::storage::file is not used.
 #   Defaults to $facts['os_service_default'].
 #
-class gnocchi::storage::incoming::file(
+class gnocchi::storage::incoming::file (
   $file_basepath = $facts['os_service_default'],
 ) {
-
   include gnocchi::deps
 
   gnocchi_config {
     'incoming/driver':        value => 'file';
     'incoming/file_basepath': value => $file_basepath;
   }
-
 }

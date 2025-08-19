@@ -27,7 +27,6 @@ class gnocchi::config (
   Hash $gnocchi_config        = {},
   Hash $gnocchi_api_paste_ini = {},
 ) {
-
   include gnocchi::deps
 
   create_resources('gnocchi_config', $gnocchi_config)
