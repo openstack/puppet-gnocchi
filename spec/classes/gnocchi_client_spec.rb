@@ -8,7 +8,7 @@ describe 'gnocchi::client' do
     it { should contain_package('python-gnocchiclient').with(
       :ensure => 'present',
       :name   => platform_params[:client_package_name],
-      :tag    => 'openstack',
+      :tag    => ['openstack', 'openstackclient'],
     )}
 
     it { is_expected.to contain_class('openstacklib::openstackclient') }

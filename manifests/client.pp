@@ -14,7 +14,7 @@ class gnocchi::client (
   package { 'python-gnocchiclient':
     ensure => $ensure,
     name   => $gnocchi::params::client_package_name,
-    tag    => 'openstack',
+    tag    => ['openstack', 'openstackclient'],
   }
 
   include openstacklib::openstackclient
