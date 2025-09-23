@@ -2,22 +2,22 @@
 #
 # == Parameters
 #
+# [*manage_service*]
+#   (optional) Whether the service should be managed by Puppet.
+#   Defaults to true.
+#
 # [*enabled*]
 #   (optional) Should the service be enabled.
 #   Defaults to true
 #
-# [*manage_service*]
-#   (optional) Whether the service should be managed by Puppet.
-#   Defaults to true.
+# [*package_ensure*]
+#   (optional) ensure state for package.
+#   Defaults to 'present'
 #
 # [*max_limit*]
 #   (optional) The maximum number of items returned in a
 #   single response from a collection resource.
 #   Defaults to $facts['os_service_default']
-#
-# [*package_ensure*]
-#   (optional) ensure state for package.
-#   Defaults to 'present'
 #
 # [*service_name*]
 #   (optional) Name of the service that will be providing the
@@ -56,17 +56,17 @@
 #   Defaults to $facts['os_service_default'].
 #
 class gnocchi::api (
-  Boolean $manage_service       = true,
-  Boolean $enabled              = true,
-  $package_ensure               = 'present',
-  $max_limit                    = $facts['os_service_default'],
-  $service_name                 = $gnocchi::params::api_service_name,
-  Boolean $sync_db              = false,
-  $auth_strategy                = 'keystone',
-  $paste_config                 = $facts['os_service_default'],
-  $operation_timeout            = $facts['os_service_default'],
-  $enable_proxy_headers_parsing = $facts['os_service_default'],
-  $max_request_body_size        = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $max_limit                              = $facts['os_service_default'],
+  $service_name                           = $gnocchi::params::api_service_name,
+  Boolean $sync_db                        = false,
+  $auth_strategy                          = 'keystone',
+  $paste_config                           = $facts['os_service_default'],
+  $operation_timeout                      = $facts['os_service_default'],
+  $enable_proxy_headers_parsing           = $facts['os_service_default'],
+  $max_request_body_size                  = $facts['os_service_default'],
 ) inherits gnocchi::params {
   include gnocchi::deps
   include gnocchi::policy

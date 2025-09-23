@@ -34,13 +34,13 @@
 #   Defaults to 'present'
 #
 class gnocchi::storage::s3 (
-  $s3_endpoint_url      = $facts['os_service_default'],
-  $s3_region_name       = $facts['os_service_default'],
-  $s3_access_key_id     = undef,
-  $s3_secret_access_key = undef,
-  $s3_bucket_prefix     = $facts['os_service_default'],
-  Boolean $manage_boto3 = true,
-  $package_ensure       = 'present',
+  $s3_endpoint_url                        = $facts['os_service_default'],
+  $s3_region_name                         = $facts['os_service_default'],
+  $s3_access_key_id                       = undef,
+  $s3_secret_access_key                   = undef,
+  $s3_bucket_prefix                       = $facts['os_service_default'],
+  Boolean $manage_boto3                   = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
 ) {
   include gnocchi::deps
   include gnocchi::params

@@ -18,9 +18,9 @@
 #   Defaults to false.
 #
 class gnocchi (
-  $package_ensure       = 'present',
-  $coordination_url     = $facts['os_service_default'],
-  Boolean $purge_config = false,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $coordination_url                       = $facts['os_service_default'],
+  Boolean $purge_config                   = false,
 ) inherits gnocchi::params {
   include gnocchi::deps
 
