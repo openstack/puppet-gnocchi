@@ -3,10 +3,11 @@
 #
 # == parameters
 #  [*ensure*]
-#    ensure state for package.
+#    (optional) ensure state for package.
+#    Defaults to 'present'
 #
 class gnocchi::client (
-  $ensure = 'present'
+  Stdlib::Ensure::Package $ensure = 'present'
 ) {
   include gnocchi::deps
   include gnocchi::params

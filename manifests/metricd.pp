@@ -2,13 +2,17 @@
 #
 # == Parameters
 #
-# [*enabled*]
-#   (optional) Should the service be enabled.
-#   Defaults to true
-#
 # [*package_ensure*]
 #   (optional) ensure state for package.
 #   Defaults to 'present'
+#
+# [*manage_service*]
+#   (optional) Whether the service should be managed by Puppet.
+#   Defaults to true.
+#
+# [*enabled*]
+#   (optional) Should the service be enabled.
+#   Defaults to true
 #
 # [*workers*]
 #   (optional) the number of workers.
@@ -35,20 +39,16 @@
 #   (optional) Number of workers tht share a task.
 #   Defaults to $facts['os_service_default'].
 #
-# [*manage_service*]
-#   (optional) Whether the service should be managed by Puppet.
-#   Defaults to true.
-#
 class gnocchi::metricd (
-  Boolean $manage_service  = true,
-  Boolean $enabled         = true,
-  $workers                 = $facts['os_workers'],
-  $metric_processing_delay = $facts['os_service_default'],
-  $greedy                  = $facts['os_service_default'],
-  $metric_reporting_delay  = $facts['os_service_default'],
-  $metric_cleanup_delay    = $facts['os_service_default'],
-  $processing_replicas     = $facts['os_service_default'],
-  $package_ensure          = 'present',
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  $workers                                = $facts['os_workers'],
+  $metric_processing_delay                = $facts['os_service_default'],
+  $greedy                                 = $facts['os_service_default'],
+  $metric_reporting_delay                 = $facts['os_service_default'],
+  $metric_cleanup_delay                   = $facts['os_service_default'],
+  $processing_replicas                    = $facts['os_service_default'],
 ) inherits gnocchi::params {
   include gnocchi::deps
 

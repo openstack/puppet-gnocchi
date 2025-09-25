@@ -52,17 +52,17 @@
 #   Defaults to 'present'
 #
 class gnocchi::db (
-  $database_db_max_retries          = $facts['os_service_default'],
-  Oslo::DBconn $database_connection = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
-  $slave_connection                 = $facts['os_service_default'],
-  $database_connection_recycle_time = $facts['os_service_default'],
-  $database_max_pool_size           = $facts['os_service_default'],
-  $database_max_retries             = $facts['os_service_default'],
-  $database_retry_interval          = $facts['os_service_default'],
-  $database_max_overflow            = $facts['os_service_default'],
-  $database_pool_timeout            = $facts['os_service_default'],
-  $mysql_enable_ndb                 = $facts['os_service_default'],
-  $package_ensure                   = 'present',
+  $database_db_max_retries                = $facts['os_service_default'],
+  Oslo::DBconn $database_connection       = 'sqlite:////var/lib/gnocchi/gnocchi.sqlite',
+  $slave_connection                       = $facts['os_service_default'],
+  $database_connection_recycle_time       = $facts['os_service_default'],
+  $database_max_pool_size                 = $facts['os_service_default'],
+  $database_max_retries                   = $facts['os_service_default'],
+  $database_retry_interval                = $facts['os_service_default'],
+  $database_max_overflow                  = $facts['os_service_default'],
+  $database_pool_timeout                  = $facts['os_service_default'],
+  $mysql_enable_ndb                       = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = 'present',
 ) inherits gnocchi::params {
   include gnocchi::deps
 
