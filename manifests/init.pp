@@ -17,10 +17,20 @@
 #   in the gnocchi config.
 #   Defaults to false.
 #
+# [*manage_backend_package*]
+#   (Optional) Whether to install the backend package.
+#   Defaults to true.
+#
+# [*backend_package_ensure*]
+#   (Optional) ensure state for backend package.
+#   Defaults to 'present'
+#
 class gnocchi (
-  Stdlib::Ensure::Package $package_ensure = 'present',
-  $coordination_url                       = $facts['os_service_default'],
-  Boolean $purge_config                   = false,
+  Stdlib::Ensure::Package $package_ensure         = 'present',
+  $coordination_url                               = $facts['os_service_default'],
+  Boolean $purge_config                           = false,
+  Boolean $manage_backend_package                 = true,
+  Stdlib::Ensure::Package $backend_package_ensure = present,
 ) inherits gnocchi::params {
   include gnocchi::deps
 
@@ -35,8 +45,10 @@ class gnocchi (
   }
 
   oslo::coordination { 'gnocchi_config':
-    backend_url   => $coordination_url,
-    manage_config => false,
+    backend_url            => $coordination_url,
+    manage_backend_package => $manage_backend_package,
+    package_ensure         => $backend_package_ensure,
+    manage_config          => false,
   }
   gnocchi_config {
     'DEFAULT/coordination_url' : value => $coordination_url, secret => true;

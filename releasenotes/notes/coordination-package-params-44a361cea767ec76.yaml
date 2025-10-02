@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The following parameters have been added to the ``gnocchi`` class.
+
+    - ``manage_backend_package``
+    - ``backend_package_ensure``
