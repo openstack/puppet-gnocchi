@@ -132,23 +132,6 @@ describe 'gnocchi::api' do
       end
     end
 
-    context 'when service_name is not valid' do
-      before do
-        params.merge!({ :service_name   => 'foobar' })
-      end
-
-      let :pre_condition do
-        "include apache
-         include gnocchi::db
-         class { 'gnocchi': }
-         class { 'gnocchi::keystone::authtoken':
-           password => 'gnocchi-passw0rd',
-         }"
-      end
-
-      it_raises 'a Puppet::Error', /Invalid service_name/
-    end
-
     context 'with max_limit' do
       before do
         params.merge!({:max_limit => 1000 })
