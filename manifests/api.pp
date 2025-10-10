@@ -34,7 +34,6 @@
 #
 # [*auth_strategy*]
 #   (optional) Configure gnocchi authentication.
-#   Can be set to noauth and keystone.
 #   Defaults to 'keystone'.
 #
 # [*paste_config*]
@@ -56,17 +55,17 @@
 #   Defaults to $facts['os_service_default'].
 #
 class gnocchi::api (
-  Boolean $manage_service                 = true,
-  Boolean $enabled                        = true,
-  Stdlib::Ensure::Package $package_ensure = 'present',
-  $max_limit                              = $facts['os_service_default'],
-  $service_name                           = $gnocchi::params::api_service_name,
-  Boolean $sync_db                        = false,
-  $auth_strategy                          = 'keystone',
-  $paste_config                           = $facts['os_service_default'],
-  $operation_timeout                      = $facts['os_service_default'],
-  $enable_proxy_headers_parsing           = $facts['os_service_default'],
-  $max_request_body_size                  = $facts['os_service_default'],
+  Boolean $manage_service                                = true,
+  Boolean $enabled                                       = true,
+  Stdlib::Ensure::Package $package_ensure                = 'present',
+  $max_limit                                             = $facts['os_service_default'],
+  $service_name                                          = $gnocchi::params::api_service_name,
+  Boolean $sync_db                                       = false,
+  Enum['keystone', 'basic', 'remoteuser'] $auth_strategy = 'keystone',
+  $paste_config                                          = $facts['os_service_default'],
+  $operation_timeout                                     = $facts['os_service_default'],
+  $enable_proxy_headers_parsing                          = $facts['os_service_default'],
+  $max_request_body_size                                 = $facts['os_service_default'],
 ) inherits gnocchi::params {
   include gnocchi::deps
   include gnocchi::policy
