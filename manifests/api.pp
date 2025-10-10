@@ -59,7 +59,7 @@ class gnocchi::api (
   Boolean $enabled                                       = true,
   Stdlib::Ensure::Package $package_ensure                = 'present',
   $max_limit                                             = $facts['os_service_default'],
-  $service_name                                          = $gnocchi::params::api_service_name,
+  String[1] $service_name                                = $gnocchi::params::api_service_name,
   Boolean $sync_db                                       = false,
   Enum['keystone', 'basic', 'remoteuser'] $auth_strategy = 'keystone',
   $paste_config                                          = $facts['os_service_default'],
@@ -81,43 +81,43 @@ class gnocchi::api (
   }
 
   if $manage_service {
-    if $enabled {
-      $service_ensure = 'running'
-    } else {
-      $service_ensure = 'stopped'
-    }
+    case $service_name {
+      'httpd': {
+        Service <| title == 'httpd' |> { tag +> 'gnocchi-service' }
 
-    if $service_name == $gnocchi::params::api_service_name {
-      service { 'gnocchi-api':
-        ensure     => $service_ensure,
-        name       => $gnocchi::params::api_service_name,
-        enable     => $enabled,
-        hasstatus  => true,
-        hasrestart => true,
-        tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+        service { 'gnocchi-api':
+          ensure => 'stopped',
+          name   => $gnocchi::params::api_service_name,
+          enable => false,
+          tag    => ['gnocchi-service', 'gnocchi-db-sync-service'],
+        }
+
+        # we need to make sure gnocchi-api/eventlet is stopped before trying to start apache
+        Service['gnocchi-api'] -> Service['httpd']
+
+        # On any paste-api.ini config change, we must rstart Gnocchi API.
+        Gnocchi_api_paste_ini<||> ~> Service['httpd']
       }
+      default: {
+        $service_ensure = $enabled ? {
+          true    => 'running',
+          default => 'stopped',
+        }
 
-      # On any paste-api.ini config change, we must rstart Gnocchi API.
-      Gnocchi_api_paste_ini<||> ~> Service['gnocchi-api']
-      # On any uwsgi config change, we must restart Gnocchi API.
-      Gnocchi_api_uwsgi_config<||> ~> Service['gnocchi-api']
-    } elsif $service_name == 'httpd' {
-      service { 'gnocchi-api':
-        ensure => 'stopped',
-        name   => $gnocchi::params::api_service_name,
-        enable => false,
-        tag    => ['gnocchi-service', 'gnocchi-db-sync-service'],
+        service { 'gnocchi-api':
+          ensure     => $service_ensure,
+          name       => $gnocchi::params::api_service_name,
+          enable     => $enabled,
+          hasstatus  => true,
+          hasrestart => true,
+          tag        => ['gnocchi-service', 'gnocchi-db-sync-service'],
+        }
+
+        # On any paste-api.ini config change, we must rstart Gnocchi API.
+        Gnocchi_api_paste_ini<||> ~> Service['gnocchi-api']
+        # On any uwsgi config change, we must restart Gnocchi API.
+        Gnocchi_api_uwsgi_config<||> ~> Service['gnocchi-api']
       }
-      Service <| title == 'httpd' |> { tag +> 'gnocchi-service' }
-
-      # we need to make sure gnocchi-api/eventlet is stopped before trying to start apache
-      Service['gnocchi-api'] -> Service[$service_name]
-
-      # On any paste-api.ini config change, we must rstart Gnocchi API.
-      Gnocchi_api_paste_ini<||> ~> Service[$service_name]
-    } else {
-      fail("Invalid service_name. Either gnocchi/openstack-gnocchi-api for running as a \
-standalone service, or httpd for being run by a httpd server")
     }
   }
 
