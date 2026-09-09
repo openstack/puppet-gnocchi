@@ -42,14 +42,16 @@
 #   (Optional) If set, use this value for pool_timeout with SQLAlchemy.
 #   Defaults to $facts['os_service_default']
 #
-# [*mysql_enable_ndb*]
-#   (Optional) If True, transparently enables support for handling MySQL
-#   Cluster (NDB).
-#   Defaults to $facts['os_service_default']
-#
 # [*package_ensure*]
 #   (optional) The state of gnocchi packages
 #   Defaults to 'present'
+#
+# DEPRECATED PARAMETERS
+#
+# [*mysql_enable_ndb*]
+#   (Optional) If True, transparently enables support for handling MySQL
+#   Cluster (NDB).
+#   Defaults to undef
 #
 class gnocchi::db (
   $database_db_max_retries                = $facts['os_service_default'],
@@ -61,8 +63,9 @@ class gnocchi::db (
   $database_retry_interval                = $facts['os_service_default'],
   $database_max_overflow                  = $facts['os_service_default'],
   $database_pool_timeout                  = $facts['os_service_default'],
-  $mysql_enable_ndb                       = $facts['os_service_default'],
   Stdlib::Ensure::Package $package_ensure = 'present',
+  # DEPRECATED PARAMETERS
+  $mysql_enable_ndb                       = undef,
 ) inherits gnocchi::params {
   include gnocchi::deps
 
